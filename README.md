@@ -6,15 +6,143 @@ Gryphon is the missing reliability layer between AI agents and the authenticated
 
 Agents using Browserbase, Stagehand, Playwright, Claude Computer Use, or similar tools often fail because sessions expire, 2FA appears, or logins die mid-task. Gryphon solves this by providing:
 
-1. **Persistent authenticated sessions** — get a ready-to-use logged-in browser context
+1. **Persistent authenticated sessions** — `get_session(site)` returns a ready Browserbase context / connect URL
 2. **Human-in-the-loop escalation** — when auth is needed, pause the agent and notify the human owner
-3. **Clean recovery** — hand a fresh session back so the agent can continue
+3. **Clean recovery** — human logs in via Live View; durable context is stored for later runs
 
 Gryphon does **not** try to complete the user's tasks. It simply makes authentication reliable so agents can do more.
 
 ---
 
-## Core Product Principles
+## Project status
+
+**Phase 2 first slice:** `get_session(site)` → needs_auth escalation → human Live View resolve → durable Browserbase Context → later `get_session` returns a ready agent session.
+
+Specs: `product/CURRENT_FOCUS.md` · `product/PHASE2_BROWSERBASE.md`
+
+---
+
+## Quick start (full E2E loop)
+
+### 1. Environment
+
+```bash
+cd /path/to/Gryphon
+cp .env.example .env
+# Local without Browserbase account:
+#   BROWSERBASE_USE_FAKE=true
+# Real Browserbase:
+#   BROWSERBASE_API_KEY=...  BROWSERBASE_PROJECT_ID=...
+# Optional Slack: SLACK_BOT_TOKEN + SLACK_DEFAULT_CHANNEL
+```
+
+### 2. Run the API
+
+```bash
+cd apps/api
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+# recommended for local demo without BB keys:
+export BROWSERBASE_USE_FAKE=true
+uvicorn app.main:app --reload --port 8000
+```
+
+On startup the API:
+
+- Creates SQLite tables (`apps/api/gryphon.db` by default)
+- Seeds a bootstrap user (`DEFAULT_USER_ID`, default `user_dev`) with API key `GRYPHON_API_KEY` (default `dev-api-key`)
+
+Auth header for agent routes: `X-API-Key: <your key>`.
+
+### 3. Prove Phase 2: get_session loop
+
+```bash
+cd apps/api && source .venv/bin/activate
+python ../../examples/agent-integrations/get_session_loop.py
+```
+
+Expected: `needs_auth` → resolve stores context → `get_session` returns `status=ready` with `context_id` / `connect_url`.
+
+### 4. Prove Phase 1 escalation loop (still works)
+
+```bash
+python ../../examples/agent-integrations/escalation_loop.py
+```
+
+### 5. Human resolve with Live View (real Browserbase)
+
+1. Set `BROWSERBASE_API_KEY` (+ optional `BROWSERBASE_PROJECT_ID`) and restart the API
+2. Agent calls `POST /v1/sessions/get` → `needs_auth`
+3. Human opens signed Slack/link → resolve page provisions **Context** + **Session (persist=true)** + **Live View**
+4. Human logs in / 2FA in Live View → **Mark resolved**
+5. Gryphon stores `(user, site) → context_id`
+6. Agent calls `get_session` again → new Session with `persist=false` + `connect_url`
+
+Without Browserbase credentials, set `BROWSERBASE_USE_FAKE=true` for local demos, or resolve programmatically with a manual `resolved_context_id`.
+
+### 6. Create additional users / API keys
+
+```bash
+cd apps/api && source .venv/bin/activate
+python scripts/create_api_key.py --email alice@example.com --name Alice
+```
+
+### 7. Run tests
+
+```bash
+cd apps/api && source .venv/bin/activate
+pytest
+```
+
+### 8. MCP tools (Python 3.10+)
+
+```bash
+cd apps/mcp-server
+python3.12 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+export GRYPHON_API_URL=http://localhost:8000 GRYPHON_API_KEY=dev-api-key
+python server.py
+```
+
+Tools: **`get_session`**, `request_human_auth`, `get_escalation_status`. See `apps/mcp-server/README.md`.
+
+---
+
+## API cheat sheet
+
+| Method | Path | Auth | Purpose |
+|--------|------|------|---------|
+| `GET` | `/health` | none | Liveness |
+| `POST` | `/v1/sessions/get` | API key | **Primary agent entry** — ready or needs_auth |
+| `POST` | `/v1/escalations/` | API key | Explicit human auth request |
+| `GET` | `/v1/escalations/{id}` | API key | Agent polls escalation |
+| `POST` | `/v1/escalations/{id}/resolve` | API key | Programmatic resolve (+ store context) |
+| `GET` | `/v1/escalations/{id}/human-resolve?token=...` | signed token | Live View + confirm page |
+| `POST` | `/v1/escalations/{id}/human-resolve` | signed token (form) | Human confirms resolve |
+
+### Example: get_session
+
+```bash
+export KEY=dev-api-key
+
+# May return needs_auth the first time
+curl -s -X POST http://localhost:8000/v1/sessions/get \
+  -H "X-API-Key: $KEY" -H "Content-Type: application/json" \
+  -d '{"site":"linkedin"}' | python3 -m json.tool
+
+# After human resolve (or programmatic resolve with context id):
+# { "status": "ready", "context_id": "...", "session_id": "...", "connect_url": "wss://..." }
+```
+
+### Error shape
+
+```json
+{ "detail": { "code": "invalid_api_key", "message": "Invalid or revoked API key" } }
+```
+
+---
+
+## Core product principles
 
 - Pure infrastructure focus (auth + sessions only)
 - Excellent agent DX (MCP-first + simple API)
@@ -24,85 +152,49 @@ Gryphon does **not** try to complete the user's tasks. It simply makes authentic
 
 ---
 
-## Quick Mental Model
+## Mental model
 
 ```
 User's Agent
-↓
-Gryphon  (authenticated sessions + human recovery)
-↓
-Browserbase / Playwright / Computer Use
-↓
-Website
+  → get_session(site)
+       ├─ ready → Browserbase connect_url / context_id
+       └─ needs_auth → Slack → Live View login → store context
+            → get_session(site) again → ready
 ```
 
 ---
 
-## Project Status
-
-This repository contains the product foundation and starter structure.  
-An AI coding agent (or human) should begin implementation from the documents in `/docs` and the skeleton in `/apps`.
-
-**Start here:**
-1. Read `docs/PRD.md`
-2. Read `docs/ARCHITECTURE.md`
-3. Read `docs/ROADMAP.md`
-4. Implement Phase 1 features
-
----
-
-## Suggested Tech Stack (MVP)
-
-| Layer              | Choice                          | Notes                                      |
-|--------------------|----------------------------------|--------------------------------------------|
-| API                | FastAPI (Python)                 | Excellent for AI tooling ecosystem         |
-| MCP Server         | Official MCP Python SDK          | First-class agent integration              |
-| Database           | PostgreSQL (SQLite for local)    | Sessions, users, escalation logs           |
-| Session Provider   | Browserbase Contexts             | Primary integration for v1                 |
-| Notifications      | Slack + Email (Resend)           | Human escalation channels                  |
-| Dashboard          | Next.js + Tailwind (later)       | Simple management UI                       |
-| User Auth          | Clerk or Supabase Auth (later)   | For dashboard                              |
-
----
-
-## Repository Structure
+## Repository structure
 
 ```
 Gryphon/
 ├── README.md
+├── .env.example
+├── product/                 # CURRENT_FOCUS, phase specs
 ├── docs/
-│   ├── PRD.md
-│   ├── ARCHITECTURE.md
-│   ├── ROADMAP.md
-│   └── PRODUCT.md
 ├── apps/
 │   ├── api/                 # FastAPI backend
-│   ├── mcp-server/          # MCP server for agents
-│   └── dashboard/           # Future web UI
-├── examples/
-│   └── agent-integrations/
-└── .env.example
+│   │   ├── app/
+│   │   ├── scripts/create_api_key.py
+│   │   └── tests/
+│   ├── mcp-server/
+│   └── dashboard/
+└── examples/
+    └── agent-integrations/
+        ├── get_session_loop.py
+        └── escalation_loop.py
 ```
 
 ---
 
-## For AI Coding Agents
+## For AI coding agents
 
-When continuing development:
+1. **Product boundary:** only authentication and session reliability — no site-specific actions.
+2. Prefer MCP tools (`get_session` first) as the agent interface.
+3. Security: hash API keys, short-lived resolve tokens, no secrets in logs.
+4. See `docs/ROADMAP.md` and `product/CURRENT_FOCUS.md`.
 
-1. Always respect the product boundary: **Gryphon only handles authentication and session reliability**. Do not build high-level site actions (e.g. "send LinkedIn message") in the core product.
-2. Prefer MCP tools as the primary agent interface.
-3. Make human escalation delightful and fast.
-4. Security first: encrypt sensitive data, short-lived tokens where possible, clear audit logs, easy revocation.
-5. Keep the MVP extremely focused. See `docs/ROADMAP.md`.
-
-**Recommended first implementation order:**
-1. Basic FastAPI app + health endpoint
-2. Escalation model + `request_human_auth` endpoint
-3. Slack notification for escalations
-4. Simple resolution flow
-5. MCP tool wrappers
-6. End-to-end example with a real agent
+**Sequence:** C (harden Phase 1) done → **D (Phase 2 Browserbase / get_session)** active → B (landing + waitlist).
 
 ---
 

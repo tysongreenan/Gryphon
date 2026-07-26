@@ -1,32 +1,42 @@
 # Gryphon — Roadmap
 
-## Phase 0 — Foundation (Current)
+## Phase 0 — Foundation
 - [x] Product vision and PRD
 - [x] Architecture outline
 - [x] Repository structure
-- [ ] Basic project scaffolding (FastAPI + MCP server stubs)
-- [ ] Local development environment setup
+- [x] Basic project scaffolding (FastAPI + MCP server)
+- [x] Local development environment setup
 
-## Phase 1 — Core MVP (Build this next)
+## Phase 1 — Core MVP + Hardening
 **Goal:** An agent can request human help for auth and resume with a new session.
 
-- [ ] User + API key model
-- [ ] Slack notification integration (incoming escalation)
-- [ ] `request_human_auth` endpoint + MCP tool
-- [ ] Simple human resolution flow (link or Slack interaction)
-- [ ] Basic session handoff (even if manual/simple at first)
-- [ ] Escalation status tracking (pending → resolved / expired)
-- [ ] Minimal audit logging
-- [ ] End-to-end example with a Stagehand or Playwright agent
+- [x] User + API key model (hashed keys, multi-user isolation)
+- [x] Slack notification integration (incoming escalation + log fallback)
+- [x] `request_human_auth` endpoint + MCP tool
+- [x] Human resolution flow (signed short-lived link + programmatic resolve)
+- [x] Basic session handoff field (`resolved_context_id`)
+- [x] Escalation status tracking (pending → resolved / expired)
+- [x] Structured logging (no secrets)
+- [x] Automated tests for core loop + error cases
+- [x] End-to-end example script (`examples/agent-integrations/escalation_loop.py`)
 
 **Success criteria for Phase 1:**  
 A developer can run an agent that hits a login wall, calls Gryphon, receives a Slack message, resolves it, and the agent continues.
 
-## Phase 2 — Persistent Sessions
-- [ ] Guided account connection flow (capture session once)
-- [ ] `get_session(site)` that returns a reusable authenticated context
-- [ ] Browserbase Context integration as primary storage
-- [ ] Session health checking
+**Done:** Phase 1 hardening complete.
+
+## Phase 2 — Persistent Sessions (active)
+**Goal:** After one human resolve, later `get_session(site)` returns a ready authenticated session.
+
+- [x] `get_session(site)` API + MCP tool (`POST /v1/sessions/get`)
+- [x] Browserbase Context create + Session with persist for human login
+- [x] Live View on human resolve page
+- [x] Durable `(user, site) → context_id` storage (`site_sessions`)
+- [x] Agent sessions from stored context with `persist: false`
+- [x] Escalation remains recovery when context missing
+- [x] E2E example `get_session_loop.py` + tests
+- [ ] Guided account connection flow from dashboard (later)
+- [ ] Session health checking / proactive re-auth
 - [ ] Basic dashboard to view connected sites and recent escalations
 
 ## Phase 3 — Reliability & DX

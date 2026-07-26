@@ -19,7 +19,8 @@ Gryphon Core
 
 ### 1. API Layer (FastAPI)
 - REST endpoints for session management and escalation
-- Authentication via API keys (MVP)
+- Authentication via hashed API keys mapped to users (MVP)
+- Human resolve via short-lived signed links (no API key in Slack)
 - Later: user dashboard auth
 
 ### 2. MCP Server
@@ -32,10 +33,11 @@ Primary interface for agents. Exposes tools such as:
 
 ### 3. Session Manager
 Responsible for:
-- Storing references to authenticated sessions (primarily Browserbase Context IDs)
-- Creating / refreshing sessions when possible
-- Returning usable session material to agents
-- Tracking basic health / last-used / expiry signals
+- Storing durable `(user, site) → Browserbase Context ID` mappings (`site_sessions`)
+- `get_session(site)`: return ready session or create escalation (`needs_auth`)
+- Creating short-lived Browserbase Sessions from a stored context (`persist: false` for agents)
+- Human resolve: create Context + Session (`persist: true`) + Live View URL
+- Tracking last-used timestamps (health / expiry later)
 
 ### 4. Escalation Service
 - Receives escalation requests from agents
@@ -91,11 +93,13 @@ For MVP, a simple polling or long-polling approach from the agent side is accept
 
 ## Security Considerations
 
-- API keys must be treated as secrets
+- API keys must be treated as secrets (stored as HMAC-SHA256 hashes only)
 - Session material and any stored credentials must be encrypted at rest
-- Escalation links should be short-lived and single-use where possible
-- Clear audit trail of who/what accessed which session
-- Easy revocation of sessions and API keys
+- Escalation resolve links are HMAC-signed and short-lived (`RESOLVE_TOKEN_TTL_SECONDS`)
+- Escalations auto-expire (`ESCALATION_TTL_SECONDS`) if not resolved
+- Escalations are scoped to the owning user (cross-user access returns 404)
+- Logs must never include raw API keys or `SECRET_KEY`
+- Easy revocation of sessions and API keys (`api_keys.revoked_at`)
 - Principle of least privilege for any stored credentials
 
 ---
