@@ -18,7 +18,7 @@ Gryphon does **not** try to complete the user's tasks. It simply makes authentic
 
 **Phase 2 first slice:** `get_session(site)` → needs_auth escalation → human Live View resolve → durable Browserbase Context → later `get_session` returns a ready agent session.
 
-Specs: `product/CURRENT_FOCUS.md` · `product/PHASE2_BROWSERBASE.md`
+**Active focus:** Landing page + waitlist (`apps/dashboard`) — see `product/CURRENT_FOCUS.md` · `product/PHASE_B_WAITLIST.md`
 
 ---
 
@@ -194,7 +194,7 @@ Gryphon/
 3. Security: hash API keys, short-lived resolve tokens, no secrets in logs.
 4. See `docs/ROADMAP.md` and `product/CURRENT_FOCUS.md`.
 
-**Sequence:** C (harden Phase 1) done → **D (Phase 2 Browserbase / get_session)** active → B (landing + waitlist).
+**Sequence:** C (harden Phase 1) done → D (Phase 2 Browserbase / get_session) shipped → **B (landing + waitlist)** active.
 
 ---
 

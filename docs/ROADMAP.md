@@ -25,7 +25,7 @@ A developer can run an agent that hits a login wall, calls Gryphon, receives a S
 
 **Done:** Phase 1 hardening complete.
 
-## Phase 2 — Persistent Sessions (active)
+## Phase 2 — Persistent Sessions
 **Goal:** After one human resolve, later `get_session(site)` returns a ready authenticated session.
 
 - [x] `get_session(site)` API + MCP tool (`POST /v1/sessions/get`)
@@ -38,6 +38,16 @@ A developer can run an agent that hits a login wall, calls Gryphon, receives a S
 - [ ] Guided account connection flow from dashboard (later)
 - [ ] Session health checking / proactive re-auth
 - [ ] Basic dashboard to view connected sites and recent escalations
+
+## Phase B — Landing + waitlist (active)
+**Goal:** Public page that captures agent-builder demand.
+
+- [x] Marketing Next app (`apps/dashboard`) with product copy
+- [x] Waitlist form (email + optional use-case) + `POST /api/waitlist`
+- [x] Storage: Supabase / webhook / local dev file
+- [x] Honest use-case section (no fake testimonials)
+- [ ] Vercel deploy + production storage env
+- [ ] Light outreach with research language
 
 ## Phase 3 — Reliability & DX
 - [ ] Better async / webhook patterns for agents waiting on escalation
