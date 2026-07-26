@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Gryphon — brand logos</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: ui-sans-serif, system-ui, sans-serif; margin: 0; padding: 32px; background: #fafafa; color: #111; }
+    h1 { font-size: 22px; margin: 0 0 8px; }
+    p { color: #666; margin: 0 0 28px; }
+    section { margin-bottom: 36px; }
+    h2 { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: #888; margin: 0 0 14px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+    .card { background: #fff; border: 1px solid #e8e8e8; border-radius: 12px; padding: 18px 14px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .card img { width: 40px; height: 40px; object-fit: contain; }
+    .card span { font-size: 12px; color: #333; text-align: center; word-break: break-all; }
+    .card code { font-size: 10px; color: #999; }
+    @media (prefers-color-scheme: dark) {
+      body { background: #111; color: #f5f5f5; }
+      p, h2, .card code { color: #888; }
+      .card { background: #1a1a1a; border-color: #2a2a2a; }
+      .card span { color: #ddd; }
+      .card img { filter: invert(1); }
+      .card img.no-invert { filter: none; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Gryphon brand logos</h1>
+  <p>SVG icons for the homepage “three things” sections. Open any file from this folder, or use paths under <code>/logos/</code> in the dashboard.</p>
+
+  <section>
+    <h2>01 · Sessions that persist (sites)</h2>
+    <div class="grid" id="sites"></div>
+  </section>
+  <section>
+    <h2>02 · Escalation to a human (notifications)</h2>
+    <div class="grid" id="notify"></div>
+  </section>
+  <section>
+    <h2>03 · Clean handback (agents / IDEs)</h2>
+    <div class="grid" id="agents"></div>
+  </section>
+  <section>
+    <h2>Also available</h2>
+    <div class="grid" id="other"></div>
+  </section>
+
+  <script>
+    function card(file, label, noInvert) {
+      return `<div class="card"><img class="${noInvert ? 'no-invert' : ''}" src="./${file}" alt="${label}" /><span>${label}</span><code>${file}</code></div>`;
+    }
+    document.getElementById('sites').innerHTML = [
+      card('linkedin.svg', 'LinkedIn'),
+      card('gmail.svg', 'Gmail'),
+      card('stripe.svg', 'Stripe'),
+      card('shopify.svg', 'Shopify'),
+    ].join('');
+    document.getElementById('notify').innerHTML = [
+      card('slack.svg', 'Slack'),
+      card('whatsapp.svg', 'WhatsApp'),
+    ].join('');
+    document.getElementById('agents').innerHTML = [
+      card('cursor.svg', 'Cursor'),
+      card('vscode.svg', 'VS Code'),
+      card('claude.svg', 'Claude'),
+      card('chatgpt.svg', 'ChatGPT'),
+      card('grok.svg', 'Grok (xAI / X mark)'),
+      card('openai.svg', 'OpenAI'),
+      card('anthropic.svg', 'Anthropic'),
+    ].join('');
+    document.getElementById('other').innerHTML = [
+      card('playwright.svg', 'Playwright', true),
+      card('modelcontextprotocol.svg', 'MCP'),
+      card('github.svg', 'GitHub'),
+      card('x.svg', 'X'),
+      card('visual-studio-code.svg', 'VS Code (alias)'),
+    ].join('');
+  </script>
+</body>
+</html>

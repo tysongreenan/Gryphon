@@ -1,25 +1,35 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Mockup stack:
+//   UI / body  → Helvetica Neue (system)
+//   Mono       → JetBrains Mono
+//   Accent     → Instrument Serif (italic lockups)
+
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument",
   subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains",
   subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Gryphon — Authenticated sessions for AI agents",
+  title: "Gryphon — Agents that never die on a login",
   description:
-    "Reliable logged-in browser sessions and human-in-the-loop recovery when agents hit auth walls. MCP-native. Built for Browserbase, Playwright, and agent frameworks.",
+    "Gryphon holds the authenticated session, and pulls in a human the moment auth breaks. Runs pause for a minute instead of dying overnight.",
   openGraph: {
-    title: "Gryphon — Authenticated sessions for AI agents",
+    title: "Gryphon — Agents that never die on a login",
     description:
-      "Your agents stop dying on logins and 2FA. Persistent sessions + human escalation.",
+      "Persistent sessions + human-in-the-loop recovery for browser agents. MCP-native · REST · Browserbase.",
     type: "website",
   },
 };
@@ -32,9 +42,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${instrumentSerif.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+      <body className="flex min-h-full flex-col bg-background font-sans text-foreground">
         {children}
       </body>
     </html>

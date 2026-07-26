@@ -80,6 +80,8 @@ python ../../examples/agent-integrations/escalation_loop.py
 
 Without Browserbase credentials, set `BROWSERBASE_USE_FAKE=true` for local demos, or resolve programmatically with a manual `resolved_context_id`.
 
+If a stored context later fails (expired/deleted), `get_session` returns `needs_auth` again (site session marked stale) instead of a broken `ready`. Full live checklist: [`docs/MANUAL_BROWSERBASE_TEST.md`](docs/MANUAL_BROWSERBASE_TEST.md).
+
 ### 6. Create additional users / API keys
 
 ```bash
@@ -166,23 +168,42 @@ User's Agent
 
 ## Repository structure
 
+Polyglot monorepo: each app owns its runtime. Node apps live under `apps/*` with their own `package.json`; the API and MCP server are Python.
+
 ```
 Gryphon/
+├── package.json             # root scripts only (proxies into apps)
 ├── README.md
-├── .env.example
+├── .env.example             # API / product env template
 ├── product/                 # CURRENT_FOCUS, phase specs
 ├── docs/
 ├── apps/
-│   ├── api/                 # FastAPI backend
+│   ├── api/                 # FastAPI backend (Python)
 │   │   ├── app/
 │   │   ├── scripts/create_api_key.py
 │   │   └── tests/
-│   ├── mcp-server/
-│   └── dashboard/
+│   ├── mcp-server/          # MCP tools for agents (Python)
+│   └── dashboard/           # Next.js marketing + operator UI
 └── examples/
     └── agent-integrations/
         ├── get_session_loop.py
         └── escalation_loop.py
+```
+
+### Run from the repo root
+
+```bash
+# Marketing / operator Next app (apps/dashboard)
+npm run dev
+
+# First time only (installs dashboard deps):
+npm run install:dashboard
+```
+
+API and MCP still start from their own directories (Python — no npm):
+
+```bash
+cd apps/api && source .venv/bin/activate && uvicorn app.main:app --reload --port 8000
 ```
 
 ---

@@ -1,0 +1,16 @@
+{
+  "name": "gryphon",
+  "private": true,
+  "description": "Gryphon monorepo — run apps from the repo root",
+  "scripts": {
+    "dev": "npm run dev --prefix apps/dashboard",
+    "dev:dashboard": "npm run dev --prefix apps/dashboard",
+    "build:dashboard": "npm run build --prefix apps/dashboard",
+    "lint:dashboard": "npm run lint --prefix apps/dashboard",
+    "start:dashboard": "npm run start --prefix apps/dashboard",
+    "install:dashboard": "npm install --prefix apps/dashboard"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

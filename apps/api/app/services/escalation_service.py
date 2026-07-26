@@ -135,6 +135,7 @@ class EscalationService:
         if record.status != EscalationStatus.PENDING.value:
             return _to_api_model(record)
 
+        # Already fully provisioned
         if record.bb_context_id and record.live_view_url:
             return _to_api_model(record)
 
@@ -143,30 +144,52 @@ class EscalationService:
             if not record.bb_context_id:
                 context = await client.create_context()
                 record.bb_context_id = context.id
-            bb_session = await client.create_session(
-                context_id=record.bb_context_id,
-                persist=True,
-                timeout_seconds=self.settings.browserbase_human_session_timeout,
-            )
-            record.bb_session_id = bb_session.id
-            live = await client.get_live_view(bb_session.id)
-            record.live_view_url = live.preferred_url
-            await self.session.flush()
-            logger.info(
-                "escalation.login_session_ready escalation_id=%s context_id=%s session_id=%s",
-                escalation_id,
-                record.bb_context_id,
-                record.bb_session_id,
-            )
+                await self.session.flush()
+
+            # Re-create a human session if we only have a context (or lost live view)
+            if not record.live_view_url:
+                bb_session = await client.create_session(
+                    context_id=record.bb_context_id,
+                    persist=True,
+                    timeout_seconds=self.settings.browserbase_human_session_timeout,
+                )
+                record.bb_session_id = bb_session.id
+                live = await client.get_live_view(bb_session.id)
+                record.live_view_url = live.preferred_url
+                await self.session.flush()
+
+                if record.live_view_url:
+                    logger.info(
+                        "escalation.login_session_ready escalation_id=%s "
+                        "context_id=%s session_id=%s has_live_view=true",
+                        escalation_id,
+                        record.bb_context_id,
+                        record.bb_session_id,
+                    )
+                else:
+                    # Session exists but BB returned no debugger URL — resolve
+                    # page shows manual fallback; human can still confirm.
+                    logger.warning(
+                        "escalation.live_view_missing escalation_id=%s "
+                        "context_id=%s session_id=%s",
+                        escalation_id,
+                        record.bb_context_id,
+                        record.bb_session_id,
+                    )
         except BrowserbaseNotConfiguredError:
             logger.warning(
                 "escalation.no_browserbase escalation_id=%s — human must paste context id",
                 escalation_id,
             )
-        except BrowserbaseError:
-            logger.exception(
-                "escalation.browserbase_provision_failed escalation_id=%s",
+        except BrowserbaseError as exc:
+            # Keep any partial context id so resolve can still store a durable
+            # mapping if the human pastes a context or we already created one.
+            logger.warning(
+                "escalation.browserbase_provision_failed escalation_id=%s "
+                "status_code=%s has_context=%s",
                 escalation_id,
+                exc.status_code,
+                bool(record.bb_context_id),
             )
 
         return _to_api_model(record)

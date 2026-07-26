@@ -24,6 +24,11 @@ Ship a public marketing page with real waitlist capture.
 ### App
 
 - Next.js marketing app: `apps/dashboard`
+- **Homepage v6** (product demos + waitlist): `/`
+- **Sign-in** (mock OAuth / magic link): `/sign-in`
+- **Operator console** (escalations + sessions, mock data): `/dashboard`
+- **Profile** (on-call + rescues, mock data): `/dashboard/profile`
+- Design source: `UI mockup component review/uploads/Gryphon homepage design brief/`
 - Form → `POST /api/waitlist`
 - SQL for Supabase: `apps/dashboard/supabase/waitlist.sql`
 - Local run: `cd apps/dashboard && npm run dev`
@@ -35,6 +40,10 @@ Ship a public marketing page with real waitlist capture.
 
 Local/dev without either falls back to `.data/waitlist.jsonl`.
 
-### Parallel (later)
+### Parallel reliability (D polish)
 
-D polish (Live View UX, stale contexts) can continue after the page is live.
+Shipped alongside waitlist work:
+
+- [x] Stale/dead Browserbase context → `needs_auth` + mark site session `stale` (tested)
+- [x] Live View provision failures show graceful resolve-page fallback
+- [x] Manual real-Browserbase checklist: `docs/MANUAL_BROWSERBASE_TEST.md`

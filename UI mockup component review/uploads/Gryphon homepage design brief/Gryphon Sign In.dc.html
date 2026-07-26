@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#FBFBFA;color:#0C0D10;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#0C0D10;text-decoration:none}
+a:hover{color:#1D4ED8}
+::selection{background:#1D4ED8;color:#fff}
+@keyframes gpulse{0%,100%{opacity:.3}50%{opacity:1}}
+</style></helmet>
+
+<div data-screen-label="Sign in" style="min-height:100vh;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr))">
+
+<div style="display:flex;flex-direction:column;padding:clamp(24px,4vw,48px)">
+<div style="display:flex;align-items:center;gap:9px">
+<img src="https://pikaso.cdnpk.net/private/production/4990689917/render.png?token=exp=1785369600~hmac=115e770ddf0af9982527495e1db4e4a07434a307979c9100d3bfcd637cb00dcd" alt="Gryphon mark" style="width:30px;height:30px;object-fit:contain">
+<span style="font:500 18px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.03em">Gryphon</span>
+</div>
+<div style="margin:auto 0;max-width:400px;width:100%;align-self:center;padding:48px 0">
+<h1 style="margin:0;font:400 clamp(36px,4vw,52px)/1.02 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.045em;text-wrap:balance">Your agents kept working.</h1>
+<p style="margin:16px 0 0;font:400 15px/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#7A7D85">Sign in to see what they got done.</p>
+<div style="margin-top:34px;display:flex;flex-direction:column;gap:10px">
+<span style="height:48px;display:flex;align-items:center;justify-content:center;gap:10px;background:#0C0D10;color:#fff;border-radius:6px;font:500 14.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer;user-select:none" style-hover="background:#1D4ED8"><span style="width:16px;height:16px;border:1.6px solid #fff;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font:600 9px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">G</span>Continue with GitHub</span>
+<span style="height:48px;display:flex;align-items:center;justify-content:center;gap:10px;background:#fff;border:1px solid rgba(12,13,16,.16);border-radius:6px;font:500 14.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer;user-select:none" style-hover="border-color:rgba(12,13,16,.4)"><span style="font:600 15px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;background:linear-gradient(90deg,#4285F4,#EA4335,#FBBC05,#34A853);-webkit-background-clip:text;background-clip:text;color:transparent">G</span>Continue with Google</span>
+</div>
+<div style="margin:22px 0;display:flex;align-items:center;gap:14px">
+<span style="flex:1;height:1px;background:rgba(12,13,16,.1)"></span>
+<span style="font:400 11px/1 'JetBrains Mono',monospace;color:#A6A9AF">or</span>
+<span style="flex:1;height:1px;background:rgba(12,13,16,.1)"></span>
+</div>
+<sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+<form onSubmit="{{ onSubmit }}" style="display:flex;flex-direction:column;gap:10px">
+<input type="email" required="required" placeholder="you@company.dev" value="{{ email }}" onChange="{{ onEmail }}" style="height:48px;padding:0 15px;background:#fff;border:1px solid rgba(12,13,16,.16);border-radius:6px;color:#0C0D10;font:400 15px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;outline:none" style-focus="border-color:#1D4ED8">
+<button type="submit" style="height:48px;background:#fff;border:1px solid rgba(12,13,16,.16);border-radius:6px;font:500 14.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#0C0D10;cursor:pointer" style-hover="border-color:#1D4ED8;color:#1D4ED8">Email me a magic link</button>
+</form>
+</sc-if>
+<sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:11px;padding:15px 16px;border:1px solid rgba(29,78,216,.3);background:rgba(29,78,216,.05);border-radius:6px">
+<span style="width:7px;height:7px;flex:none;border-radius:50%;background:#1D4ED8;animation:gpulse 1.2s ease-in-out infinite"></span>
+<span style="font:400 13.5px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#22242A">Link sent to <strong style="font-weight:500">{{ email }}</strong> — it works once and dies in 10 minutes. Fitting.</span>
+</div>
+</sc-if>
+<p style="margin:26px 0 0;font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#A6A9AF">No password to phish. By continuing you agree to the <a href="#" style="color:#7A7D85">Terms</a> and <a href="#" style="color:#7A7D85">Privacy Policy</a>.</p>
+</div>
+<div style="font:400 11px/1 'JetBrains Mono',monospace;color:#B9BCC3">© 2026 Gryphon · status: <span style="color:#15803D">all systems live</span></div>
+</div>
+
+<div style="position:relative;background:#0C0D10;display:flex;align-items:center;justify-content:center;overflow:hidden;min-height:420px">
+<img src="https://pikaso.cdnpk.net/private/production/4988561292/render.jpg?token=exp=1785369600~hmac=7a06d3a1e9baaa2d16f66a348dd6c76cc6d00e81b0613b7ed8bc522954f69a3d" alt="Gryphon" style="width:min(58%,520px);height:auto;filter:invert(1) hue-rotate(180deg);mix-blend-mode:screen;opacity:.95">
+<div style="position:absolute;left:0;right:0;bottom:0;padding:18px clamp(20px,3vw,36px);display:flex;align-items:center;justify-content:space-between;gap:12px;font:400 11.5px/1 'JetBrains Mono',monospace;color:rgba(255,255,255,.4)">
+<span>overnight · 27 runs saved · 0 died on a login</span>
+<span style="display:inline-flex;align-items:center;gap:7px"><span style="width:6px;height:6px;border-radius:50%;background:#22C55E;animation:gpulse 1.4s ease-in-out infinite"></span>holding 6 sessions warm</span>
+</div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {email: '', sent: false};
+  renderVals() {
+    return {
+      email: this.state.email,
+      onEmail: (e) => this.setState({email: e.target.value}),
+      onSubmit: (e) => { e.preventDefault(); this.setState({sent: true}); },
+      sent: this.state.sent, notSent: !this.state.sent,
+    };
+  }
+}
+</script>
+</body>
+</html>

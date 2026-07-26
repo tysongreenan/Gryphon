@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#FBFBFA;color:#0C0D10;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#0C0D10;text-decoration:none}
+a:hover{color:#1D4ED8}
+::selection{background:#1D4ED8;color:#fff}
+@keyframes gshimmer{0%,100%{opacity:.5;transform:translateY(-50%) rotate(var(--a)) scaleX(.94)}50%{opacity:1;transform:translateY(-50%) rotate(var(--a)) scaleX(1)}}
+@keyframes gstar{0%,100%{opacity:.75;transform:translate(-50%,-50%) scale(.94)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.06)}}
+@keyframes gorbit{from{offset-distance:0%}to{offset-distance:100%}}
+@keyframes gblink{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes gwave{0%,100%{transform:scaleY(.25)}50%{transform:scaleY(1)}}
+@keyframes gfade{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+@keyframes gpulse{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes gdashflow{to{stroke-dashoffset:-160}}
+@keyframes gspin{to{transform:rotate(360deg)}}
+</style></helmet>
+
+<div style="max-width:100%;overflow-x:hidden">
+
+<header style="position:sticky;top:0;z-index:40;background:rgba(251,251,250,.82);backdrop-filter:blur(10px);border-bottom:1px solid rgba(12,13,16,.08)">
+<div style="max-width:1280px;margin:0 auto;height:66px;padding:0 clamp(16px,4vw,40px);display:flex;align-items:center;justify-content:space-between;gap:16px">
+<div style="display:flex;align-items:center;gap:10px">
+<div style="position:relative;width:20px;height:20px"><span style="position:absolute;left:9px;top:0;width:2px;height:20px;background:#0C0D10"></span><span style="position:absolute;left:0;top:9px;width:20px;height:2px;background:#0C0D10"></span><span style="position:absolute;left:9px;top:0;width:2px;height:20px;background:#0C0D10;transform:rotate(45deg)"></span><span style="position:absolute;left:9px;top:0;width:2px;height:20px;background:#0C0D10;transform:rotate(-45deg)"></span></div>
+<span style="font:400 25px/1 'Instrument Serif',Georgia,serif;font-style:italic;letter-spacing:-.01em">Gryphon</span>
+</div>
+<nav style="display:flex;align-items:center;gap:clamp(12px,2.6vw,30px);font:400 15px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">
+<a href="#system" style="color:#4A4D55" style-hover="color:#0C0D10">How it works</a>
+<a href="#loop" style="color:#4A4D55" style-hover="color:#0C0D10">The loop</a>
+<a href="#scope" style="color:#4A4D55" style-hover="color:#0C0D10">Scope</a>
+<a href="#waitlist" style="background:#0C0D10;color:#fff;padding:11px 18px;font-size:14.5px;white-space:nowrap" style-hover="background:#1D4ED8;color:#fff">Join waitlist →</a>
+</nav>
+</div>
+</header>
+
+<section style="position:relative;overflow:hidden;border-bottom:1px solid rgba(12,13,16,.08)">
+<div style="position:absolute;inset:0;pointer-events:none">
+<div style="position:absolute;left:58%;top:46%;width:0;height:0">
+<div style="--a:200deg;position:absolute;left:0;top:0;width:1100px;height:3px;transform-origin:0 50%;background:linear-gradient(90deg,rgba(29,78,216,0),rgba(29,78,216,.55),rgba(96,165,250,.05));filter:blur(2px);animation:gshimmer 6s ease-in-out infinite;transform:translateY(-50%) rotate(200deg)"></div>
+<div style="--a:205deg;position:absolute;left:0;top:0;width:1000px;height:6px;transform-origin:0 50%;background:linear-gradient(90deg,rgba(37,99,235,0),rgba(37,99,235,.4),rgba(147,197,253,.04));filter:blur(5px);animation:gshimmer 7.5s ease-in-out .4s infinite;transform:translateY(-50%) rotate(205deg)"></div>
+<div style="--a:211deg;position:absolute;left:0;top:0;width:1150px;height:2px;transform-origin:0 50%;background:linear-gradient(90deg,rgba(59,130,246,0),rgba(59,130,246,.7),rgba(191,219,254,.05));filter:blur(1px);animation:gshimmer 5.2s ease-in-out .9s infinite;transform:translateY(-50%) rotate(211deg)"></div>
+<div style="--a:217deg;position:absolute;left:0;top:0;width:980px;height:9px;transform-origin:0 50%;background:linear-gradient(90deg,rgba(96,165,250,0),rgba(96,165,250,.28),rgba(219,234,254,.03));filter:blur(9px);animation:gshimmer 8.4s ease-in-out 1.3s infinite;transform:translateY(-50%) rotate(217deg)"></div>
+<div style="--a:223deg;position:absolute;left:0;top:0;width:900px;height:2px;transform-origin:0 50%;background:linear-gradient(90deg,rgba(30,64,175,0),rgba(30,64,175,.5),rgba(147,197,253,.04));filter:blur(1.5px);animation:gshimmer 6.8s ease-in-out .2s infinite;transform:translateY(-50%) rotate(223deg)"></div>
+
+<div style="--a:22deg;position:absolute;left:0;top:0;width:1250px;height:4px;transform-origin:0 50%;background:linear-gradient(90deg,rgba(29,78,216,.6),rgba(59,130,246,.45),rgba(191,219,254,0));filter:blur(2px);animation:gshimmer 6.2s ease-in-out .1s infinite;transform:translateY(-50%) rotate(22deg)"></div>
+<div style="--a:28deg;position:absolute;left:0;top:0;width:1350px;height:10px;transform-origin:0 50%;background:linear-gradient(90deg,rgba(37,99,235,.42),rgba(96,165,250,.3),rgba(219,234,254,0));filter:blur(8px);animation:gshimmer 7.8s ease-in-out .6s infinite;transform:translateY(-50%) rotate(28deg)"></div>
+<div style="--a:33deg;position:absolute;left:0;top:0;width:1200px;height:2px;transform-origin:0 50%;background:linear-gradient(90deg,rgba(59,130,246,.75),rgba(147,197,253,.4),rgba(255,255,255,0));filter:blur(1px);animation:gshimmer 5.6s ease-in-out 1.1s infinite;transform:translateY(-50%) rotate(33deg)"></div>
+<div style="--a:39deg;position:absolute;left:0;top:0;width:1100px;height:7px;transform-origin:0 50%;background:linear-gradient(90deg,rgba(30,64,175,.35),rgba(96,165,250,.22),rgba(255,255,255,0));filter:blur(6px);animation:gshimmer 9s ease-in-out .3s infinite;transform:translateY(-50%) rotate(39deg)"></div>
+<div style="--a:46deg;position:absolute;left:0;top:0;width:950px;height:2px;transform-origin:0 50%;background:linear-gradient(90deg,rgba(29,78,216,.5),rgba(147,197,253,.25),rgba(255,255,255,0));filter:blur(1.5px);animation:gshimmer 6.6s ease-in-out .8s infinite;transform:translateY(-50%) rotate(46deg)"></div>
+
+<div style="position:absolute;left:0;top:0;width:220px;height:220px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(191,219,254,.75),rgba(219,234,254,.25) 40%,transparent 70%);animation:gstar 4s ease-in-out infinite"></div>
+<div style="position:absolute;left:0;top:0;width:260px;height:2px;transform:translate(-50%,-50%);background:linear-gradient(90deg,transparent,#fff,#1D4ED8,#fff,transparent);filter:blur(.5px)"></div>
+<div style="position:absolute;left:0;top:0;width:2px;height:170px;transform:translate(-50%,-50%);background:linear-gradient(180deg,transparent,#fff,#1D4ED8,#fff,transparent);filter:blur(.5px)"></div>
+<div style="position:absolute;left:0;top:0;width:14px;height:14px;transform:translate(-50%,-50%);border-radius:50%;background:#fff;box-shadow:0 0 24px 8px rgba(147,197,253,.9)"></div>
+</div>
+</div>
+
+<div style="position:relative;max-width:1280px;margin:0 auto;padding:clamp(64px,11vw,130px) clamp(16px,4vw,40px) clamp(56px,9vw,110px)">
+<div style="font:400 15px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4A4D55">Infrastructure for browser agents</div>
+<h1 style="margin:26px 0 0;max-width:14ch;font:400 clamp(44px,8.4vw,104px)/0.98 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.045em;text-wrap:balance">Agents that never die on a login.</h1>
+<p style="margin:28px 0 0;max-width:44ch;font:400 clamp(16px,2vw,19px)/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4A4D55;text-wrap:pretty">Gryphon holds the authenticated session, and pulls in a human the moment auth breaks. Runs pause for a minute instead of dying overnight.</p>
+
+<div style="margin-top:36px;max-width:520px">
+<sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:10px;padding:16px 18px;border:1px solid rgba(12,13,16,.12);background:#fff;font:400 15px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif"><span style="color:#1D4ED8">✓</span><span>{{ email }} — you're on the list.</span></div>
+</sc-if>
+<sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+<form onSubmit="{{ onSubmit }}" style="display:flex;flex-wrap:wrap;gap:8px">
+<input type="email" required="required" placeholder="you@company.dev" value="{{ email }}" onChange="{{ onEmail }}" style="flex:1 1 230px;min-width:0;height:52px;padding:0 16px;background:#fff;border:1px solid rgba(12,13,16,.16);color:#0C0D10;font:400 16px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;outline:none" style-focus="border-color:#1D4ED8">
+<button type="submit" style="height:52px;padding:0 24px;background:#0C0D10;color:#fff;border:none;font:400 16px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer" style-hover="background:#1D4ED8">Get early access →</button>
+</form>
+<p style="margin:14px 0 0;font:400 13.5px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#7A7D85">Free during beta · MCP + REST · no card, no call</p>
+</sc-if>
+</div>
+</div>
+</section>
+
+<section id="system" style="border-bottom:1px solid rgba(12,13,16,.08)">
+<div style="max-width:1280px;margin:0 auto;padding:clamp(56px,8vw,104px) clamp(16px,4vw,40px)">
+<h2 style="margin:0;max-width:18ch;font:400 clamp(30px,5vw,58px)/1.05 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.04em;text-wrap:balance">Three things, and nothing else.</h2>
+
+<div style="margin-top:clamp(36px,5vw,60px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:clamp(24px,4vw,48px)">
+<div style="border-top:1px solid rgba(12,13,16,.14);padding-top:22px">
+<div style="font:400 13px/1 'JetBrains Mono',monospace;color:#1D4ED8;margin-bottom:18px">01</div>
+<div style="margin-bottom:26px;border:1px solid rgba(12,13,16,.1);background:#fff;box-shadow:0 18px 40px -30px rgba(12,13,16,.55);overflow:hidden">
+<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid rgba(12,13,16,.09);background:linear-gradient(#F8F8F6,#F0F0EE)">
+<span style="width:9px;height:9px;border-radius:50%;background:#FF5F57"></span><span style="width:9px;height:9px;border-radius:50%;background:#FEBC2E"></span><span style="width:9px;height:9px;border-radius:50%;background:#28C840"></span>
+<span style="flex:1;min-width:0;margin-left:6px;height:21px;display:flex;align-items:center;gap:6px;padding:0 8px;background:#fff;border:1px solid rgba(12,13,16,.09);border-radius:4px">
+<span style="width:6px;height:7px;border:1px solid #A6A9AF;border-radius:1px;flex:none"></span>
+<span style="font:400 9.5px/1 'JetBrains Mono',monospace;color:#7A7D85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">app.gryphon.dev/sessions</span>
+</span>
+</div>
+<div style="display:flex;min-height:236px">
+<div style="width:44px;flex:none;border-right:1px solid rgba(12,13,16,.07);background:#FAFAF9;padding:10px 0;display:flex;flex-direction:column;align-items:center;gap:7px">
+<div style="width:22px;height:22px;border-radius:5px;background:#0C0D10;display:flex;align-items:center;justify-content:center"><div style="width:7px;height:7px;border:1.2px solid #fff;transform:rotate(45deg)"></div></div>
+<div style="width:22px;height:22px;border-radius:5px;background:rgba(12,13,16,.06)"></div>
+<div style="width:22px;height:22px;border-radius:5px;background:rgba(12,13,16,.06)"></div>
+<div style="width:22px;height:22px;border-radius:5px;background:rgba(12,13,16,.06)"></div>
+<div style="margin-top:auto;width:22px;height:22px;border-radius:50%;background:rgba(12,13,16,.12)"></div>
+</div>
+<div style="flex:1;min-width:0">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 12px 9px">
+<span style="font:500 12.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">Connected sites</span>
+<span style="height:22px;padding:0 9px;display:inline-flex;align-items:center;background:#0C0D10;color:#fff;border-radius:4px;font:400 10.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">Connect</span>
+</div>
+<div style="display:flex;align-items:center;gap:6px;padding:0 12px 10px">
+<span style="flex:1;min-width:0;height:23px;display:flex;align-items:center;padding:0 8px;border:1px solid rgba(12,13,16,.1);border-radius:4px;background:#fff;font:400 9.5px/1 'JetBrains Mono',monospace;color:#B9BCC3">Search sites</span>
+<span style="height:23px;padding:0 8px;display:inline-flex;align-items:center;border:1px solid rgba(12,13,16,.1);border-radius:4px;font:400 9.5px/1 'JetBrains Mono',monospace;color:#7A7D85">All</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr auto 34px;gap:8px;padding:0 12px 6px;border-bottom:1px solid rgba(12,13,16,.08);font:400 9px/1 'JetBrains Mono',monospace;letter-spacing:.1em;color:#B9BCC3">
+<span>SITE</span><span>STATUS</span><span style="text-align:right">USED</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr auto 34px;gap:8px;align-items:center;padding:9px 12px;border-bottom:1px solid rgba(12,13,16,.05)">
+<span style="display:flex;align-items:center;gap:8px;min-width:0"><span style="width:17px;height:17px;flex:none;border-radius:4px;background:#0A66C2;color:#fff;display:flex;align-items:center;justify-content:center;font:700 8px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">in</span><span style="min-width:0"><span style="display:block;font:400 12px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif">LinkedIn</span><span style="display:block;font:400 9px/1.3 'JetBrains Mono',monospace;color:#B9BCC3">bb_ctx_4a9c</span></span></span>
+<span style="display:inline-flex;align-items:center;gap:5px;font:400 10px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#15803D"><span style="width:5px;height:5px;border-radius:50%;background:#22C55E"></span>Ready</span>
+<span style="font:400 10px/1 'JetBrains Mono',monospace;color:#A6A9AF;text-align:right">4m</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr auto 34px;gap:8px;align-items:center;padding:9px 12px;border-bottom:1px solid rgba(12,13,16,.05)">
+<span style="display:flex;align-items:center;gap:8px;min-width:0"><span style="width:17px;height:17px;flex:none;border-radius:4px;background:#C5221F;color:#fff;display:flex;align-items:center;justify-content:center;font:700 8px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">M</span><span style="min-width:0"><span style="display:block;font:400 12px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif">Gmail</span><span style="display:block;font:400 9px/1.3 'JetBrains Mono',monospace;color:#B9BCC3">bb_ctx_1d02</span></span></span>
+<span style="display:inline-flex;align-items:center;gap:5px;font:400 10px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#15803D"><span style="width:5px;height:5px;border-radius:50%;background:#22C55E"></span>Ready</span>
+<span style="font:400 10px/1 'JetBrains Mono',monospace;color:#A6A9AF;text-align:right">2h</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr auto 34px;gap:8px;align-items:center;padding:9px 12px;border-bottom:1px solid rgba(12,13,16,.05);background:rgba(180,83,9,.05);box-shadow:inset 2px 0 0 #B45309">
+<span style="display:flex;align-items:center;gap:8px;min-width:0"><span style="width:17px;height:17px;flex:none;border-radius:4px;background:#635BFF;color:#fff;display:flex;align-items:center;justify-content:center;font:700 8px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">S</span><span style="min-width:0"><span style="display:block;font:400 12px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif">Stripe</span><span style="display:block;font:400 9px/1.3 'JetBrains Mono',monospace;color:#B45309">waiting on you</span></span></span>
+<span style="display:inline-flex;align-items:center;gap:5px;font:400 10px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#B45309"><span style="width:5px;height:5px;border-radius:50%;background:#D97706;animation:gpulse 1.2s ease-in-out infinite"></span>Needs auth</span>
+<span style="font:400 10px/1 'JetBrains Mono',monospace;color:#B45309;text-align:right">now</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr auto 34px;gap:8px;align-items:center;padding:9px 12px">
+<span style="display:flex;align-items:center;gap:8px;min-width:0"><span style="width:17px;height:17px;flex:none;border-radius:4px;background:#5A8E3F;color:#fff;display:flex;align-items:center;justify-content:center;font:700 8px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">S</span><span style="min-width:0"><span style="display:block;font:400 12px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif">Shopify</span><span style="display:block;font:400 9px/1.3 'JetBrains Mono',monospace;color:#B9BCC3">bb_ctx_77b1</span></span></span>
+<span style="display:inline-flex;align-items:center;gap:5px;font:400 10px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#15803D"><span style="width:5px;height:5px;border-radius:50%;background:#22C55E"></span>Ready</span>
+<span style="font:400 10px/1 'JetBrains Mono',monospace;color:#A6A9AF;text-align:right">1d</span>
+</div>
+</div>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;border-top:1px solid rgba(12,13,16,.08);background:#FAFAF9;font:400 9.5px/1 'JetBrains Mono',monospace;color:#A6A9AF">
+<span>4 sites · 1 needs you</span><span>synced 12s ago</span>
+</div>
+</div>
+<div style="font:400 clamp(20px,2.4vw,26px)/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.025em;margin-bottom:14px">Sessions that persist</div>
+<div style="font:400 16px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4A4D55;text-wrap:pretty">One authenticated context per site, stored and handed to every later run. No storage-state files, no cookie plumbing.</div>
+</div>
+<div style="border-top:1px solid rgba(12,13,16,.14);padding-top:22px">
+<div style="font:400 13px/1 'JetBrains Mono',monospace;color:#1D4ED8;margin-bottom:18px">02</div>
+<div style="margin-bottom:26px;border:1px solid rgba(12,13,16,.1);background:#fff;box-shadow:0 18px 40px -30px rgba(12,13,16,.55);overflow:hidden">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border-bottom:1px solid rgba(12,13,16,.09);background:#fff">
+<span style="display:flex;align-items:baseline;gap:6px;min-width:0"><span style="font:400 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#A6A9AF">#</span><span style="font:600 12.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1D1C1D">agents-alerts</span></span>
+<span style="display:inline-flex;align-items:center;gap:4px;font:400 10px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#7A7D85"><span style="width:9px;height:9px;border-radius:50%;border:1.2px solid #A6A9AF"></span>4</span>
+</div>
+<div style="padding:12px;display:flex;gap:9px;align-items:flex-start;background:#fff">
+<div style="width:34px;height:34px;flex:none;border-radius:5px;background:#0C0D10;display:flex;align-items:center;justify-content:center"><div style="width:12px;height:12px;border:1.5px solid #fff;transform:rotate(45deg)"></div></div>
+<div style="min-width:0;flex:1">
+<div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap">
+<span style="font:700 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1D1C1D">Gryphon</span>
+<span style="font:700 8.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:.04em;color:#616061;background:rgba(29,28,29,.08);padding:3px 4px;border-radius:2px">APP</span>
+<span style="font:400 10px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#8A8D94">2:41 AM</span>
+</div>
+<div style="margin-top:5px;font:400 12.5px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1D1C1D">Auth required — I paused <span style="font:400 11.5px 'JetBrains Mono',monospace;background:rgba(29,28,29,.05);border:1px solid rgba(29,28,29,.09);border-radius:3px;padding:1px 4px;color:#B45309">outreach-v3</span> instead of failing it.</div>
+
+<div style="margin-top:9px;padding-left:9px;border-left:3px solid #1D4ED8">
+<div style="font:600 11.5px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1D1C1D">Stripe · 2FA verification code</div>
+<div style="margin-top:7px;display:grid;grid-template-columns:1fr 1fr;gap:7px">
+<div><div style="font:600 9px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#8A8D94;letter-spacing:.03em">AGENT</div><div style="margin-top:3px;font:400 10.5px/1 'JetBrains Mono',monospace;color:#3A3D44">outreach-v3</div></div>
+<div><div style="font:600 9px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#8A8D94;letter-spacing:.03em">PAUSED FOR</div><div style="margin-top:3px;font:400 10.5px/1 'JetBrains Mono',monospace;color:#3A3D44">00:12</div></div>
+</div>
+<div style="margin-top:8px;height:78px;border:1px solid rgba(12,13,16,.1);border-radius:4px;background:#FBFBFA;position:relative;overflow:hidden">
+<div style="position:absolute;left:0;right:0;top:0;height:15px;background:#F1F1EF;border-bottom:1px solid rgba(12,13,16,.07)"></div>
+<div style="position:absolute;left:8px;top:4.5px;width:52px;height:6px;border-radius:3px;background:rgba(12,13,16,.13)"></div>
+<div style="position:absolute;left:14px;top:26px;width:44%;height:6px;background:rgba(12,13,16,.16)"></div>
+<div style="position:absolute;left:14px;top:40px;display:flex;gap:4px"><span style="width:13px;height:16px;border:1px solid rgba(12,13,16,.18);border-radius:2px;background:#fff"></span><span style="width:13px;height:16px;border:1px solid rgba(12,13,16,.18);border-radius:2px;background:#fff"></span><span style="width:13px;height:16px;border:1px solid rgba(29,78,216,.5);border-radius:2px;background:#fff"></span><span style="width:13px;height:16px;border:1px solid rgba(12,13,16,.18);border-radius:2px;background:#fff"></span><span style="width:13px;height:16px;border:1px solid rgba(12,13,16,.18);border-radius:2px;background:#fff"></span><span style="width:13px;height:16px;border:1px solid rgba(12,13,16,.18);border-radius:2px;background:#fff"></span></div>
+<div style="position:absolute;right:8px;bottom:7px;font:400 8.5px/1 'JetBrains Mono',monospace;color:#B9BCC3">captured 2:41 AM</div>
+</div>
+<div style="margin-top:9px;display:flex;gap:6px;flex-wrap:wrap">
+<span style="height:28px;padding:0 12px;display:inline-flex;align-items:center;background:#0C0D10;color:#fff;border-radius:4px;font:600 11.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">Open Live View</span>
+<span style="height:28px;padding:0 12px;display:inline-flex;align-items:center;border:1px solid rgba(12,13,16,.18);border-radius:4px;font:600 11.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1D1C1D">Mark resolved</span>
+</div>
+</div>
+
+<div style="margin-top:10px;display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+<span style="display:inline-flex;align-items:center;gap:5px;height:21px;padding:0 8px;border:1px solid rgba(29,78,216,.35);background:rgba(29,78,216,.08);border-radius:11px;font:600 10px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1D4ED8"><span>✓</span>1</span>
+<span style="font:600 10.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1D4ED8">1 reply</span>
+<span style="font:400 10.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#8A8D94">resolved by you · 7:12 AM</span>
+</div>
+</div>
+</div>
+<div style="padding:9px 12px;border-top:1px solid rgba(12,13,16,.08);background:#FAFAF9;font:400 9.5px/1 'JetBrains Mono',monospace;color:#A6A9AF">signed link · expires 14:32 · no api key</div>
+</div>
+<div style="font:400 clamp(20px,2.4vw,26px)/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.025em;margin-bottom:14px">Escalation to a human</div>
+<div style="font:400 16px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4A4D55;text-wrap:pretty">Slack ping with the site, the reason and a screenshot. A signed Live View link, short TTL, never carrying your API key.</div>
+</div>
+<div style="border-top:1px solid rgba(12,13,16,.14);padding-top:22px">
+<div style="font:400 13px/1 'JetBrains Mono',monospace;color:#1D4ED8;margin-bottom:18px">03</div>
+<div style="margin-bottom:26px;position:relative;border:1px solid rgba(12,13,16,.1);background:#fff;box-shadow:0 18px 40px -30px rgba(12,13,16,.55);overflow:hidden">
+<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid rgba(12,13,16,.09);background:linear-gradient(#F8F8F6,#F0F0EE)">
+<span style="width:9px;height:9px;border-radius:50%;background:#FF5F57"></span><span style="width:9px;height:9px;border-radius:50%;background:#FEBC2E"></span><span style="width:9px;height:9px;border-radius:50%;background:#28C840"></span>
+<span style="flex:1;text-align:center;font:400 10px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#7A7D85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">outreach-v3 — agent.py</span>
+<span style="width:27px;flex:none"></span>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border-bottom:1px solid rgba(12,13,16,.08);background:#fff">
+<span style="font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#22242A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Pull July invoices from Stripe</span>
+<span style="display:inline-flex;align-items:center;gap:5px;font:400 9.5px/1 'JetBrains Mono',monospace;color:#15803D;flex:none"><span style="width:5px;height:5px;border-radius:50%;background:#22C55E"></span>running</span>
+</div>
+<div style="padding:12px;background:#fff;display:flex;flex-direction:column;gap:11px;min-height:200px">
+<div style="display:flex;align-items:center;gap:7px;font:400 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#8A8D94"><span>Worked for 4h 31m</span><span style="color:#C4C7CC">›</span></div>
+
+<div style="align-self:flex-end;max-width:88%;padding:8px 12px;border-radius:14px;background:#F2F2F0;font:400 11.5px/1.45 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#22242A">grab every invoice from stripe overnight</div>
+
+<div style="font:400 11.5px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#22242A">Hit a 2FA wall at 2:41 AM. Asked <span style="font:400 10.5px 'JetBrains Mono',monospace;background:rgba(12,13,16,.05);border:1px solid rgba(12,13,16,.09);border-radius:3px;padding:1px 4px">gryphon</span> to hold the run instead of failing it.</div>
+
+<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;background:#FAFAF9;border:1px solid rgba(12,13,16,.07)">
+<span style="display:flex;gap:3px;align-items:flex-end;height:11px;flex:none">
+<span style="width:3px;height:100%;border-radius:2px;background:#1D4ED8;animation:gwave .9s ease-in-out infinite"></span>
+<span style="width:3px;height:100%;border-radius:2px;background:#1D4ED8;animation:gwave .9s ease-in-out .15s infinite"></span>
+<span style="width:3px;height:100%;border-radius:2px;background:#1D4ED8;animation:gwave .9s ease-in-out .3s infinite"></span>
+</span>
+<span style="min-width:0;font:400 11px/1.35 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4A4D55">Session restored at 7:12 AM — resumed on its own</span>
+</div>
+
+<div style="font:400 11.5px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#22242A">Done — <strong style="font-weight:500">38 invoices</strong> pulled. You spent 54 seconds; I never lost the thread.</div>
+
+<div style="margin-top:auto;display:flex;align-items:center;gap:8px;padding:9px 11px;border:1px solid rgba(29,78,216,.35);border-radius:11px;background:#fff;box-shadow:0 0 0 3px rgba(29,78,216,.07)">
+<span style="flex:1;min-width:0;font:400 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#B9BCC3">Ask anything…</span>
+<span style="font:400 9.5px/1 'JetBrains Mono',monospace;color:#8A8D94;flex:none">gryphon · mcp</span>
+<span style="width:20px;height:20px;flex:none;border-radius:50%;background:#1D4ED8;color:#fff;display:flex;align-items:center;justify-content:center;font:400 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">↑</span>
+</div>
+</div>
+</div>
+<div style="font:400 clamp(20px,2.4vw,26px)/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.025em;margin-bottom:14px">Clean handback</div>
+<div style="font:400 16px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4A4D55;text-wrap:pretty">The agent gets a fresh connect URL and continues from where it stopped. It never sees a credential, only a session.</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="loop" style="border-bottom:1px solid rgba(12,13,16,.08);background:#fff">
+<div style="max-width:1280px;margin:0 auto;padding:clamp(56px,8vw,104px) clamp(16px,4vw,40px)">
+<div style="display:flex;flex-wrap:wrap;gap:14px;align-items:baseline;justify-content:space-between">
+<h2 style="margin:0;max-width:20ch;font:400 clamp(30px,5vw,58px)/1.05 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.04em;text-wrap:balance">A loop that can't end dead.</h2>
+<span style="font:400 13px/1 'JetBrains Mono',monospace;color:#7A7D85">runtime trace</span>
+</div>
+
+<div style="margin-top:36px;border:1px solid rgba(12,13,16,.1);background:linear-gradient(#FCFCFB,#F6F6F4);container-type:inline-size">
+<div style="position:relative;width:100%;height:calc(100cqw * 0.5088);overflow:hidden">
+<div style="position:absolute;left:0;top:0;width:1140px;height:580px;transform:scale(calc(100cqw / 1140));transform-origin:top left">
+<div style="position:absolute;inset:0;background-image:linear-gradient(rgba(12,13,16,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(12,13,16,.028) 1px,transparent 1px);background-size:38px 38px"></div>
+<svg viewBox="0 0 1140 580" style="position:absolute;inset:0;width:1140px;height:580px">
+<path d="M 200 150 H 940 V 430 H 200 Z" fill="none" stroke="rgba(12,13,16,.13)" stroke-width="1.5"></path>
+<path d="M 200 150 H 940 V 430 H 200 Z" fill="none" stroke="rgba(29,78,216,.55)" stroke-width="1.5" stroke-dasharray="7 9" style="animation:gdashflow 2.4s linear infinite"></path>
+<circle cx="200" cy="150" r="3.5" fill="#1D4ED8"></circle><circle cx="940" cy="150" r="3.5" fill="#1D4ED8"></circle><circle cx="940" cy="430" r="3.5" fill="#1D4ED8"></circle><circle cx="200" cy="430" r="3.5" fill="#1D4ED8"></circle>
+</svg>
+<div style="position:absolute;left:0;top:0;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;border-radius:50%;background:#1D4ED8;box-shadow:0 0 16px 4px rgba(59,130,246,.5);offset-path:path('M 200 150 H 940 V 430 H 200 Z');animation:gorbit 7s linear infinite"></div>
+
+<div style="position:absolute;left:570px;top:150px;transform:translate(-50%,-50%);display:flex;align-items:center;gap:7px;padding:6px 11px;background:#fff;border:1px solid rgba(12,13,16,.12);border-radius:999px;font:400 11px/1 'JetBrains Mono',monospace;color:#3A3D44"><span style="width:5px;height:5px;border-radius:50%;background:#1D4ED8"></span>get_session("stripe")</div>
+<div style="position:absolute;left:940px;top:290px;transform:translate(-50%,-50%);display:flex;align-items:center;gap:7px;padding:6px 11px;background:#fff;border:1px solid rgba(12,13,16,.12);border-radius:999px;font:400 11px/1 'JetBrains Mono',monospace;color:#B45309"><span style="width:5px;height:5px;border-radius:50%;background:#D97706;animation:gpulse 1.2s ease-in-out infinite"></span>needs_auth → push</div>
+<div style="position:absolute;left:570px;top:430px;transform:translate(-50%,-50%);display:flex;align-items:center;gap:7px;padding:6px 11px;background:#fff;border:1px solid rgba(12,13,16,.12);border-radius:999px;font:400 11px/1 'JetBrains Mono',monospace;color:#3A3D44"><span style="width:5px;height:5px;border-radius:50%;background:#1D4ED8"></span>context stored</div>
+<div style="position:absolute;left:200px;top:290px;transform:translate(-50%,-50%);display:flex;align-items:center;gap:7px;padding:6px 11px;background:#fff;border:1px solid rgba(12,13,16,.12);border-radius:999px;font:400 11px/1 'JetBrains Mono',monospace;color:#15803D"><span style="width:5px;height:5px;border-radius:50%;background:#22C55E"></span>connect_url</div>
+
+<div style="position:absolute;left:570px;top:290px;transform:translate(-50%,-50%);width:170px;height:170px;display:flex;align-items:center;justify-content:center;text-align:center">
+<div style="position:absolute;inset:0;border:1px dashed rgba(29,78,216,.35);border-radius:50%;animation:gspin 26s linear infinite"></div>
+<div style="position:absolute;inset:16px;border:1px solid rgba(12,13,16,.07);border-radius:50%"></div>
+<div style="position:relative;max-width:120px;font:400 12px/1.6 'JetBrains Mono',monospace;color:#8A8D94">the login<br>never leaves<br>this circuit</div>
+</div>
+
+<div style="position:absolute;left:200px;top:150px;transform:translate(-50%,-50%);width:296px;background:#fff;border:1px solid rgba(12,13,16,.11);border-radius:9px;box-shadow:0 24px 50px -32px rgba(12,13,16,.7);overflow:hidden">
+<div style="padding:6px 12px;background:#0C0D10;color:#fff;font:400 9.5px/1.7 'JetBrains Mono',monospace;letter-spacing:.12em">01 · AGENT</div>
+<div style="display:flex;align-items:center;gap:7px;padding:9px 11px;border-bottom:1px solid rgba(12,13,16,.08);background:linear-gradient(#F8F8F6,#F0F0EE)">
+<span style="width:8px;height:8px;border-radius:50%;background:#FF5F57"></span><span style="width:8px;height:8px;border-radius:50%;background:#FEBC2E"></span><span style="width:8px;height:8px;border-radius:50%;background:#28C840"></span>
+<span style="margin-left:5px;font:400 9.5px/1 'JetBrains Mono',monospace;color:#8A8D94">outreach-v3 — run #41</span>
+</div>
+<div style="padding:12px;font:400 11px/1.85 'JetBrains Mono',monospace">
+<div><span style="color:#B9BCC3">$ </span><span style="color:#3A3D44">python outreach_agent.py</span></div>
+<div style="color:#A6A9AF">→ task: pull july invoices</div>
+<div><span style="color:#1D4ED8">→ gryphon.get_session("stripe")</span><span style="display:inline-block;width:6px;height:11px;background:#1D4ED8;vertical-align:-1px;margin-left:3px;animation:gblink 1.1s step-end infinite"></span></div>
+</div>
+<div style="padding:8px 12px;border-top:1px solid rgba(12,13,16,.07);background:#FAFAF9;display:flex;justify-content:space-between;font:400 9.5px/1 'JetBrains Mono',monospace;color:#A6A9AF"><span>02:41:07</span><span>waiting 0.3s</span></div>
+</div>
+
+<div style="position:absolute;left:940px;top:150px;transform:translate(-50%,-50%);width:296px;background:#fff;border:1px solid rgba(12,13,16,.11);border-radius:9px;box-shadow:0 24px 50px -32px rgba(12,13,16,.7);overflow:hidden">
+<div style="padding:6px 12px;background:#1D4ED8;color:#fff;font:400 9.5px/1.7 'JetBrains Mono',monospace;letter-spacing:.12em">02 · GRYPHON</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 13px 10px;border-bottom:1px solid rgba(12,13,16,.07)">
+<span style="display:flex;align-items:center;gap:8px"><span style="width:20px;height:20px;border-radius:5px;background:#0C0D10;display:flex;align-items:center;justify-content:center"><span style="width:7px;height:7px;border:1.2px solid #fff;transform:rotate(45deg)"></span></span><span style="font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">session lookup</span></span>
+<span style="font:400 9.5px/1 'JetBrains Mono',monospace;color:#A6A9AF">38ms</span>
+</div>
+<div style="padding:10px 13px;display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;justify-content:space-between;font:400 10.5px/1 'JetBrains Mono',monospace"><span style="color:#8A8D94">site</span><span style="color:#22242A">stripe</span></div>
+<div style="display:flex;justify-content:space-between;font:400 10.5px/1 'JetBrains Mono',monospace"><span style="color:#8A8D94">stored context</span><span style="color:#B45309">none</span></div>
+<div style="display:flex;justify-content:space-between;font:400 10.5px/1 'JetBrains Mono',monospace"><span style="color:#8A8D94">policy</span><span style="color:#22242A">pause, don't fail</span></div>
+</div>
+<div style="margin:0 13px 12px;display:flex;align-items:center;gap:9px;padding:9px 11px;border:1px solid rgba(180,83,9,.3);background:rgba(180,83,9,.06);border-radius:6px">
+<span style="width:6px;height:6px;border-radius:50%;background:#D97706;animation:gpulse 1.2s ease-in-out infinite"></span>
+<span style="font:400 11px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#B45309">needs_auth — escalation esc_8f31 opened</span>
+</div>
+</div>
+
+<div style="position:absolute;left:940px;top:430px;transform:translate(-50%,-50%);width:296px;height:212px;border-radius:26px;background:linear-gradient(150deg,#1E3A8A,#3B82F6 55%,#93C5FD);box-shadow:0 26px 54px -30px rgba(12,13,16,.85);overflow:hidden;display:flex;align-items:center;justify-content:center">
+<div style="position:absolute;left:14px;bottom:12px;padding:3px 9px;background:rgba(12,13,16,.72);color:#fff;font:400 9.5px/1.7 'JetBrains Mono',monospace;letter-spacing:.12em;border-radius:4px">03 · YOU</div>
+<div style="position:absolute;top:12px;left:0;right:0;display:flex;justify-content:space-between;padding:0 20px;font:600 10px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:rgba(255,255,255,.9)"><span>2:41</span><span>●●●</span></div>
+<div style="width:250px;padding:11px 12px;border-radius:16px;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);box-shadow:0 8px 24px -12px rgba(0,0,0,.5)">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="width:22px;height:22px;border-radius:6px;background:#0C0D10;display:flex;align-items:center;justify-content:center;flex:none"><span style="width:8px;height:8px;border:1.2px solid #fff;transform:rotate(45deg)"></span></span>
+<span style="font:600 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#22242A">GRYPHON</span>
+<span style="margin-left:auto;font:400 10px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#8A8D94">now</span>
+</div>
+<div style="margin-top:7px;font:600 12px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#0C0D10">Stripe wants a 2FA code</div>
+<div style="margin-top:3px;font:400 11.5px/1.35 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4A4D55">outreach-v3 is paused. Open Live View to clear it.</div>
+<div style="margin-top:9px;display:flex;gap:6px">
+<span style="flex:1;height:26px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#0C0D10;color:#fff;font:600 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">Open Live View</span>
+<span style="height:26px;padding:0 10px;display:flex;align-items:center;border-radius:8px;background:rgba(12,13,16,.07);color:#22242A;font:600 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">Later</span>
+</div>
+</div>
+</div>
+
+<div style="position:absolute;left:200px;top:430px;transform:translate(-50%,-50%);width:296px;background:#0C0D10;border-radius:9px;box-shadow:0 24px 50px -30px rgba(12,13,16,.9);overflow:hidden">
+<div style="padding:6px 12px;background:#1D4ED8;color:#fff;font:400 9.5px/1.7 'JetBrains Mono',monospace;letter-spacing:.12em">04 · BACK TO WORK</div>
+<div style="padding:14px 13px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.1)">
+<span style="font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#fff">run #41 resumed</span>
+<span style="font:400 9.5px/1 'JetBrains Mono',monospace;color:#93C5FD">07:12:04</span>
+</div>
+<div style="padding:12px 13px">
+<div style="display:flex;justify-content:space-between;font:400 10px/1 'JetBrains Mono',monospace;color:#8A8D94"><span>invoices pulled</span><span style="color:#fff">38 / 38</span></div>
+<div style="margin-top:8px;height:5px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden"><div style="width:100%;height:100%;background:linear-gradient(90deg,#1D4ED8,#60A5FA)"></div></div>
+<div style="margin-top:12px;display:flex;flex-direction:column;gap:7px;font:400 11px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#B9BCC3">
+<span style="display:flex;gap:8px"><span style="color:#60A5FA">✓</span>session restored from bb_ctx_4a9c</span>
+<span style="display:flex;gap:8px"><span style="color:#60A5FA">✓</span>0 lines changed in the agent</span>
+</div>
+</div>
+<div style="padding:8px 13px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;font:400 9.5px/1 'JetBrains Mono',monospace;color:#6E7178"><span>human time spent 00:54</span><span>next run: warm</span></div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+
+<section id="scope" style="border-bottom:1px solid rgba(12,13,16,.08)">
+<div style="max-width:1280px;margin:0 auto;padding:clamp(56px,8vw,104px) clamp(16px,4vw,40px)">
+<h2 style="margin:0;max-width:17ch;font:400 clamp(30px,5vw,58px)/1.05 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.04em;text-wrap:balance">One layer in your stack.</h2>
+<p style="margin:18px 0 0;max-width:48ch;font:400 17px/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4A4D55;text-wrap:pretty">Keep the browser, the driver and the agent you already run. Gryphon owns the auth layer and nothing above it.</p>
+
+<div style="margin-top:clamp(32px,5vw,52px);display:flex;flex-direction:column;gap:8px;max-width:840px">
+<div style="display:flex;align-items:center;gap:16px;padding:20px 22px;border:1px solid rgba(12,13,16,.12);background:#fff">
+<span style="font:400 12px/1 'JetBrains Mono',monospace;color:#A6A9AF;width:64px;flex:none">brain</span>
+<span style="font:400 clamp(17px,2vw,20px)/1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.02em">Your agent</span>
+<span style="font:400 14.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#8A8D94;margin-left:auto;text-align:right">decides what to do</span>
+</div>
+<div style="display:flex;align-items:center;gap:16px;padding:20px 22px;border:1px solid rgba(12,13,16,.12);background:#fff">
+<span style="font:400 12px/1 'JetBrains Mono',monospace;color:#A6A9AF;width:64px;flex:none">driver</span>
+<span style="font:400 clamp(17px,2vw,20px)/1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.02em">Stagehand / Playwright</span>
+<span style="font:400 14.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#8A8D94;margin-left:auto;text-align:right">drives the page</span>
+</div>
+<div style="display:flex;align-items:center;gap:16px;padding:20px 22px;border:1px solid rgba(12,13,16,.12);background:#fff">
+<span style="font:400 12px/1 'JetBrains Mono',monospace;color:#A6A9AF;width:64px;flex:none">browser</span>
+<span style="font:400 clamp(17px,2vw,20px)/1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.02em">Browserbase</span>
+<span style="font:400 14.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#8A8D94;margin-left:auto;text-align:right">runs the browser</span>
+</div>
+<div style="position:relative;display:flex;align-items:center;gap:16px;padding:26px 22px;background:#0C0D10;box-shadow:0 22px 48px -30px rgba(12,13,16,.8)">
+<span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#1D4ED8"></span>
+<span style="font:400 12px/1 'JetBrains Mono',monospace;color:#93C5FD;width:64px;flex:none">auth</span>
+<span style="font:400 clamp(19px,2.3vw,24px)/1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.025em;color:#fff">Gryphon</span>
+<span style="font:400 14.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#B9BCC3;margin-left:auto;text-align:right">keeps it logged in</span>
+</div>
+</div>
+
+<p style="margin:26px 0 0;max-width:70ch;font:400 14px/1.7 'JetBrains Mono',monospace;color:#8A8D94">Not an agent framework · not a browser platform · no site-specific actions · no automated CAPTCHA solving</p>
+</div>
+</section>
+
+<section id="waitlist" style="position:relative;overflow:hidden;background:#fff">
+<div style="position:absolute;inset:0;pointer-events:none">
+<div style="position:absolute;left:50%;top:120%;width:0;height:0">
+<div style="position:absolute;left:0;top:0;width:900px;height:5px;transform-origin:0 50%;background:linear-gradient(90deg,rgba(29,78,216,.45),rgba(147,197,253,0));filter:blur(4px);transform:translateY(-50%) rotate(255deg)"></div>
+<div style="position:absolute;left:0;top:0;width:800px;height:2px;transform-origin:0 50%;background:linear-gradient(90deg,rgba(59,130,246,.6),rgba(191,219,254,0));filter:blur(1px);transform:translateY(-50%) rotate(262deg)"></div>
+<div style="position:absolute;left:0;top:0;width:950px;height:9px;transform-origin:0 50%;background:linear-gradient(90deg,rgba(96,165,250,.3),rgba(219,234,254,0));filter:blur(9px);transform:translateY(-50%) rotate(270deg)"></div>
+<div style="position:absolute;left:0;top:0;width:820px;height:2px;transform-origin:0 50%;background:linear-gradient(90deg,rgba(30,64,175,.5),rgba(191,219,254,0));filter:blur(1.5px);transform:translateY(-50%) rotate(278deg)"></div>
+<div style="position:absolute;left:0;top:0;width:880px;height:6px;transform-origin:0 50%;background:linear-gradient(90deg,rgba(37,99,235,.35),rgba(219,234,254,0));filter:blur(6px);transform:translateY(-50%) rotate(285deg)"></div>
+</div>
+</div>
+<div style="position:relative;max-width:1280px;margin:0 auto;padding:clamp(64px,10vw,124px) clamp(16px,4vw,40px);text-align:center">
+<h2 style="margin:0 auto;max-width:18ch;font:400 clamp(32px,5.6vw,66px)/1.02 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.045em;text-wrap:balance">{{ closing }}</h2>
+<p style="margin:22px auto 0;max-width:46ch;font:400 17px/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4A4D55;text-wrap:pretty">Access opens in small batches. Tell us the site that keeps breaking and we'll start there.</p>
+<div style="margin:32px auto 0;max-width:520px;text-align:left">
+<sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:10px;padding:16px 18px;border:1px solid rgba(12,13,16,.12);background:#FBFBFA;font:400 15px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif"><span style="color:#1D4ED8">✓</span><span>{{ email }} — you're on the list.</span></div>
+</sc-if>
+<sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+<form onSubmit="{{ onSubmit }}" style="display:flex;flex-wrap:wrap;gap:8px">
+<input type="email" required="required" placeholder="you@company.dev" value="{{ email }}" onChange="{{ onEmail }}" style="flex:1 1 230px;min-width:0;height:52px;padding:0 16px;background:#FBFBFA;border:1px solid rgba(12,13,16,.16);color:#0C0D10;font:400 16px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;outline:none" style-focus="border-color:#1D4ED8">
+<button type="submit" style="height:52px;padding:0 24px;background:#0C0D10;color:#fff;border:none;font:400 16px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer" style-hover="background:#1D4ED8">Join the waitlist →</button>
+</form>
+</sc-if>
+</div>
+</div>
+</section>
+
+<footer style="border-top:1px solid rgba(12,13,16,.08)">
+<div style="max-width:1280px;margin:0 auto;padding:26px clamp(16px,4vw,40px);display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;font:400 14px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#7A7D85">
+<span><span style="font:400 18px/1 'Instrument Serif',Georgia,serif;font-style:italic;color:#0C0D10">Gryphon</span> — keeps your agents logged in</span>
+<div style="display:flex;gap:22px"><a href="#waitlist" style="color:#7A7D85" style-hover="color:#0C0D10">Waitlist</a><a href="#loop" style="color:#7A7D85" style-hover="color:#0C0D10">Docs soon</a></div>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280},&quot;closingLine&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;boring&quot;,&quot;logged_in&quot;],&quot;default&quot;:&quot;boring&quot;,&quot;tsType&quot;:&quot;'boring' | 'logged_in'&quot;,&quot;section&quot;:&quot;Copy&quot;}}">
+class Component extends DCLogic {
+  state = { email: "", submitted: false, step: 0 };
+
+  componentWillUnmount() { clearTimeout(this._t); }
+
+  run() {
+    clearTimeout(this._t);
+    this.setState({ step: 1 });
+    const advance = () => {
+      this.setState((s) => {
+        const next = s.step + 1;
+        if (next < 6) this._t = setTimeout(advance, next === 2 ? 1500 : 1200);
+        return { step: next };
+      });
+    };
+    this._t = setTimeout(advance, 900);
+  }
+
+  renderVals() {
+    const s = this.state.step;
+    const BLUE = "#1D4ED8", AMBER = "#B45309", DIM = "rgba(12,13,16,.14)", INK = "#0C0D10";
+    const script = [
+      { at: 1, t: "02:41", msg: "get_session(site=linkedin)", color: "#3A3D44" },
+      { at: 2, t: "02:41", msg: "needs_auth · esc_8f31 · agent paused", color: AMBER },
+      { at: 3, t: "02:41", msg: "slack → human · signed live_view link", color: "#3A3D44" },
+      { at: 4, t: "07:12", msg: "resolved in 54s · ctx bb_ctx_4a9c stored", color: "#3A3D44" },
+      { at: 5, t: "07:12", msg: "ready · connect_url wss://… · resumed", color: BLUE },
+    ];
+    const log = s === 0
+      ? [{ t: "--:--", msg: "idle · run the trace", color: "#A6A9AF" }]
+      : script.filter((l) => l.at <= s);
+
+    const status = s === 0 ? ["idle", "#8A8D94"]
+      : s === 1 ? ["requesting", INK]
+      : s >= 2 && s <= 3 ? ["needs_auth", AMBER]
+      : s === 4 ? ["resolving", AMBER]
+      : ["ready", BLUE];
+
+    const active = { agent: s === 1 || s >= 5, gryphon: s === 2 || s === 4, human: s === 3 };
+    const tone = s >= 5 ? BLUE : s >= 2 && s <= 4 ? AMBER : INK;
+
+    return {
+      email: this.state.email,
+      submitted: this.state.submitted,
+      notSubmitted: !this.state.submitted,
+      closing: this.props.closingLine === "logged_in"
+        ? "The agents that get more done are the ones that stay logged in."
+        : "Make authentication boring so your agents can do interesting work.",
+      onEmail: (e) => this.setState({ email: e.target.value }),
+      onSubmit: (e) => { e.preventDefault(); if (this.state.email) this.setState({ submitted: true }); },
+      log,
+      statusText: status[0], statusFg: status[1],
+      runLabel: s === 0 ? "Run the trace" : s >= 5 ? "Replay" : "Running…",
+      hint: s === 0 ? "watch a 2FA wall pause a run instead of killing it"
+        : s >= 5 ? "context stored — every later run starts warm"
+        : "agent paused, state held",
+      onRun: () => this.run(),
+      agentBorder: active.agent ? tone : DIM,
+      agentBar: active.agent ? tone : "rgba(12,13,16,.2)",
+      agentPlay: active.agent ? "running" : "paused",
+      gryBorder: active.gryphon ? tone : DIM,
+      gryMark: active.gryphon ? tone : "rgba(12,13,16,.25)",
+      humBorder: active.human ? AMBER : DIM,
+      humMark: active.human ? AMBER : "rgba(12,13,16,.25)",
+      link1: s >= 1 ? tone : "rgba(12,13,16,.25)",
+      link2: s >= 3 ? (s >= 5 ? BLUE : AMBER) : "rgba(12,13,16,.25)",
+    };
+  }
+}
+</script>
+</body>
+</html>

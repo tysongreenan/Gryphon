@@ -185,11 +185,21 @@ class FakeBrowserbaseClient:
     In-memory fake for tests and local runs without Browserbase credentials.
 
     Generates deterministic-looking ids; no network calls.
+
+    Test knobs (opt-in):
+    - fail_create_session_for: context ids that raise BrowserbaseError on create_session
+    - fail_create_session: raise on every create_session
+    - fail_live_view: raise on get_live_view
+    - empty_live_view: return LiveViewLinks with no URLs
     """
 
     def __init__(self):
         self.contexts: list[str] = []
         self.sessions: list[dict] = []
+        self.fail_create_session_for: set[str] = set()
+        self.fail_create_session: bool = False
+        self.fail_live_view: bool = False
+        self.empty_live_view: bool = False
 
     async def create_context(self) -> BrowserbaseContext:
         cid = f"ctx_fake_{uuid.uuid4().hex[:12]}"
@@ -203,6 +213,11 @@ class FakeBrowserbaseClient:
         persist: bool,
         timeout_seconds: Optional[int] = None,
     ) -> BrowserbaseSession:
+        if self.fail_create_session or context_id in self.fail_create_session_for:
+            raise BrowserbaseError(
+                f"Simulated Browserbase session create failure for context",
+                status_code=400,
+            )
         sid = f"ses_fake_{uuid.uuid4().hex[:12]}"
         self.sessions.append(
             {"id": sid, "context_id": context_id, "persist": persist}
@@ -217,6 +232,13 @@ class FakeBrowserbaseClient:
         )
 
     async def get_live_view(self, session_id: str) -> LiveViewLinks:
+        if self.fail_live_view:
+            raise BrowserbaseError(
+                "Simulated Live View provisioning failure",
+                status_code=500,
+            )
+        if self.empty_live_view:
+            return LiveViewLinks()
         return LiveViewLinks(
             debugger_url=f"https://www.browserbase.com/devtools/inspector.html?session={session_id}",
             debugger_fullscreen_url=(

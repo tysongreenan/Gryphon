@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#FBFBFA;color:#0C0D10;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#0C0D10;text-decoration:none}
+a:hover{color:#1D4ED8}
+::selection{background:#1D4ED8;color:#fff}
+@keyframes gpulse{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes gpop{0%{opacity:0;transform:translateY(14px) scale(.96)}60%{opacity:1;transform:translateY(-3px) scale(1.005)}100%{opacity:1;transform:none}}
+@keyframes gdim{from{opacity:0}to{opacity:1}}
+@keyframes gping{0%{transform:scale(.4);opacity:0}40%{transform:scale(1.15);opacity:1}100%{transform:scale(1)}}
+@keyframes gwiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-7deg)}75%{transform:rotate(7deg)}}
+</style></helmet>
+
+<div data-screen-label="Integrations" style="display:flex;min-height:100vh">
+
+<aside style="width:212px;flex:none;border-right:1px solid rgba(12,13,16,.09);display:flex;flex-direction:column;position:sticky;top:0;height:100vh">
+<div style="display:flex;align-items:center;gap:9px;padding:18px 18px 22px">
+<img src="https://pikaso.cdnpk.net/private/production/4990689917/render.png?token=exp=1785369600~hmac=115e770ddf0af9982527495e1db4e4a07434a307979c9100d3bfcd637cb00dcd" alt="Gryphon mark" style="width:28px;height:28px;object-fit:contain">
+<span style="font:500 17px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.03em">Gryphon</span>
+</div>
+<nav style="display:flex;flex-direction:column;padding:0 10px;font:400 13.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">
+<a href="./Gryphon Dashboard v2.dc.html" style="display:flex;align-items:center;justify-content:space-between;height:36px;padding:0 10px;border-radius:6px;color:#4A4D55" style-hover="background:rgba(12,13,16,.035);color:#0C0D10"><span>Escalations</span><span style="display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#B45309;color:#fff;font:500 10.5px/1 'JetBrains Mono',monospace">1</span></a>
+<span style="display:flex;align-items:center;justify-content:space-between;height:36px;padding:0 10px;border-radius:6px;color:#4A4D55;cursor:pointer" style-hover="background:rgba(12,13,16,.035);color:#0C0D10"><span>Sessions</span><span style="font:400 11px/1 'JetBrains Mono',monospace;color:#A6A9AF">5/6</span></span>
+<span style="display:flex;align-items:center;height:36px;padding:0 10px;border-radius:6px;font-weight:500;background:rgba(12,13,16,.05);cursor:default">Integrations</span>
+<span style="display:flex;align-items:center;height:36px;padding:0 10px;border-radius:6px;color:#4A4D55;cursor:pointer" style-hover="background:rgba(12,13,16,.035);color:#0C0D10">API keys</span>
+<span style="display:flex;align-items:center;height:36px;padding:0 10px;border-radius:6px;color:#4A4D55;cursor:pointer" style-hover="background:rgba(12,13,16,.035);color:#0C0D10">Settings</span>
+</nav>
+<div style="margin-top:auto;padding:16px 18px;border-top:1px solid rgba(12,13,16,.07)">
+<div style="display:flex;align-items:center;gap:9px">
+<span style="width:26px;height:26px;flex:none;border-radius:50%;background:#0C0D10;color:#fff;display:flex;align-items:center;justify-content:center;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">MK</span>
+<span style="min-width:0"><span style="display:block;font:400 12.5px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif">Mara Kimura</span><span style="display:block;font:400 10px/1.5 'JetBrains Mono',monospace;color:#A6A9AF">on-call · Slack linked</span></span>
+</div>
+</div>
+</aside>
+
+<main style="flex:1;min-width:0">
+<div style="max-width:880px;margin:0 auto;padding:26px clamp(20px,3vw,40px) 48px">
+
+<h1 style="margin:0;font:400 24px/1.1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.03em">Integrations</h1>
+<p style="margin:9px 0 0;max-width:56ch;font:400 13.5px/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#7A7D85;text-wrap:pretty">Two halves: where escalations reach a human, and how agents reach Gryphon. Sites you've connected live under Sessions.</p>
+
+<div style="margin-top:28px;display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+<h2 style="margin:0;font:400 18px/1.1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.02em">Escalation channels</h2>
+<span style="font:400 11px/1 'JetBrains Mono',monospace;color:#A6A9AF">where "needs you" lands</span>
+</div>
+<div style="margin-top:12px;border:1px solid rgba(12,13,16,.09);background:#fff;border-radius:8px;overflow:hidden">
+<sc-for list="{{ channels }}" as="ch" hint-placeholder-count="3">
+<div style="display:grid;grid-template-columns:auto 1fr auto auto;gap:14px;align-items:center;padding:14px 16px;border-bottom:1px solid rgba(12,13,16,.06)">
+<span style="width:34px;height:34px;flex:none;border-radius:7px;background:{{ ch.iconBg }};border:1px solid rgba(12,13,16,.08);display:flex;align-items:center;justify-content:center;color:{{ ch.iconFg }};font:600 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">{{ ch.glyph }}</span>
+<span style="min-width:0"><span style="display:block;font:500 14px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif">{{ ch.name }}</span><span style="display:block;margin-top:3px;font:400 11px/1.5 'JetBrains Mono',monospace;color:#A6A9AF">{{ ch.detail }}</span></span>
+<span style="display:inline-flex;align-items:center;gap:6px;font:400 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:{{ ch.fg }}"><span style="width:6px;height:6px;border-radius:50%;background:{{ ch.dot }}"></span>{{ ch.status }}</span>
+<span onClick="{{ ch.onOpen }}" style="height:30px;padding:0 13px;display:inline-flex;align-items:center;border:1px solid {{ ch.btnBorder }};background:{{ ch.btnBg }};color:{{ ch.btnFg }};border-radius:5px;font:500 12.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer;user-select:none" style-hover="border-color:#1D4ED8;color:#1D4ED8">{{ ch.btn }}</span>
+</div>
+</sc-for>
+<div style="display:flex;align-items:center;gap:10px;padding:11px 16px;background:#FAFAF9;font:400 11.5px/1.5 'JetBrains Mono',monospace;color:#A6A9AF">
+escalation order: Slack → WhatsApp → email fallback · retries every 60s until claimed
+</div>
+</div>
+
+<div style="margin-top:34px;display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+<h2 style="margin:0;font:400 18px/1.1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.02em">Agent connections</h2>
+<span style="font:400 11px/1 'JetBrains Mono',monospace;color:#A6A9AF">how runs reach gryphon</span>
+</div>
+<div style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:14px;align-items:stretch">
+
+<div style="border:1px solid rgba(12,13,16,.09);background:#fff;border-radius:8px;overflow:hidden;display:flex;flex-direction:column">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;border-bottom:1px solid rgba(12,13,16,.07)">
+<span style="display:flex;align-items:baseline;gap:9px"><span style="font:500 14px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">MCP server</span><span style="font:400 10.5px/1 'JetBrains Mono',monospace;color:#A6A9AF">recommended</span></span>
+<span style="display:inline-flex;align-items:center;gap:6px;font:400 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#15803D"><span style="width:6px;height:6px;border-radius:50%;background:#22C55E"></span>Live</span>
+</div>
+<div style="padding:14px 16px;display:flex;flex-direction:column;gap:11px;flex:1">
+<div style="padding:12px 13px;background:#0C0D10;border-radius:6px;font:400 11.5px/1.7 'JetBrains Mono',monospace;color:#C9CCD2;overflow-x:auto;white-space:pre">{{ mcpSnippet }}</div>
+<div style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#7A7D85">Exposes <span style="font:400 11px 'JetBrains Mono',monospace;color:#3A3D44">get_session</span>, <span style="font:400 11px 'JetBrains Mono',monospace;color:#3A3D44">escalate</span>, <span style="font:400 11px 'JetBrains Mono',monospace;color:#3A3D44">poll_escalation</span>. The agent never sees a credential — only a connect URL.</div>
+<div style="margin-top:auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding-top:4px">
+<span style="font:400 10px/1 'JetBrains Mono',monospace;letter-spacing:.1em;color:#B9BCC3">CONNECTED CLIENTS</span>
+<span style="font:400 12.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#3A3D44">Cursor</span>
+<span style="font:400 12.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#3A3D44">Claude Code</span>
+<span style="font:400 12.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#3A3D44">OpenClaw</span>
+</div>
+</div>
+</div>
+
+<div style="border:1px solid rgba(12,13,16,.09);background:#fff;border-radius:8px;overflow:hidden;display:flex;flex-direction:column">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;border-bottom:1px solid rgba(12,13,16,.07)">
+<span style="font:500 14px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">REST API</span>
+<span style="display:inline-flex;align-items:center;gap:6px;font:400 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#15803D"><span style="width:6px;height:6px;border-radius:50%;background:#22C55E"></span>Live</span>
+</div>
+<div style="padding:14px 16px;display:flex;flex-direction:column;gap:11px;flex:1">
+<div style="padding:12px 13px;background:#0C0D10;border-radius:6px;font:400 11.5px/1.7 'JetBrains Mono',monospace;color:#C9CCD2;overflow-x:auto;white-space:pre">{{ restSnippet }}</div>
+<div style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#7A7D85">Same three calls over HTTPS for frameworks without MCP. Scoped keys under <a href="#" style="color:#1D4ED8">API keys</a>.</div>
+<div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:4px">
+<span style="font:400 11px/1 'JetBrains Mono',monospace;color:#A6A9AF">last call 12s ago · 200 OK</span>
+<span style="font:400 12px/1 'JetBrains Mono',monospace;color:#7A7D85;cursor:pointer" style-hover="color:#1D4ED8">docs →</span>
+</div>
+</div>
+</div>
+
+</div>
+
+<div style="margin-top:34px;display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+<h2 style="margin:0;font:400 18px/1.1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.02em">Browser runtime</h2>
+<span style="font:400 11px/1 'JetBrains Mono',monospace;color:#A6A9AF">where sessions live</span>
+</div>
+<div style="margin-top:12px;border:1px solid rgba(12,13,16,.09);background:#fff;border-radius:8px;overflow:hidden">
+<div style="display:grid;grid-template-columns:auto 1fr auto auto;gap:14px;align-items:center;padding:14px 16px">
+<span style="width:34px;height:34px;flex:none;border-radius:7px;background:#F45C43;display:flex;align-items:center;justify-content:center;color:#fff;font:600 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">B</span>
+<span style="min-width:0"><span style="display:block;font:500 14px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif">Browserbase</span><span style="display:block;margin-top:3px;font:400 11px/1.5 'JetBrains Mono',monospace;color:#A6A9AF">6 contexts · project gryphon-prod · us-east</span></span>
+<span style="display:inline-flex;align-items:center;gap:6px;font:400 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#15803D"><span style="width:6px;height:6px;border-radius:50%;background:#22C55E"></span>Connected</span>
+<span style="height:30px;padding:0 13px;display:inline-flex;align-items:center;border:1px solid rgba(12,13,16,.14);border-radius:5px;font:500 12.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#3A3D44;cursor:pointer" style-hover="border-color:#1D4ED8;color:#1D4ED8">Manage</span>
+</div>
+</div>
+
+</div>
+</main>
+
+<sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:60;background:rgba(12,13,16,.32);backdrop-filter:blur(4px);animation:gdim .2s ease;display:flex;align-items:center;justify-content:center;padding:20px">
+<div onClick="{{ stop }}" style="width:min(460px,100%);background:#fff;border:1px solid rgba(12,13,16,.1);border-radius:12px;box-shadow:0 40px 90px -30px rgba(12,13,16,.55);overflow:hidden;animation:gpop .38s cubic-bezier(.2,.9,.3,1.2)">
+
+<sc-if value="{{ isSlack }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:center;gap:11px;padding:16px 18px;border-bottom:1px solid rgba(12,13,16,.07)">
+<span style="width:36px;height:36px;flex:none;border-radius:8px;background:#fff;border:1px solid rgba(12,13,16,.1);display:flex;align-items:center;justify-content:center;color:#E01E5A;font:600 15px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;animation:gwiggle .5s ease .3s">#</span>
+<span style="min-width:0;flex:1"><span style="display:block;font:500 15px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif">Slack</span><span style="display:block;font:400 10.5px/1.5 'JetBrains Mono',monospace;color:#A6A9AF">workspace acme · connected</span></span>
+<span onClick="{{ closeModal }}" style="width:28px;height:28px;flex:none;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#A6A9AF;font:400 16px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer" style-hover="background:rgba(12,13,16,.05);color:#0C0D10">×</span>
+</div>
+<div style="padding:16px 18px;display:flex;flex-direction:column;gap:14px">
+<div>
+<div style="font:400 10px/1 'JetBrains Mono',monospace;letter-spacing:.1em;color:#B9BCC3;margin-bottom:7px">CHANNEL</div>
+<div style="display:flex;gap:7px;flex-wrap:wrap">
+<sc-for list="{{ slackChannels }}" as="c" hint-placeholder-count="3">
+<span onClick="{{ c.pick }}" style="height:30px;padding:0 12px;display:inline-flex;align-items:center;gap:5px;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.fg }};border-radius:15px;font:400 12.5px/1 'JetBrains Mono',monospace;cursor:pointer;user-select:none;transition:all .15s" style-hover="border-color:#1D4ED8"><span style="color:{{ c.hashFg }}">#</span>{{ c.name }}</span>
+</sc-for>
+</div>
+</div>
+<div>
+<div style="font:400 10px/1 'JetBrains Mono',monospace;letter-spacing:.1em;color:#B9BCC3;margin-bottom:7px">WHO GETS PINGED</div>
+<div style="display:flex;gap:7px;flex-wrap:wrap">
+<sc-for list="{{ pingTargets }}" as="p" hint-placeholder-count="3">
+<span onClick="{{ p.pick }}" style="height:30px;padding:0 12px;display:inline-flex;align-items:center;gap:7px;border:1px solid {{ p.border }};background:{{ p.bg }};color:{{ p.fg }};border-radius:15px;font:400 12.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer;user-select:none;transition:all .15s" style-hover="border-color:#1D4ED8">{{ p.label }}</span>
+</sc-for>
+</div>
+</div>
+<div onClick="{{ toggleClaim }}" style="display:flex;align-items:center;gap:11px;padding:11px 13px;border:1px solid rgba(12,13,16,.08);border-radius:8px;background:#FAFAF9;cursor:pointer;user-select:none" style-hover="border-color:rgba(12,13,16,.2)">
+<span style="width:34px;height:20px;flex:none;border-radius:10px;background:{{ claimBg }};position:relative;transition:background .2s"><span style="position:absolute;top:2px;left:{{ claimKnob }};width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(12,13,16,.3);transition:left .2s cubic-bezier(.2,.9,.3,1.3)"></span></span>
+<span style="min-width:0;font:400 12.5px/1.45 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4A4D55">React with <span style="font:400 11.5px 'JetBrains Mono',monospace;background:rgba(12,13,16,.05);border:1px solid rgba(12,13,16,.08);border-radius:3px;padding:1px 5px">✓</span> to claim — stops the retry nudges for everyone else.</span>
+</div>
+<div style="display:flex;align-items:center;gap:10px">
+<span onClick="{{ sendTest }}" style="height:34px;padding:0 15px;display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(12,13,16,.16);border-radius:6px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer;user-select:none;flex:none" style-hover="border-color:#1D4ED8;color:#1D4ED8">Send a test ping</span>
+<sc-if value="{{ pinged }}" hint-placeholder-val="{{ false }}">
+<span style="display:inline-flex;align-items:center;gap:7px;font:400 11.5px/1 'JetBrains Mono',monospace;color:#15803D;animation:gping .45s cubic-bezier(.2,.9,.3,1.4)"><span style="width:6px;height:6px;border-radius:50%;background:#22C55E"></span>{{ pingLine }}</span>
+</sc-if>
+</div>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;border-top:1px solid rgba(12,13,16,.07);background:#FAFAF9">
+<span style="font:400 11px/1 'JetBrains Mono',monospace;color:#A6A9AF">changes apply to the next escalation</span>
+<span onClick="{{ closeModal }}" style="height:34px;padding:0 17px;display:inline-flex;align-items:center;background:#0C0D10;color:#fff;border-radius:6px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer;user-select:none" style-hover="background:#1D4ED8">Save</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ isWhatsapp }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:11px;padding:16px 18px;border-bottom:1px solid rgba(12,13,16,.07)">
+<span style="width:36px;height:36px;flex:none;border-radius:8px;background:#25D366;display:flex;align-items:center;justify-content:center;color:#fff;font:600 14px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;animation:gwiggle .5s ease .3s">W</span>
+<span style="min-width:0;flex:1"><span style="display:block;font:500 15px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif">WhatsApp</span><span style="display:block;font:400 10.5px/1.5 'JetBrains Mono',monospace;color:#A6A9AF">auth walls don't keep office hours</span></span>
+<span onClick="{{ closeModal }}" style="width:28px;height:28px;flex:none;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#A6A9AF;font:400 16px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer" style-hover="background:rgba(12,13,16,.05);color:#0C0D10">×</span>
+</div>
+<div style="padding:16px 18px;display:flex;flex-direction:column;gap:14px">
+<sc-if value="{{ waIdle }}" hint-placeholder-val="{{ true }}">
+<div>
+<div style="font:400 10px/1 'JetBrains Mono',monospace;letter-spacing:.1em;color:#B9BCC3;margin-bottom:7px">YOUR NUMBER</div>
+<div style="display:flex;gap:8px">
+<span style="height:40px;padding:0 12px;display:inline-flex;align-items:center;border:1px solid rgba(12,13,16,.14);border-radius:6px;font:400 13px/1 'JetBrains Mono',monospace;color:#4A4D55;flex:none;cursor:pointer" style-hover="border-color:rgba(12,13,16,.3)">+1 ⌄</span>
+<input type="tel" placeholder="(415) 555-0182" value="{{ waNumber }}" onChange="{{ onWaNumber }}" style="flex:1;min-width:0;height:40px;padding:0 13px;border:1px solid rgba(12,13,16,.14);border-radius:6px;font:400 14px/1 'JetBrains Mono',monospace;color:#0C0D10;outline:none;background:#fff" style-focus="border-color:#1D4ED8">
+</div>
+</div>
+<span onClick="{{ sendWaCode }}" style="height:40px;display:inline-flex;align-items:center;justify-content:center;background:#0C0D10;color:#fff;border-radius:6px;font:500 13.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer;user-select:none" style-hover="background:#1D4ED8">Text me a code →</span>
+</sc-if>
+<sc-if value="{{ waCodeSent }}" hint-placeholder-val="{{ false }}">
+<div style="text-align:center;padding:6px 0 2px;animation:gpop .4s cubic-bezier(.2,.9,.3,1.2)">
+<div style="font:400 12.5px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4A4D55">Sent to <span style="font:400 12px 'JetBrains Mono',monospace;color:#0C0D10">+1 {{ waNumberShown }}</span> — type it back:</div>
+<div style="margin-top:12px;display:flex;justify-content:center;gap:7px">
+<sc-for list="{{ waBoxes }}" as="b" hint-placeholder-count="6">
+<span style="width:34px;height:42px;border:1.4px solid {{ b.border }};border-radius:7px;background:#fff;display:inline-flex;align-items:center;justify-content:center;font:500 18px/1 'JetBrains Mono',monospace;color:#0C0D10">{{ b.ch }}</span>
+</sc-for>
+</div>
+<div onClick="{{ fillWaCode }}" style="margin-top:11px;font:400 11px/1 'JetBrains Mono',monospace;color:#7A7D85;cursor:pointer" style-hover="color:#1D4ED8">(tap to autofill the demo code)</div>
+</div>
+</sc-if>
+<sc-if value="{{ waDone }}" hint-placeholder-val="{{ false }}">
+<div style="text-align:center;padding:10px 0;animation:gpop .45s cubic-bezier(.2,.9,.3,1.3)">
+<span style="display:inline-flex;width:52px;height:52px;border-radius:50%;background:rgba(34,197,94,.12);align-items:center;justify-content:center;color:#15803D;font:400 24px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;animation:gping .5s cubic-bezier(.2,.9,.3,1.4)">✓</span>
+<div style="margin-top:10px;font:500 15px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif">You're reachable.</div>
+<div style="margin-top:5px;font:400 12.5px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#7A7D85">2 AM walls now ping your pocket. Sorry in advance.</div>
+</div>
+</sc-if>
+<div onClick="{{ toggleQuiet }}" style="display:flex;align-items:center;gap:11px;padding:11px 13px;border:1px solid rgba(12,13,16,.08);border-radius:8px;background:#FAFAF9;cursor:pointer;user-select:none" style-hover="border-color:rgba(12,13,16,.2)">
+<span style="width:34px;height:20px;flex:none;border-radius:10px;background:{{ quietBg }};position:relative;transition:background .2s"><span style="position:absolute;top:2px;left:{{ quietKnob }};width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(12,13,16,.3);transition:left .2s cubic-bezier(.2,.9,.3,1.3)"></span></span>
+<span style="min-width:0;font:400 12.5px/1.45 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#4A4D55">Quiet hours 11 PM – 7 AM — Slack still fires, your phone doesn't.</span>
+</div>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;border-top:1px solid rgba(12,13,16,.07);background:#FAFAF9">
+<span style="font:400 11px/1 'JetBrains Mono',monospace;color:#A6A9AF">second in the escalation order</span>
+<span onClick="{{ closeModal }}" style="height:34px;padding:0 17px;display:inline-flex;align-items:center;background:{{ waSaveBg }};color:#fff;border-radius:6px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer;user-select:none" style-hover="background:#1D4ED8">{{ waSaveLabel }}</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ isEmail }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:11px;padding:16px 18px;border-bottom:1px solid rgba(12,13,16,.07)">
+<span style="width:36px;height:36px;flex:none;border-radius:8px;background:#fff;border:1px solid rgba(12,13,16,.1);display:flex;align-items:center;justify-content:center;color:#3A3D44;font:600 15px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;animation:gwiggle .5s ease .3s">@</span>
+<span style="min-width:0;flex:1"><span style="display:block;font:500 15px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif">Email fallback</span><span style="display:block;font:400 10.5px/1.5 'JetBrains Mono',monospace;color:#A6A9AF">the net under the net</span></span>
+<span onClick="{{ closeModal }}" style="width:28px;height:28px;flex:none;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#A6A9AF;font:400 16px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer" style-hover="background:rgba(12,13,16,.05);color:#0C0D10">×</span>
+</div>
+<div style="padding:16px 18px;display:flex;flex-direction:column;gap:14px">
+<div>
+<div style="font:400 10px/1 'JetBrains Mono',monospace;letter-spacing:.1em;color:#B9BCC3;margin-bottom:7px">SEND TO</div>
+<input type="email" value="{{ emailAddr }}" onChange="{{ onEmailAddr }}" style="width:100%;height:40px;padding:0 13px;border:1px solid rgba(12,13,16,.14);border-radius:6px;font:400 14px/1 'JetBrains Mono',monospace;color:#0C0D10;outline:none;background:#fff" style-focus="border-color:#1D4ED8">
+</div>
+<div>
+<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:9px">
+<span style="font:400 10px/1 'JetBrains Mono',monospace;letter-spacing:.1em;color:#B9BCC3">FIRES IF UNCLAIMED AFTER</span>
+<span style="font:500 13px/1 'JetBrains Mono',monospace;color:#1D4ED8;animation:gping .3s ease">{{ emailDelayLabel }}</span>
+</div>
+<input type="range" min="1" max="15" step="1" value="{{ emailDelay }}" onChange="{{ onEmailDelay }}" style="width:100%;accent-color:#1D4ED8;cursor:pointer">
+<div style="display:flex;justify-content:space-between;font:400 10px/1 'JetBrains Mono',monospace;color:#C4C7CC;margin-top:4px"><span>1m — jumpy</span><span>15m — zen</span></div>
+</div>
+<div style="padding:11px 13px;border:1px solid rgba(12,13,16,.07);border-radius:8px;background:#FAFAF9;font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#7A7D85">{{ emailPreview }}</div>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;border-top:1px solid rgba(12,13,16,.07);background:#FAFAF9">
+<span style="font:400 11px/1 'JetBrains Mono',monospace;color:#A6A9AF">last in the escalation order</span>
+<span onClick="{{ closeModal }}" style="height:34px;padding:0 17px;display:inline-flex;align-items:center;background:#0C0D10;color:#fff;border-radius:6px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer;user-select:none" style-hover="background:#1D4ED8">Save</span>
+</div>
+</sc-if>
+
+</div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;slackConnected&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Channels&quot;}, &quot;whatsappConnected&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Channels&quot;}}">
+class Component extends DCLogic {
+  state = {modal: null, slackCh: 'agents-alerts', pingTo: 'on-call', claim: true, pinged: false,
+    waStep: 'idle', waNumber: '', waCode: '', quiet: true,
+    emailAddr: 'mara@acme.dev', emailDelay: 5};
+  renderVals() {
+    const slackOn = this.props.slackConnected ?? true;
+    const whatsappOn = this.props.whatsappConnected ?? false;
+    const st = this.state;
+    const set = (patch) => this.setState(patch);
+    const chip = (active) => active
+      ? {border: '#1D4ED8', bg: 'rgba(29,78,216,.08)', fg: '#1D4ED8', hashFg: '#1D4ED8'}
+      : {border: 'rgba(12,13,16,.14)', bg: '#fff', fg: '#4A4D55', hashFg: '#B9BCC3'};
+    const slackChannels = ['agents-alerts', 'ops', 'war-room'].map(name => ({name, ...chip(st.slackCh === name), pick: () => set({slackCh: name})}));
+    const pingTargets = [
+      {key: 'on-call', label: 'Whoever\u2019s on-call'},
+      {key: 'you', label: 'Just you'},
+      {key: 'channel', label: 'The whole channel'},
+    ].map(t => ({...t, ...chip(st.pingTo === t.key), pick: () => set({pingTo: t.key})}));
+    const code = '731 842';
+    const typed = st.waCode;
+    const waBoxes = code.replace(' ', '').split('').map((ch, i) => ({ch: typed[i] || '', border: typed[i] ? 'rgba(29,78,216,.55)' : 'rgba(12,13,16,.16)'}));
+    const modalVals = {
+      modalOpen: st.modal !== null,
+      isSlack: st.modal === 'slack', isWhatsapp: st.modal === 'whatsapp', isEmail: st.modal === 'email',
+      closeModal: () => set({modal: null, pinged: false}),
+      stop: (e) => e.stopPropagation(),
+      slackChannels, pingTargets,
+      toggleClaim: () => set({claim: !st.claim}),
+      claimBg: st.claim ? '#1D4ED8' : 'rgba(12,13,16,.18)', claimKnob: st.claim ? '16px' : '2px',
+      sendTest: () => { set({pinged: false}); setTimeout(() => this.setState({pinged: true}), 80); },
+      pinged: st.pinged, pingLine: 'landed in #' + st.slackCh + ' · 412ms',
+      waIdle: st.waStep === 'idle', waCodeSent: st.waStep === 'code', waDone: st.waStep === 'done',
+      waNumber: st.waNumber, onWaNumber: (e) => set({waNumber: e.target.value}),
+      waNumberShown: st.waNumber || '(415) 555-0182',
+      sendWaCode: () => set({waStep: 'code'}),
+      waBoxes,
+      fillWaCode: () => { set({waCode: '731842'}); setTimeout(() => this.setState({waStep: 'done'}), 450); },
+      toggleQuiet: () => set({quiet: !st.quiet}),
+      quietBg: st.quiet ? '#1D4ED8' : 'rgba(12,13,16,.18)', quietKnob: st.quiet ? '16px' : '2px',
+      waSaveBg: st.waStep === 'done' ? '#0C0D10' : 'rgba(12,13,16,.35)',
+      waSaveLabel: st.waStep === 'done' ? 'Done' : 'Skip for now',
+      emailAddr: st.emailAddr, onEmailAddr: (e) => set({emailAddr: e.target.value}),
+      emailDelay: st.emailDelay, onEmailDelay: (e) => set({emailDelay: +e.target.value}),
+      emailDelayLabel: st.emailDelay + (st.emailDelay === 1 ? ' minute' : ' minutes'),
+      emailPreview: 'If nobody claims an escalation within ' + st.emailDelay + ' minute' + (st.emailDelay === 1 ? '' : 's') + ', ' + (st.emailAddr || 'you') + ' gets the full context — site, agent, screenshot, Live View link.',
+    };
+    const waOn = whatsappOn || st.waStep === 'done';
+    const channels = [
+      {name: 'Slack', glyph: '#', iconBg: '#fff', iconFg: '#E01E5A', detail: slackOn ? '#' + st.slackCh + ' · workspace acme · claimed by reaction' : 'not connected', status: slackOn ? 'Connected' : 'Off', fg: slackOn ? '#15803D' : '#A6A9AF', dot: slackOn ? '#22C55E' : '#C4C7CC', btn: slackOn ? 'Configure' : 'Connect', btnBorder: 'rgba(12,13,16,.14)', btnBg: '#fff', btnFg: '#3A3D44', onOpen: () => set({modal: 'slack'})},
+      {name: 'WhatsApp', glyph: 'W', iconBg: '#25D366', iconFg: '#fff', detail: waOn ? '+1 ' + (st.waNumber || '(415) 555-0182') + ' · quiet 11PM–7AM' : 'for off-hours escalations', status: waOn ? 'Connected' : 'Off', fg: waOn ? '#15803D' : '#A6A9AF', dot: waOn ? '#22C55E' : '#C4C7CC', btn: waOn ? 'Configure' : 'Connect', btnBorder: waOn ? 'rgba(12,13,16,.14)' : 'transparent', btnBg: waOn ? '#fff' : '#0C0D10', btnFg: waOn ? '#3A3D44' : '#fff', onOpen: () => set({modal: 'whatsapp'})},
+      {name: 'Email fallback', glyph: '@', iconBg: '#fff', iconFg: '#3A3D44', detail: st.emailAddr + ' · fires if unclaimed after ' + st.emailDelay + 'm', status: 'On', fg: '#15803D', dot: '#22C55E', btn: 'Edit', btnBorder: 'rgba(12,13,16,.14)', btnBg: '#fff', btnFg: '#3A3D44', onOpen: () => set({modal: 'email'})},
+    ];
+    return {channels, ...modalVals,
+      mcpSnippet: '$ npx gryphon-mcp\n  ✓ connected as acme-prod\n  ✓ 3 tools registered',
+      restSnippet: 'POST /v1/sessions/stripe\nAuthorization: Bearer gk_live_····\n→ 200 { "connect_url": "wss://…" }'};
+  }
+}
+</script>
+</body>
+</html>

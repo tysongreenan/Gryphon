@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#FBFBFA;color:#0C0D10;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#0C0D10;text-decoration:none}
+a:hover{color:#1D4ED8}
+::selection{background:#1D4ED8;color:#fff}
+@keyframes gpulse{0%,100%{opacity:.3}50%{opacity:1}}
+</style></helmet>
+
+<div data-screen-label="Profile" style="display:flex;min-height:100vh">
+
+<aside style="width:212px;flex:none;border-right:1px solid rgba(12,13,16,.09);display:flex;flex-direction:column;position:sticky;top:0;height:100vh">
+<div style="display:flex;align-items:center;gap:9px;padding:18px 18px 22px">
+<img src="https://pikaso.cdnpk.net/private/production/4990689917/render.png?token=exp=1785369600~hmac=115e770ddf0af9982527495e1db4e4a07434a307979c9100d3bfcd637cb00dcd" alt="Gryphon mark" style="width:28px;height:28px;object-fit:contain">
+<span style="font:500 17px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.03em">Gryphon</span>
+</div>
+<nav style="display:flex;flex-direction:column;padding:0 10px;font:400 13.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">
+<a href="./Gryphon Dashboard v2.dc.html" style="display:flex;align-items:center;justify-content:space-between;height:36px;padding:0 10px;border-radius:6px;color:#4A4D55" style-hover="background:rgba(12,13,16,.035);color:#0C0D10"><span>Escalations</span><span style="display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#B45309;color:#fff;font:500 10.5px/1 'JetBrains Mono',monospace">1</span></a>
+<span style="display:flex;align-items:center;justify-content:space-between;height:36px;padding:0 10px;border-radius:6px;color:#4A4D55;cursor:pointer" style-hover="background:rgba(12,13,16,.035);color:#0C0D10"><span>Sessions</span><span style="font:400 11px/1 'JetBrains Mono',monospace;color:#A6A9AF">5/6</span></span>
+<a href="./Gryphon Integrations.dc.html" style="display:flex;align-items:center;height:36px;padding:0 10px;border-radius:6px;color:#4A4D55" style-hover="background:rgba(12,13,16,.035);color:#0C0D10">Integrations</a>
+<span style="display:flex;align-items:center;height:36px;padding:0 10px;border-radius:6px;color:#4A4D55;cursor:pointer" style-hover="background:rgba(12,13,16,.035);color:#0C0D10">API keys</span>
+<span style="display:flex;align-items:center;height:36px;padding:0 10px;border-radius:6px;font-weight:500;background:rgba(12,13,16,.05);cursor:default">Profile</span>
+</nav>
+<div style="margin-top:auto;padding:16px 18px;border-top:1px solid rgba(12,13,16,.07)">
+<div style="display:flex;align-items:center;gap:9px">
+<span style="width:26px;height:26px;flex:none;border-radius:50%;background:#0C0D10;color:#fff;display:flex;align-items:center;justify-content:center;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">MK</span>
+<span style="min-width:0"><span style="display:block;font:400 12.5px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif">Mara Kimura</span><span style="display:block;font:400 10px/1.5 'JetBrains Mono',monospace;color:#A6A9AF">on-call · Slack linked</span></span>
+</div>
+</div>
+</aside>
+
+<main style="flex:1;min-width:0">
+<div style="max-width:760px;margin:0 auto;padding:26px clamp(20px,3vw,40px) 48px">
+
+<div style="display:flex;align-items:center;gap:18px">
+<span style="width:64px;height:64px;flex:none;border-radius:50%;background:#0C0D10;color:#fff;display:flex;align-items:center;justify-content:center;font:500 22px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.02em">MK</span>
+<div style="min-width:0">
+<h1 style="margin:0;font:400 24px/1.1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.03em">Mara Kimura</h1>
+<div style="margin-top:6px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;font:400 12px/1 'JetBrains Mono',monospace;color:#7A7D85">
+<span>mara@acme.dev</span>
+<span style="display:inline-flex;align-items:center;gap:6px;color:#15803D"><span style="width:6px;height:6px;border-radius:50%;background:#22C55E;animation:gpulse 1.4s ease-in-out infinite"></span>on-call now</span>
+</div>
+</div>
+<span style="margin-left:auto;height:32px;padding:0 14px;display:inline-flex;align-items:center;border:1px solid rgba(12,13,16,.14);border-radius:6px;font:500 12.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#3A3D44;cursor:pointer;flex:none" style-hover="border-color:#1D4ED8;color:#1D4ED8">Edit</span>
+</div>
+
+<div style="margin-top:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;border:1px solid rgba(12,13,16,.09);background:#fff;border-radius:8px;overflow:hidden">
+<div style="padding:14px 16px;border-right:1px solid rgba(12,13,16,.06)">
+<div style="font:400 10px/1 'JetBrains Mono',monospace;letter-spacing:.08em;color:#B9BCC3">RESCUES</div>
+<div style="margin-top:8px;font:400 22px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.02em">19</div>
+<div style="margin-top:5px;font:400 10.5px/1.4 'JetBrains Mono',monospace;color:#A6A9AF">all time</div>
+</div>
+<div style="padding:14px 16px;border-right:1px solid rgba(12,13,16,.06)">
+<div style="font:400 10px/1 'JetBrains Mono',monospace;letter-spacing:.08em;color:#B9BCC3">MEDIAN SPEED</div>
+<div style="margin-top:8px;font:400 22px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.02em">47s</div>
+<div style="margin-top:5px;font:400 10.5px/1.4 'JetBrains Mono',monospace;color:#15803D">team best</div>
+</div>
+<div style="padding:14px 16px;border-right:1px solid rgba(12,13,16,.06)">
+<div style="font:400 10px/1 'JetBrains Mono',monospace;letter-spacing:.08em;color:#B9BCC3">FASTEST</div>
+<div style="margin-top:8px;font:400 22px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.02em">12s</div>
+<div style="margin-top:5px;font:400 10.5px/1.4 'JetBrains Mono',monospace;color:#A6A9AF">Gmail · run #62</div>
+</div>
+<div style="padding:14px 16px">
+<div style="font:400 10px/1 'JetBrains Mono',monospace;letter-spacing:.08em;color:#B9BCC3">NIGHT OWL</div>
+<div style="margin-top:8px;font:400 22px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.02em">3</div>
+<div style="margin-top:5px;font:400 10.5px/1.4 'JetBrains Mono',monospace;color:#A6A9AF">rescues after 1 AM</div>
+</div>
+</div>
+
+<div style="margin-top:30px;display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+<h2 style="margin:0;font:400 18px/1.1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.02em">On-call</h2>
+<span style="font:400 11px/1 'JetBrains Mono',monospace;color:#A6A9AF">who gets woken up</span>
+</div>
+<div style="margin-top:12px;border:1px solid rgba(12,13,16,.09);background:#fff;border-radius:8px;overflow:hidden">
+<div style="display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:13px 16px;border-bottom:1px solid rgba(12,13,16,.06);background:rgba(29,78,216,.03);box-shadow:inset 2px 0 0 #1D4ED8">
+<span style="width:30px;height:30px;flex:none;border-radius:50%;background:#0C0D10;color:#fff;display:flex;align-items:center;justify-content:center;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">MK</span>
+<span style="min-width:0"><span style="display:block;font:500 13.5px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif">You</span><span style="display:block;margin-top:2px;font:400 10.5px/1.4 'JetBrains Mono',monospace;color:#A6A9AF">Slack + WhatsApp · quiet 11PM–7AM</span></span>
+<span style="display:inline-flex;align-items:center;gap:6px;font:400 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1D4ED8"><span style="width:6px;height:6px;border-radius:50%;background:#1D4ED8;animation:gpulse 1.4s ease-in-out infinite"></span>on-call until Mon 9 AM</span>
+</div>
+<div style="display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:13px 16px">
+<span style="width:30px;height:30px;flex:none;border-radius:50%;background:rgba(12,13,16,.08);color:#4A4D55;display:flex;align-items:center;justify-content:center;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif">DP</span>
+<span style="min-width:0"><span style="display:block;font:400 13.5px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif">Dev Patel</span><span style="display:block;margin-top:2px;font:400 10.5px/1.4 'JetBrains Mono',monospace;color:#A6A9AF">Slack only</span></span>
+<span style="font:400 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#7A7D85">next up</span>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1px solid rgba(12,13,16,.06);background:#FAFAF9;font:400 11px/1 'JetBrains Mono',monospace;color:#A6A9AF">
+<span>rotates weekly · Mon 9 AM</span>
+<span style="cursor:pointer;color:#7A7D85" style-hover="color:#1D4ED8">swap a week →</span>
+</div>
+</div>
+
+<div style="margin-top:30px;display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+<h2 style="margin:0;font:400 18px/1.1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.02em">Recent rescues</h2>
+<span style="font:400 11px/1 'JetBrains Mono',monospace;color:#A6A9AF">your last 4</span>
+</div>
+<div style="margin-top:10px;border-top:1px solid rgba(12,13,16,.1)">
+<sc-for list="{{ rescues }}" as="r" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:1fr auto auto;gap:6px 16px;align-items:baseline;padding:12px 2px;border-bottom:1px solid rgba(12,13,16,.06)">
+<span style="min-width:0;font:400 13.5px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif">{{ r.title }}</span>
+<span style="font:400 11px/1 'JetBrains Mono',monospace;color:{{ r.speedFg }}">{{ r.speed }}</span>
+<span style="font:400 11px/1 'JetBrains Mono',monospace;color:#A6A9AF;text-align:right;min-width:52px">{{ r.when }}</span>
+<span style="grid-column:1/-1;font:400 10.5px/1.4 'JetBrains Mono',monospace;color:#B9BCC3">{{ r.meta }}</span>
+</div>
+</sc-for>
+</div>
+
+<div style="margin-top:30px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:1px solid rgba(12,13,16,.09);background:#fff;border-radius:8px">
+<span style="min-width:0;flex:1"><span style="display:block;font:500 13.5px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif">Signed in via GitHub</span><span style="display:block;margin-top:3px;font:400 11px/1.5 'JetBrains Mono',monospace;color:#A6A9AF">mara-kimura · last sign-in 2h ago · 2 active devices</span></span>
+<span style="height:30px;padding:0 13px;display:inline-flex;align-items:center;border:1px solid rgba(12,13,16,.14);border-radius:5px;font:500 12.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#3A3D44;cursor:pointer;flex:none" style-hover="border-color:rgba(12,13,16,.4)">Manage</span>
+<span style="height:30px;padding:0 13px;display:inline-flex;align-items:center;border:1px solid rgba(220,38,38,.25);border-radius:5px;font:500 12.5px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#B91C1C;cursor:pointer;flex:none" style-hover="background:rgba(220,38,38,.06)">Sign out</span>
+</div>
+
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {rescues: [
+      {title: 'Stripe · 2FA verification code', speed: '54s', speedFg: '#7A7D85', when: '2h ago', meta: 'outreach-v3 · run #41 · claimed from Slack'},
+      {title: 'LinkedIn · checkpoint puzzle', speed: '1m 04s', speedFg: '#7A7D85', when: '1d ago', meta: 'outreach-v3 · run #39 · claimed from Slack'},
+      {title: 'Gmail · device confirmation', speed: '12s', speedFg: '#15803D', when: '4d ago', meta: 'pipeline-sync · run #62 · your fastest'},
+      {title: 'Stripe · session expired, re-login', speed: '47s', speedFg: '#7A7D85', when: '6d ago', meta: 'books-nightly · run #08 · claimed from WhatsApp'},
+    ]};
+  }
+}
+</script>
+</body>
+</html>

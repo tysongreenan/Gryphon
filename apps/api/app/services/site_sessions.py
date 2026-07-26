@@ -92,16 +92,21 @@ async def touch_site_session(session: AsyncSession, record: SiteSession) -> None
 
 
 async def mark_site_session_stale(
-    session: AsyncSession, user_id: str, site: str
+    session: AsyncSession, record: SiteSession
 ) -> None:
-    record = await get_active_site_session(session, user_id, site)
-    if record is None:
+    """
+    Mark a site session inactive so its Browserbase context is not reused.
+
+    Called when session create from the stored context fails (expired/deleted/invalid).
+    """
+    if record.status == "stale":
         return
     record.status = "stale"
     record.updated_at = datetime.now(timezone.utc)
     await session.flush()
     logger.info(
-        "site_session.stale user_id=%s site=%s",
-        user_id,
-        normalize_site(site),
+        "site_session.stale user_id=%s site=%s context_id=%s",
+        record.user_id,
+        record.site,
+        record.browserbase_context_id,
     )

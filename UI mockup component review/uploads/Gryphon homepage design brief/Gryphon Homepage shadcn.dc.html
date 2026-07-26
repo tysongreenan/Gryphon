@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#ffffff;color:oklch(0.145 0 0);font-family:Geist,ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:oklch(0.145 0 0);text-decoration:none}
+a:hover{color:oklch(0.42 0 0)}
+</style></helmet>
+
+<div style="max-width:100%;overflow-x:hidden">
+
+<header style="position:sticky;top:0;z-index:30;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid oklch(0.922 0 0)">
+<div style="max-width:1152px;margin:0 auto;height:60px;padding:0 clamp(16px,4vw,32px);display:flex;align-items:center;justify-content:space-between;gap:16px">
+<div style="display:flex;align-items:center;gap:8px">
+<div style="width:26px;height:26px;border-radius:6px;background:oklch(0.205 0 0);display:flex;align-items:center;justify-content:center">
+<div style="width:9px;height:9px;border:1.6px solid #fff;border-radius:1.5px;transform:rotate(45deg)"></div>
+</div>
+<span style="font:600 15px/1 Geist,sans-serif;letter-spacing:-.015em">Gryphon</span>
+</div>
+<nav style="display:flex;align-items:center;gap:clamp(10px,2.4vw,22px);font:500 14px/1 Geist,sans-serif">
+<a href="#problem" style="color:oklch(0.556 0 0)" style-hover="color:oklch(0.145 0 0)">Problem</a>
+<a href="#how" style="color:oklch(0.556 0 0)" style-hover="color:oklch(0.145 0 0)">How it works</a>
+<a href="#fit" style="color:oklch(0.556 0 0);display:inline" style-hover="color:oklch(0.145 0 0)">Where it fits</a>
+<a href="#waitlist" style="background:oklch(0.205 0 0);color:oklch(0.985 0 0);padding:8px 14px;border-radius:8px;font-weight:500;white-space:nowrap" style-hover="background:oklch(0.32 0 0);color:oklch(0.985 0 0)">Join waitlist</a>
+</nav>
+</div>
+</header>
+
+<section style="border-bottom:1px solid oklch(0.922 0 0)">
+<div style="max-width:1152px;margin:0 auto;padding:clamp(56px,9vw,104px) clamp(16px,4vw,32px) clamp(48px,7vw,80px);display:flex;flex-direction:column;align-items:center;text-align:center">
+<div style="display:inline-flex;align-items:center;gap:8px;padding:5px 11px;border:1px solid oklch(0.922 0 0);border-radius:999px;background:oklch(0.97 0 0);font:500 12.5px/1 Geist,sans-serif;color:oklch(0.45 0 0)">
+<span style="width:6px;height:6px;border-radius:50%;background:oklch(0.72 0.16 145)"></span>
+Private beta · MCP + REST
+</div>
+<h1 style="margin:22px 0 0;max-width:17ch;font:600 clamp(36px,6.6vw,68px)/1.06 Geist,sans-serif;letter-spacing:-.04em;text-wrap:balance">Your AI agents stop dying on logins and 2FA.</h1>
+<p style="margin:20px 0 0;max-width:60ch;font:400 clamp(16px,2vw,19px)/1.6 Geist,sans-serif;color:oklch(0.556 0 0);text-wrap:pretty">Gryphon is the reliability layer for authenticated web access. One call returns a ready logged-in session — and when auth breaks, it pings a human instead of failing the run.</p>
+
+<div style="margin-top:30px;width:100%;max-width:460px">
+<sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 16px;border:1px solid oklch(0.922 0 0);border-radius:10px;background:oklch(0.97 0 0);font:500 14px/1.4 Geist,sans-serif;color:oklch(0.35 0 0)">
+<span style="color:oklch(0.6 0.15 145)">✓</span><span>{{ email }} is on the list.</span>
+</div>
+</sc-if>
+<sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+<form onSubmit="{{ onSubmit }}" style="display:flex;flex-wrap:wrap;gap:8px">
+<input type="email" required="required" placeholder="you@company.dev" value="{{ email }}" onChange="{{ onEmail }}" style="flex:1 1 220px;min-width:0;height:42px;padding:0 13px;background:#fff;border:1px solid oklch(0.922 0 0);border-radius:8px;color:oklch(0.145 0 0);font:400 14px/1 Geist,sans-serif;outline:none;box-shadow:0 1px 2px rgba(0,0,0,.04)" style-focus="border-color:oklch(0.708 0 0);box-shadow:0 0 0 3px oklch(0.922 0 0)">
+<button type="submit" style="flex:0 0 auto;height:42px;padding:0 18px;background:oklch(0.205 0 0);color:oklch(0.985 0 0);border:none;border-radius:8px;font:500 14px/1 Geist,sans-serif;cursor:pointer" style-hover="background:oklch(0.32 0 0)">Get early access</button>
+</form>
+<p style="margin:10px 0 0;font:400 12.5px/1.5 Geist,sans-serif;color:oklch(0.62 0 0)">Free during beta. No credit card, no sales call.</p>
+</sc-if>
+</div>
+
+<div style="margin-top:clamp(44px,6vw,64px);width:100%;border:1px solid oklch(0.922 0 0);border-radius:12px;background:oklch(0.985 0 0);box-shadow:0 1px 3px rgba(0,0,0,.05);overflow:hidden;text-align:left">
+<div style="display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid oklch(0.922 0 0);background:#fff">
+<span style="width:9px;height:9px;border-radius:50%;background:oklch(0.922 0 0)"></span>
+<span style="width:9px;height:9px;border-radius:50%;background:oklch(0.922 0 0)"></span>
+<span style="width:9px;height:9px;border-radius:50%;background:oklch(0.922 0 0)"></span>
+<span style="margin-left:6px;font:400 12px/1 'Geist Mono',monospace;color:oklch(0.62 0 0)">outreach_agent.py — overnight run</span>
+</div>
+<div style="padding:clamp(14px,3vw,22px);font:400 clamp(12px,1.5vw,13.5px)/1.9 'Geist Mono',monospace;overflow-x:auto;white-space:pre">
+<div><span style="color:oklch(0.68 0 0)">02:41  </span><span style="color:oklch(0.35 0 0)">gryphon.get_session(site="linkedin")</span></div>
+<div><span style="color:oklch(0.68 0 0)">02:41  </span><span style="color:oklch(0.55 0.19 27)">needs_auth</span><span style="color:oklch(0.55 0 0)">  esc_8f31 · slack sent · agent paused</span></div>
+<div><span style="color:oklch(0.68 0 0)">07:12  </span><span style="color:oklch(0.55 0 0)">human resolved via live view (2FA)</span></div>
+<div><span style="color:oklch(0.68 0 0)">07:12  </span><span style="color:oklch(0.55 0 0)">context bb_ctx_4a9c stored for (you, linkedin)</span></div>
+<div><span style="color:oklch(0.68 0 0)">07:12  </span><span style="color:oklch(0.52 0.13 150)">ready</span><span style="color:oklch(0.55 0 0)">  connect_url wss://…  agent resumed</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="problem" style="border-bottom:1px solid oklch(0.922 0 0)">
+<div style="max-width:1152px;margin:0 auto;padding:clamp(56px,8vw,88px) clamp(16px,4vw,32px)">
+<div style="max-width:44ch">
+<div style="font:500 13px/1 Geist,sans-serif;color:oklch(0.62 0 0);margin-bottom:12px">The problem</div>
+<h2 style="margin:0;font:600 clamp(26px,4vw,40px)/1.15 Geist,sans-serif;letter-spacing:-.03em;text-wrap:balance">Your agent works. The login wall doesn't care.</h2>
+<p style="margin:14px 0 0;font:400 clamp(15px,1.8vw,17px)/1.6 Geist,sans-serif;color:oklch(0.556 0 0);text-wrap:pretty">Every agent that touches a real account hits the same three walls. None of them are interesting problems. All of them kill the run.</p>
+</div>
+
+<div style="margin-top:36px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px">
+<div style="padding:22px;border:1px solid oklch(0.922 0 0);border-radius:12px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.04)">
+<div style="width:32px;height:32px;border-radius:8px;background:oklch(0.97 0 0);border:1px solid oklch(0.922 0 0);display:flex;align-items:center;justify-content:center;font:500 13px/1 'Geist Mono',monospace;color:oklch(0.45 0 0);margin-bottom:14px">01</div>
+<div style="font:600 15.5px/1.3 Geist,sans-serif;margin-bottom:7px">Session expired</div>
+<div style="font:400 14.5px/1.6 Geist,sans-serif;color:oklch(0.556 0 0)">The cookie you pasted last Tuesday died at 3am. The run failed silently. You found out from an empty output file.</div>
+</div>
+<div style="padding:22px;border:1px solid oklch(0.922 0 0);border-radius:12px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.04)">
+<div style="width:32px;height:32px;border-radius:8px;background:oklch(0.97 0 0);border:1px solid oklch(0.922 0 0);display:flex;align-items:center;justify-content:center;font:500 13px/1 'Geist Mono',monospace;color:oklch(0.45 0 0);margin-bottom:14px">02</div>
+<div style="font:600 15.5px/1.3 Geist,sans-serif;margin-bottom:7px">2FA challenge</div>
+<div style="font:400 14.5px/1.6 Geist,sans-serif;color:oklch(0.556 0 0)">A six-digit code is sitting on your phone. Your agent has no mouth, no inbox, and no way to ask you for it.</div>
+</div>
+<div style="padding:22px;border:1px solid oklch(0.922 0 0);border-radius:12px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.04)">
+<div style="width:32px;height:32px;border-radius:8px;background:oklch(0.97 0 0);border:1px solid oklch(0.922 0 0);display:flex;align-items:center;justify-content:center;font:500 13px/1 'Geist Mono',monospace;color:oklch(0.45 0 0);margin-bottom:14px">03</div>
+<div style="font:600 15.5px/1.3 Geist,sans-serif;margin-bottom:7px">Unexpected login page</div>
+<div style="font:400 14.5px/1.6 Geist,sans-serif;color:oklch(0.556 0 0)">Mid-task, the site logs you out. The agent keeps clicking confidently into a page it can't read, burning tokens until it times out.</div>
+</div>
+</div>
+
+<div style="margin-top:20px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font:400 13px/1.5 'Geist Mono',monospace;color:oklch(0.62 0 0)">
+<span style="padding:6px 10px;border:1px solid oklch(0.922 0 0);border-radius:999px">paste cookies</span>
+<span style="padding:6px 10px;border:1px solid oklch(0.922 0 0);border-radius:999px">re-run and hope</span>
+<span style="padding:6px 10px;border:1px solid oklch(0.922 0 0);border-radius:999px">babysit the browser</span>
+<span>— none of it scales past one agent.</span>
+</div>
+</div>
+</section>
+
+<section id="how" style="border-bottom:1px solid oklch(0.922 0 0);background:oklch(0.985 0 0)">
+<div style="max-width:1152px;margin:0 auto;padding:clamp(56px,8vw,88px) clamp(16px,4vw,32px)">
+<div style="max-width:46ch">
+<div style="font:500 13px/1 Geist,sans-serif;color:oklch(0.62 0 0);margin-bottom:12px">How it works</div>
+<h2 style="margin:0;font:600 clamp(26px,4vw,40px)/1.15 Geist,sans-serif;letter-spacing:-.03em;text-wrap:balance">Ask once. Recover once. Stay logged in after that.</h2>
+</div>
+
+<div style="margin-top:36px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:16px">
+<div style="padding:20px;border:1px solid oklch(0.922 0 0);border-radius:12px;background:#fff">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><span style="font:500 12px/1 'Geist Mono',monospace;color:oklch(0.145 0 0)">01</span><span style="font:400 11.5px/1 'Geist Mono',monospace;color:oklch(0.68 0 0)">agent</span></div>
+<div style="font:600 15px/1.3 Geist,sans-serif;margin-bottom:6px">Agent asks for a session</div>
+<div style="font:400 14px/1.6 Geist,sans-serif;color:oklch(0.556 0 0)">One MCP tool call — <code style="font:400 13px 'Geist Mono',monospace;color:oklch(0.35 0 0)">get_session(site)</code>. No cookie plumbing in your agent code.</div>
+</div>
+<div style="padding:20px;border:1px solid oklch(0.922 0 0);border-radius:12px;background:#fff">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><span style="font:500 12px/1 'Geist Mono',monospace;color:oklch(0.145 0 0)">02</span><span style="font:400 11.5px/1 'Geist Mono',monospace;color:oklch(0.68 0 0)">gryphon</span></div>
+<div style="font:600 15px/1.3 Geist,sans-serif;margin-bottom:6px">Ready, or escalate</div>
+<div style="font:400 14px/1.6 Geist,sans-serif;color:oklch(0.556 0 0)">If a live context exists it comes back ready. If not, Gryphon opens an escalation and pauses the agent instead of failing it.</div>
+</div>
+<div style="padding:20px;border:1px solid oklch(0.922 0 0);border-radius:12px;background:#fff">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><span style="font:500 12px/1 'Geist Mono',monospace;color:oklch(0.145 0 0)">03</span><span style="font:400 11.5px/1 'Geist Mono',monospace;color:oklch(0.68 0 0)">human</span></div>
+<div style="font:600 15px/1.3 Geist,sans-serif;margin-bottom:6px">You log in, once</div>
+<div style="font:400 14px/1.6 Geist,sans-serif;color:oklch(0.556 0 0)">Slack message with site, reason and screenshot. Open the signed Live View link, do the 2FA, hit resolve.</div>
+</div>
+<div style="padding:20px;border:1px solid oklch(0.922 0 0);border-radius:12px;background:#fff">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><span style="font:500 12px/1 'Geist Mono',monospace;color:oklch(0.145 0 0)">04</span><span style="font:400 11.5px/1 'Geist Mono',monospace;color:oklch(0.68 0 0)">agent</span></div>
+<div style="font:600 15px/1.3 Geist,sans-serif;margin-bottom:6px">Every run after is warm</div>
+<div style="font:400 14px/1.6 Geist,sans-serif;color:oklch(0.556 0 0)">The context is stored per <code style="font:400 13px 'Geist Mono',monospace;color:oklch(0.35 0 0)">(you, site)</code>. The next call returns a connect URL and the agent continues.</div>
+</div>
+</div>
+
+<div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font:400 13px/1.6 'Geist Mono',monospace;color:oklch(0.62 0 0)">
+<span>agent</span><span>→</span><span>gryphon</span><span>→</span><span>you</span><span>→</span><span>gryphon</span><span>→</span><span>agent, still running</span>
+</div>
+
+<div style="margin-top:32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px">
+<div style="border:1px solid oklch(0.922 0 0);border-radius:12px;background:#fff;overflow:hidden">
+<div style="padding:11px 16px;border-bottom:1px solid oklch(0.922 0 0);font:500 12.5px/1 Geist,sans-serif;color:oklch(0.45 0 0)">MCP tool call</div>
+<div style="padding:18px 16px;font:400 13px/1.9 'Geist Mono',monospace;overflow-x:auto;white-space:pre">
+<div><span style="color:oklch(0.45 0 0)">session = </span><span style="color:oklch(0.145 0 0)">get_session</span><span style="color:oklch(0.45 0 0)">(site=</span><span style="color:oklch(0.5 0.12 150)">"linkedin"</span><span style="color:oklch(0.45 0 0)">)</span></div>
+<div style="color:oklch(0.68 0 0)"># → {"status": "ready",</div>
+<div style="color:oklch(0.68 0 0)">#    "context_id": "bb_ctx_4a9c",</div>
+<div style="color:oklch(0.68 0 0)">#    "connect_url": "wss://…"}</div>
+<div>&nbsp;</div>
+<div style="color:oklch(0.45 0 0)">browser = playwright.chromium.connect_over_cdp(</div>
+<div style="color:oklch(0.45 0 0)">    session[<span style="color:oklch(0.5 0.12 150)">"connect_url"</span>])</div>
+</div>
+</div>
+<div style="border:1px solid oklch(0.922 0 0);border-radius:12px;background:#fff;overflow:hidden">
+<div style="padding:11px 16px;border-bottom:1px solid oklch(0.922 0 0);font:500 12.5px/1 Geist,sans-serif;color:oklch(0.45 0 0)">What you get in Slack</div>
+<div style="padding:18px 16px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;gap:10px;align-items:flex-start">
+<div style="width:30px;height:30px;flex:none;border-radius:7px;background:oklch(0.205 0 0);display:flex;align-items:center;justify-content:center"><div style="width:9px;height:9px;border:1.6px solid #fff;border-radius:1.5px;transform:rotate(45deg)"></div></div>
+<div style="min-width:0">
+<div style="font:600 14px/1.4 Geist,sans-serif">Gryphon needs you for linkedin</div>
+<div style="font:400 13.5px/1.55 Geist,sans-serif;color:oklch(0.556 0 0);margin-top:3px">2FA prompt during connection request flow · agent <code style="font:400 12.5px 'Geist Mono',monospace">outreach-v3</code> is paused</div>
+</div>
+</div>
+<div style="height:78px;border:1px dashed oklch(0.87 0 0);border-radius:8px;display:flex;align-items:center;justify-content:center;font:400 11.5px/1 'Geist Mono',monospace;color:oklch(0.68 0 0);background:repeating-linear-gradient(135deg,oklch(0.97 0 0) 0 6px,#fff 6px 12px)">screenshot of the auth wall</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<span style="height:34px;padding:0 14px;display:inline-flex;align-items:center;border-radius:8px;background:oklch(0.205 0 0);color:oklch(0.985 0 0);font:500 13px/1 Geist,sans-serif">Open Live View</span>
+<span style="height:34px;padding:0 14px;display:inline-flex;align-items:center;border-radius:8px;border:1px solid oklch(0.922 0 0);background:#fff;color:oklch(0.145 0 0);font:500 13px/1 Geist,sans-serif">Mark resolved</span>
+</div>
+<div style="font:400 12px/1.5 'Geist Mono',monospace;color:oklch(0.68 0 0)">signed link · expires in 15 min · never contains your API key</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="fit" style="border-bottom:1px solid oklch(0.922 0 0)">
+<div style="max-width:1152px;margin:0 auto;padding:clamp(56px,8vw,88px) clamp(16px,4vw,32px)">
+<div style="max-width:48ch">
+<div style="font:500 13px/1 Geist,sans-serif;color:oklch(0.62 0 0);margin-bottom:12px">Where it fits</div>
+<h2 style="margin:0;font:600 clamp(26px,4vw,40px)/1.15 Geist,sans-serif;letter-spacing:-.03em;text-wrap:balance">A thin layer next to the tools you already run.</h2>
+<p style="margin:14px 0 0;font:400 clamp(15px,1.8vw,17px)/1.6 Geist,sans-serif;color:oklch(0.556 0 0);text-wrap:pretty">Gryphon composes with your stack instead of replacing part of it. It owns exactly one thing: authenticated state, and getting it back when it breaks.</p>
+</div>
+
+<div style="margin-top:32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,182px),1fr));gap:12px">
+<div style="padding:18px;border:1px solid oklch(0.922 0 0);border-radius:12px;background:#fff">
+<div style="font:600 14.5px/1 Geist,sans-serif;margin-bottom:6px">Browserbase</div>
+<div style="font:400 14px/1.5 Geist,sans-serif;color:oklch(0.62 0 0)">runs the browser</div>
+</div>
+<div style="padding:18px;border:1px solid oklch(0.922 0 0);border-radius:12px;background:#fff">
+<div style="font:600 14.5px/1 Geist,sans-serif;margin-bottom:6px">Stagehand / Playwright</div>
+<div style="font:400 14px/1.5 Geist,sans-serif;color:oklch(0.62 0 0)">drives the page</div>
+</div>
+<div style="padding:18px;border:1px solid oklch(0.922 0 0);border-radius:12px;background:#fff">
+<div style="font:600 14.5px/1 Geist,sans-serif;margin-bottom:6px">Your agent</div>
+<div style="font:400 14px/1.5 Geist,sans-serif;color:oklch(0.62 0 0)">decides what to do</div>
+</div>
+<div style="padding:18px;border:1px solid oklch(0.205 0 0);border-radius:12px;background:oklch(0.205 0 0)">
+<div style="font:600 14.5px/1 Geist,sans-serif;margin-bottom:6px;color:oklch(0.985 0 0)">Gryphon</div>
+<div style="font:400 14px/1.5 Geist,sans-serif;color:oklch(0.78 0 0)">keeps it logged in — and gets you when it can't</div>
+</div>
+</div>
+
+<div style="margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px">
+<div style="padding:24px;border:1px solid oklch(0.922 0 0);border-radius:12px;background:#fff">
+<div style="font:600 14px/1 Geist,sans-serif;margin-bottom:16px">What Gryphon is</div>
+<div style="display:flex;flex-direction:column;gap:10px;font:400 14.5px/1.5 Geist,sans-serif;color:oklch(0.35 0 0)">
+<div style="display:flex;gap:10px"><span style="color:oklch(0.6 0.15 145)">✓</span><span>A session + escalation service for agents</span></div>
+<div style="display:flex;gap:10px"><span style="color:oklch(0.6 0.15 145)">✓</span><span>MCP-native, with a plain REST API underneath</span></div>
+<div style="display:flex;gap:10px"><span style="color:oklch(0.6 0.15 145)">✓</span><span>Durable per-site contexts you can revoke any time</span></div>
+<div style="display:flex;gap:10px"><span style="color:oklch(0.6 0.15 145)">✓</span><span>Human-in-the-loop as a first-class path, not a hack</span></div>
+</div>
+</div>
+<div style="padding:24px;border:1px solid oklch(0.922 0 0);border-radius:12px;background:oklch(0.985 0 0)">
+<div style="font:600 14px/1 Geist,sans-serif;margin-bottom:16px">What Gryphon is not</div>
+<div style="display:flex;flex-direction:column;gap:10px;font:400 14.5px/1.5 Geist,sans-serif;color:oklch(0.556 0 0)">
+<div style="display:flex;gap:10px"><span style="color:oklch(0.7 0 0)">✕</span><span>An agent framework — it never decides what your agent does</span></div>
+<div style="display:flex;gap:10px"><span style="color:oklch(0.7 0 0)">✕</span><span>A browser automation platform — Browserbase already does that</span></div>
+<div style="display:flex;gap:10px"><span style="color:oklch(0.7 0 0)">✕</span><span>Site-specific actions — no "send LinkedIn message" tools</span></div>
+<div style="display:flex;gap:10px"><span style="color:oklch(0.7 0 0)">✕</span><span>A CAPTCHA farm — a human resolves it, and that human is you</span></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="waitlist">
+<div style="max-width:1152px;margin:0 auto;padding:clamp(56px,8vw,88px) clamp(16px,4vw,32px)">
+<div style="border:1px solid oklch(0.922 0 0);border-radius:14px;background:oklch(0.985 0 0);padding:clamp(32px,6vw,64px) clamp(20px,4vw,48px);display:flex;flex-direction:column;align-items:center;text-align:center">
+<h2 style="margin:0;max-width:20ch;font:600 clamp(26px,4.6vw,44px)/1.1 Geist,sans-serif;letter-spacing:-.035em;text-wrap:balance">{{ closing }}</h2>
+<p style="margin:16px 0 0;max-width:50ch;font:400 clamp(15px,1.8vw,17px)/1.6 Geist,sans-serif;color:oklch(0.556 0 0);text-wrap:pretty">Early access goes out in small batches to people running real agents. Tell us the site that keeps breaking and we'll start there.</p>
+<div style="margin-top:26px;width:100%;max-width:460px">
+<sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 16px;border:1px solid oklch(0.922 0 0);border-radius:10px;background:#fff;font:500 14px/1.4 Geist,sans-serif;color:oklch(0.35 0 0)">
+<span style="color:oklch(0.6 0.15 145)">✓</span><span>{{ email }} is on the list.</span>
+</div>
+</sc-if>
+<sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+<form onSubmit="{{ onSubmit }}" style="display:flex;flex-wrap:wrap;gap:8px">
+<input type="email" required="required" placeholder="you@company.dev" value="{{ email }}" onChange="{{ onEmail }}" style="flex:1 1 220px;min-width:0;height:42px;padding:0 13px;background:#fff;border:1px solid oklch(0.922 0 0);border-radius:8px;color:oklch(0.145 0 0);font:400 14px/1 Geist,sans-serif;outline:none" style-focus="border-color:oklch(0.708 0 0);box-shadow:0 0 0 3px oklch(0.922 0 0)">
+<button type="submit" style="flex:0 0 auto;height:42px;padding:0 18px;background:oklch(0.205 0 0);color:oklch(0.985 0 0);border:none;border-radius:8px;font:500 14px/1 Geist,sans-serif;cursor:pointer" style-hover="background:oklch(0.32 0 0)">Join the waitlist</button>
+</form>
+</sc-if>
+</div>
+</div>
+</div>
+</section>
+
+<footer style="border-top:1px solid oklch(0.922 0 0)">
+<div style="max-width:1152px;margin:0 auto;padding:24px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;font:400 13px/1.5 Geist,sans-serif;color:oklch(0.62 0 0)">
+<span>Gryphon — reliability layer for authenticated web access</span>
+<div style="display:flex;gap:18px">
+<a href="#waitlist" style="color:oklch(0.62 0 0)" style-hover="color:oklch(0.145 0 0)">Waitlist</a>
+<a href="#how" style="color:oklch(0.62 0 0)" style-hover="color:oklch(0.145 0 0)">Docs soon</a>
+</div>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;closingLine&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;boring&quot;,&quot;logged_in&quot;],&quot;default&quot;:&quot;boring&quot;,&quot;tsType&quot;:&quot;'boring' | 'logged_in'&quot;,&quot;section&quot;:&quot;Copy&quot;}}">
+class Component extends DCLogic {
+  state = { email: "", submitted: false };
+  renderVals() {
+    const lines = {
+      boring: "Make authentication boring so your agents can do interesting work.",
+      logged_in: "The agents that get more done will be the ones that stay logged in.",
+    };
+    return {
+      email: this.state.email,
+      submitted: this.state.submitted,
+      notSubmitted: !this.state.submitted,
+      closing: lines[this.props.closingLine] ?? lines.boring,
+      onEmail: (e) => this.setState({ email: e.target.value }),
+      onSubmit: (e) => { e.preventDefault(); if (this.state.email) this.setState({ submitted: true }); },
+    };
+  }
+}
+</script>
+</body>
+</html>

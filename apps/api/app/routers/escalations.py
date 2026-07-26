@@ -188,11 +188,18 @@ async def human_resolve_page(
         <p><a class="btn-link" href="{live}" target="_blank" rel="noopener">Open Live View →</a></p>
         """
     else:
+        # Graceful degradation: BB missing, API error, or empty debug URLs
+        has_ctx = bool(escalation.bb_context_id)
+        provision_note = (
+            "A Browserbase context was created, but Live View could not be opened. "
+            if has_ctx
+            else "Live View could not be provisioned (Browserbase not configured or API error). "
+        )
         live_section = f"""
-        <p class="muted">
-          Live View could not be provisioned (Browserbase not configured or API error).
-          Complete auth in your own browser, then paste a Browserbase context id below
-          (or leave blank if you only need to unblock the agent without a durable session).
+        <p class="warn">
+          {provision_note}
+          Complete auth in your own browser if needed, then paste a Browserbase
+          context id below (or leave blank to unblock the agent without a durable session).
         </p>
         <label for="resolved_context_id">Browserbase context id (optional)</label>
         <input id="resolved_context_id" name="resolved_context_id"
@@ -360,6 +367,13 @@ def _page(*, title: str, body: str, ok: bool) -> str:
       padding: 1.25rem 1.4rem;
     }}
     .muted {{ color: #6b7280; }}
+    .warn {{
+      color: #92400e;
+      background: #fffbeb;
+      border: 1px solid #fcd34d;
+      border-radius: 8px;
+      padding: 0.75rem 0.9rem;
+    }}
     label {{ display: block; font-size: 0.875rem; margin: 1rem 0 0.35rem; }}
     input[type=text] {{
       width: 100%;
