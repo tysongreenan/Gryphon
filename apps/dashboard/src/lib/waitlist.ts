@@ -28,13 +28,20 @@ export function normalizeOptionalText(
  * Persist a waitlist signup.
  *
  * Backends (first match wins):
- * 1. Supabase REST — SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY
- * 2. Generic webhook — WAITLIST_WEBHOOK_URL (Zapier/Make/n8n/etc.)
- * 3. Local file — development only (apps/dashboard/.data/waitlist.jsonl)
+ * 1. Gryphon API — GRYPHON_API_URL (POST /v1/waitlist/)
+ * 2. Supabase REST — SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY
+ * 3. Generic webhook — WAITLIST_WEBHOOK_URL (Zapier/Make/n8n/etc.)
+ * 4. Local file — development only (apps/dashboard/.data/waitlist.jsonl)
  */
 export async function saveWaitlistEntry(
   entry: WaitlistEntry,
 ): Promise<{ backend: string }> {
+  const apiBase = process.env.GRYPHON_API_URL?.replace(/\/$/, "");
+  if (apiBase) {
+    await saveToGryphonApi(apiBase, entry);
+    return { backend: "gryphon-api" };
+  }
+
   const supabaseUrl = process.env.SUPABASE_URL?.replace(/\/$/, "");
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (supabaseUrl && supabaseKey) {
@@ -58,7 +65,7 @@ export async function saveWaitlistEntry(
   }
 
   throw new WaitlistConfigError(
-    "No waitlist backend configured. Set SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY, or WAITLIST_WEBHOOK_URL.",
+    "No waitlist backend configured. Set GRYPHON_API_URL, SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY, or WAITLIST_WEBHOOK_URL.",
   );
 }
 
@@ -66,6 +73,26 @@ export class WaitlistConfigError extends Error {
   constructor(message: string) {
     super(message);
     this.name = "WaitlistConfigError";
+  }
+}
+
+async function saveToGryphonApi(
+  baseUrl: string,
+  entry: WaitlistEntry,
+): Promise<void> {
+  const res = await fetch(`${baseUrl}/v1/waitlist/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: entry.email,
+      use_case: entry.useCase ?? null,
+      source: entry.source ?? null,
+    }),
+  });
+
+  if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    throw new Error(`Gryphon API waitlist failed (${res.status}): ${body}`);
   }
 }
 

@@ -1,4 +1,4 @@
-import { HeroDemo } from "@/components/marketing/hero-demo";
+import { HeroArt } from "@/components/marketing/hero-art";
 import { LoopSection } from "@/components/marketing/loop-section";
 import { ScopeSection } from "@/components/marketing/scope-section";
 import { SiteFooter } from "@/components/marketing/site-footer";
@@ -10,7 +10,7 @@ export default function LandingPage() {
   return (
     <main className="flex w-full flex-col overflow-x-hidden">
       <SiteHeader />
-      <HeroDemo />
+      <HeroArt />
       <SystemSection />
       <LoopSection />
       <ScopeSection />

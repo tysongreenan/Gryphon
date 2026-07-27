@@ -115,6 +115,7 @@ Tools: **`get_session`**, `request_human_auth`, `get_escalation_status`. See `ap
 | Method | Path | Auth | Purpose |
 |--------|------|------|---------|
 | `GET` | `/health` | none | Liveness |
+| `POST` | `/v1/waitlist/` | none | Marketing waitlist signup (idempotent email) |
 | `POST` | `/v1/sessions/get` | API key | **Primary agent entry** — ready or needs_auth |
 | `POST` | `/v1/escalations/` | API key | Explicit human auth request |
 | `GET` | `/v1/escalations/{id}` | API key | Agent polls escalation |

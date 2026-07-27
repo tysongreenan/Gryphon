@@ -16,9 +16,13 @@ Ship a public marketing page with real waitlist capture.
 
 - [x] Gryphon product copy on landing (hero, features, pricing directional)
 - [x] Real waitlist form (email + optional use-case)
-- [x] Storage backends (Supabase / webhook / dev file)
+- [x] Storage backends (Gryphon API / Supabase / webhook / dev file)
+- [x] Public API: `POST /v1/waitlist/` → `waitlist_signups` (idempotent on email)
 - [x] Placeholder social proof removed (use-cases instead of fake quotes)
-- [ ] Deployed to Vercel with production backend configured
+- [x] Deployed to Vercel with production backend configured
+  - Landing: https://gryphon-self.vercel.app
+  - API: https://api-production-cc4e.up.railway.app (`POST /v1/waitlist/`)
+  - Vercel env: `GRYPHON_API_URL` → Railway API
 - [ ] Domain (optional) + first outreach links live
 
 ### App
@@ -29,16 +33,17 @@ Ship a public marketing page with real waitlist capture.
 - **Operator console** (escalations + sessions, mock data): `/dashboard`
 - **Profile** (on-call + rescues, mock data): `/dashboard/profile`
 - Design source: `UI mockup component review/uploads/Gryphon homepage design brief/`
-- Form → `POST /api/waitlist`
-- SQL for Supabase: `apps/dashboard/supabase/waitlist.sql`
-- Local run: `cd apps/dashboard && npm run dev`
+- Form → `POST /api/waitlist` → storage cascade in `src/lib/waitlist.ts`
+- Preferred store: Gryphon API (`GRYPHON_API_URL`)
+- Local run: `cd apps/dashboard && npm run dev` (+ API on `:8000` for real writes)
 
 ### Production storage (pick one)
 
-1. **Supabase** — run `waitlist.sql`, set `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`
+1. **Gryphon API** (preferred) — deploy `apps/api`, set `GRYPHON_API_URL` on Vercel
 2. **Webhook** — set `WAITLIST_WEBHOOK_URL` (Zapier / Make / n8n / Google Apps Script)
+3. **Supabase** — run `waitlist.sql`, set `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`
 
-Local/dev without either falls back to `.data/waitlist.jsonl`.
+Local/dev without any of the above falls back to `.data/waitlist.jsonl`.
 
 ### Parallel reliability (D polish)
 

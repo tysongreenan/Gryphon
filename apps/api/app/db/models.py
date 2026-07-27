@@ -100,3 +100,21 @@ class EscalationRecord(Base):
         DateTime(timezone=True), nullable=True, index=True
     )
     resolved_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
+
+
+class WaitlistSignup(Base):
+    """
+    Public marketing waitlist (no auth).
+
+    Deduped by email — re-submits return the existing row.
+    """
+
+    __tablename__ = "waitlist_signups"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    email: Mapped[str] = mapped_column(String(320), unique=True, nullable=False, index=True)
+    use_case: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
+    source: Mapped[Optional[str]] = mapped_column(String(80), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )

@@ -41,6 +41,7 @@ export function WaitlistSectionV6() {
             source="closing"
             variant="closing"
             submitLabel="Join the waitlist →"
+            showSiteField
           />
         </div>
       </div>

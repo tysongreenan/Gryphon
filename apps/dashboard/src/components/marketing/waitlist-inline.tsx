@@ -9,6 +9,8 @@ type Props = {
   className?: string;
   variant?: "hero" | "closing";
   submitLabel?: string;
+  /** Optional free-text (site / use case) — sent as `useCase` to the API */
+  showSiteField?: boolean;
 };
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -18,8 +20,10 @@ export function WaitlistInline({
   className,
   variant = "hero",
   submitLabel = "Get early access →",
+  showSiteField = false,
 }: Props) {
   const [email, setEmail] = useState("");
+  const [site, setSite] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState<string | null>(null);
 
@@ -33,7 +37,11 @@ export function WaitlistInline({
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, source }),
+        body: JSON.stringify({
+          email,
+          source,
+          ...(site.trim() ? { useCase: site.trim() } : {}),
+        }),
       });
       const data = (await res.json().catch(() => ({}))) as { error?: string };
 
@@ -51,6 +59,10 @@ export function WaitlistInline({
   }
 
   const inputBg = variant === "closing" ? "bg-gryphon-paper" : "bg-white";
+  const fieldClass = cn(
+    "h-[52px] min-w-0 w-full border border-gryphon-ink/16 px-4 text-base text-gryphon-ink outline-none placeholder:text-gryphon-ghost focus:border-gryphon-blue disabled:opacity-60",
+    inputBg,
+  );
 
   if (status === "success") {
     return (
@@ -69,31 +81,39 @@ export function WaitlistInline({
 
   return (
     <div className={className}>
-      <form
-        onSubmit={onSubmit}
-        className="flex flex-wrap gap-2"
-        noValidate
-      >
-        <input
-          type="email"
-          required
-          autoComplete="email"
-          placeholder="you@company.dev"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          disabled={status === "loading"}
-          className={cn(
-            "h-[52px] min-w-0 flex-[1_1_230px] border border-gryphon-ink/16 px-4 text-base text-gryphon-ink outline-none placeholder:text-gryphon-ghost focus:border-gryphon-blue disabled:opacity-60",
-            inputBg,
-          )}
-        />
-        <button
-          type="submit"
-          disabled={status === "loading" || !email.trim()}
-          className="h-[52px] cursor-pointer bg-gryphon-ink px-6 text-base text-white transition-colors hover:bg-gryphon-blue disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          {status === "loading" ? "Joining…" : submitLabel}
-        </button>
+      <form onSubmit={onSubmit} className="flex flex-col gap-2" noValidate>
+        <div className="flex flex-wrap gap-2">
+          <input
+            type="email"
+            required
+            autoComplete="email"
+            placeholder="you@company.dev"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={status === "loading"}
+            className={cn(fieldClass, "flex-[1_1_230px]")}
+          />
+          <button
+            type="submit"
+            disabled={status === "loading" || !email.trim()}
+            className="h-[52px] cursor-pointer bg-gryphon-ink px-6 text-base text-white transition-colors hover:bg-gryphon-blue disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {status === "loading" ? "Joining…" : submitLabel}
+          </button>
+        </div>
+        {showSiteField && (
+          <input
+            type="text"
+            name="useCase"
+            autoComplete="off"
+            placeholder="Site that keeps breaking (optional) — e.g. Stripe, LinkedIn"
+            value={site}
+            onChange={(e) => setSite(e.target.value)}
+            disabled={status === "loading"}
+            maxLength={500}
+            className={fieldClass}
+          />
+        )}
       </form>
       {message && status === "error" && (
         <p className="mt-2 text-sm text-destructive" role="alert">

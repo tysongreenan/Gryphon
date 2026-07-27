@@ -1,0 +1,28 @@
+---
+description: Panel — buyer-level UX review, craft, motion
+globs:
+alwaysApply: false
+---
+
+# Panel
+
+**Lean core always on. Heavy packs optional. Reduction over addition.**
+
+1. `PANEL.md` is source of truth (buyer job + reduction bias).
+2. Load `playbook.md` with every panel run.
+3. UI / craft → + `ANTI-SLOP.md`. Motion → + `MOTION.md`.
+4. Design system / colors / type → + `FRONTEND.md` + `skills/ui-ux-pro-max` only (needs `npx @tysongreenan/panel init --full`).
+5. Prefer delete / merge / cut. Preserve install / primary CTA.
+
+## Load map
+
+| User says | Load |
+|-----------|------|
+| Run a panel / Panel review | `PANEL.md` + `playbook.md` |
+| UI / craft / anti-slop | + `ANTI-SLOP.md` |
+| Animations / motion | + `MOTION.md` |
+| Design system / colors / type | + `FRONTEND.md` + `skills/ui-ux-pro-max` |
+
+## Priority of truth
+
+1. PANEL · 2. ANTI-SLOP · 3. MOTION · 4. playbook · 5. heavy packs (only when needed)

@@ -46,10 +46,7 @@ export function SystemSection() {
           what gryphon does
         </div>
         <h2 className="m-0 max-w-[18ch] text-[clamp(30px,5vw,58px)] leading-[1.08] tracking-[-0.04em] text-balance">
-          Three things, and{" "}
-          <em className="font-serif text-[1.04em] tracking-[-0.01em] italic">
-            nothing else.
-          </em>
+          Three things. Nothing else.
         </h2>
 
         {/* 01 Sessions */}
@@ -314,58 +311,103 @@ export function SystemSection() {
           </div>
         </div>
 
-        {/* 03 Handback */}
+        {/* 03 Handback — same WindowChrome language as 01 / 02 */}
         <div className="mt-12 grid items-center gap-8 border-t border-gryphon-ink/14 pt-10 lg:mt-12 lg:grid-cols-2 lg:gap-16 lg:pt-12">
           <WindowChrome title="outreach-v3 — agent.py">
             <div className="flex items-center justify-between gap-2 border-b border-gryphon-ink/8 px-4 py-2.5">
-              <span className="truncate text-[13.5px] font-medium text-[#22242A]">
-                Pull July invoices from Stripe
+              <span className="flex min-w-0 items-center gap-2">
+                <BrandLogo name="stripe" size={18} title="Stripe" />
+                <span className="truncate text-[13.5px] font-medium text-[#22242A]">
+                  Pull July invoices from Stripe
+                </span>
               </span>
               <span className="inline-flex shrink-0 items-center gap-1.5 font-mono text-[11px] text-gryphon-green">
                 <span className="size-1.5 rounded-full bg-[#22C55E]" />
-                running
+                done
               </span>
             </div>
-            <div className="flex flex-col gap-3.5 p-4">
-              <div className="flex items-center gap-2 text-xs text-[#8A8D94]">
-                <span>Worked for 4h 31m</span>
-                <span className="text-[#C4C7CC]">›</span>
-              </div>
-              <div className="max-w-[86%] self-end rounded-[15px] bg-[#F2F2F0] px-3.5 py-2 text-[13px] leading-normal text-[#22242A]">
+            <div className="flex flex-col gap-3 p-4">
+              <div className="max-w-[88%] self-end rounded-[15px] bg-[#F2F2F0] px-3.5 py-2 text-[13px] leading-normal text-[#22242A]">
                 grab every invoice from stripe overnight
               </div>
-              <p className="text-[13px] leading-[1.6] text-[#22242A]">
-                Hit a 2FA wall at 2:41 AM. Asked{" "}
-                <span className="rounded-sm border border-gryphon-ink/9 bg-gryphon-ink/5 px-1 py-px font-mono text-xs">
-                  gryphon
-                </span>{" "}
-                to hold the run instead of failing it.
-              </p>
-              <div className="flex items-center gap-2.5 rounded-[10px] border border-gryphon-ink/7 bg-[#FAFAF9] px-3 py-2.5">
-                <span className="flex h-[13px] shrink-0 items-end gap-0.5">
-                  <span className="w-[3px] animate-gwave rounded-sm bg-gryphon-blue" style={{ height: "100%" }} />
-                  <span className="w-[3px] animate-gwave rounded-sm bg-gryphon-blue [animation-delay:0.15s]" style={{ height: "100%" }} />
-                  <span className="w-[3px] animate-gwave rounded-sm bg-gryphon-blue [animation-delay:0.3s]" style={{ height: "100%" }} />
+
+              <div className="flex flex-col gap-1.5 font-mono text-[11px] leading-snug text-[#8A8D94]">
+                <span>
+                  02:41 · 2FA wall ·{" "}
+                  <span className="text-gryphon-amber">needs_auth</span> · held
+                  by gryphon
                 </span>
-                <span className="min-w-0 text-[12.5px] leading-snug text-gryphon-muted">
-                  Session restored at 7:12 AM — resumed on its own
+                <span>
+                  07:12 · login cleared ·{" "}
+                  <span className="text-gryphon-blue">connect_url</span> ·
+                  session warm
                 </span>
               </div>
-              <p className="text-[13px] leading-[1.6] text-[#22242A]">
-                Done — <strong className="font-medium">38 invoices</strong>{" "}
-                pulled. You spent 54 seconds; I never lost the thread.
-              </p>
-              <div className="flex items-center gap-2 rounded-xl border border-gryphon-blue/35 bg-white px-3 py-2.5 shadow-[0_0_0_3px_rgba(29,78,216,.07)]">
-                <span className="min-w-0 flex-1 text-[12.5px] text-[#B9BCC3]">
-                  Ask anything…
-                </span>
-                <span className="shrink-0 font-mono text-[10.5px] text-[#8A8D94]">
-                  gryphon · mcp
-                </span>
-                <span className="flex size-[23px] shrink-0 items-center justify-center rounded-full bg-gryphon-blue text-xs text-white">
-                  ↑
-                </span>
+
+              {/* Climax: agent finished work after login — table language matches 01 */}
+              <div className="overflow-hidden rounded-[8px] border border-gryphon-ink/10 bg-white">
+                <div className="flex items-center justify-between gap-2 border-b border-gryphon-ink/8 bg-[#FAFAF9] px-3 py-2.5">
+                  <span className="flex min-w-0 items-center gap-2">
+                    <Image
+                      src="/brand/gryphon-mark.png"
+                      alt=""
+                      width={21}
+                      height={21}
+                      className="size-[21px] shrink-0 rounded-[5px] object-contain"
+                    />
+                    <span className="min-w-0">
+                      <span className="block truncate text-[13px] font-medium text-[#22242A]">
+                        july-invoices.csv
+                      </span>
+                      <span className="block font-mono text-[10px] text-[#A6A9AF]">
+                        agent wrote · after login
+                      </span>
+                    </span>
+                  </span>
+                  <span className="inline-flex shrink-0 items-center gap-1.5 rounded-md bg-gryphon-green/10 px-2 py-1 font-mono text-[11px] text-gryphon-green">
+                    38 rows
+                  </span>
+                </div>
+                <div className="grid grid-cols-[1fr_auto_44px] gap-2.5 border-b border-gryphon-ink/8 px-3 pb-1.5 pt-2 font-mono text-[10px] tracking-[0.1em] text-[#B9BCC3]">
+                  <span>INVOICE</span>
+                  <span>AMOUNT</span>
+                  <span className="text-right">STATUS</span>
+                </div>
+                {(
+                  [
+                    ["INV-1042", "$1,240", "Paid", false],
+                    ["INV-1058", "$890", "Paid", false],
+                    ["INV-1071", "$2,100", "Open", true],
+                    ["INV-1079", "$640", "Paid", false],
+                  ] as const
+                ).map(([id, amt, st, open]) => (
+                  <div
+                    key={id}
+                    className="grid grid-cols-[1fr_auto_44px] items-center gap-2.5 border-b border-gryphon-ink/5 px-3 py-2.5 last:border-0"
+                  >
+                    <span className="font-mono text-[12.5px] text-[#22242A]">
+                      {id}
+                    </span>
+                    <span className="font-mono text-[12px] text-[#8A8D94]">
+                      {amt}
+                    </span>
+                    <span
+                      className={`text-right text-xs ${open ? "text-gryphon-amber" : "text-gryphon-green"}`}
+                    >
+                      {st}
+                    </span>
+                  </div>
+                ))}
               </div>
+
+              <p className="text-[13px] leading-[1.55] text-[#22242A]">
+                Done — finished the pull after auth. You spent 54 seconds; the
+                agent never lost the thread.
+              </p>
+            </div>
+            <div className="flex items-center justify-between border-t border-gryphon-ink/8 bg-[#FAFAF9] px-4 py-2.5 font-mono text-[11px] text-[#A6A9AF]">
+              <span>session · bb_ctx_4a9c</span>
+              <span>gryphon · mcp</span>
             </div>
           </WindowChrome>
           <div>
@@ -374,9 +416,9 @@ export function SystemSection() {
               Clean handback
             </div>
             <p className="max-w-[44ch] text-[17px] leading-[1.6] text-gryphon-muted text-pretty">
-              The agent gets a fresh connect URL and continues from where it
-              stopped. It never sees a credential, only a session — the login
-              lives in Gryphon, not in your code.
+              The agent gets a session and finishes the job where it stopped.
+              It never sees a credential, only a session — the login lives in
+              Gryphon, not in your code.
             </p>
             <div className="mt-6 flex flex-wrap items-center gap-4">
               <span className="font-mono text-[10.5px] tracking-[0.1em] text-[#A6A9AF]">

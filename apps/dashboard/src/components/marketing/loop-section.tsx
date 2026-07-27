@@ -1,15 +1,30 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 const BLUE = "#1D4ED8";
+
+function subscribeReducedMotion(onChange: () => void) {
+  const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+
+function getReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
 
 export function LoopSection() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
   const [step, setStep] = useState(0);
   const [active, setActive] = useState(false);
+  const reduced = useSyncExternalStore(
+    subscribeReducedMotion,
+    getReducedMotion,
+    () => false,
+  );
 
   useEffect(() => {
     const el = canvasRef.current;
@@ -38,18 +53,21 @@ export function LoopSection() {
   }, []);
 
   useEffect(() => {
-    if (!active) return;
+    if (!active || reduced) return;
     const id = setInterval(() => setStep((s) => (s + 1) % 4), 2000);
     return () => clearInterval(id);
-  }, [active]);
+  }, [active, reduced]);
 
   const baseShadow = "0 24px 50px -32px rgba(12,13,16,.7)";
   const ring = ", 0 0 0 4px rgba(29,78,216,.16)";
-  const border = (i: number) => (step === i ? BLUE : "rgba(12,13,16,.11)");
-  const shadow = (i: number) => (step === i ? baseShadow + ring : baseShadow);
+  // Reduced motion: no step cycle — equal static cards, no highlight pulse
+  const border = (i: number) =>
+    !reduced && step === i ? BLUE : "rgba(12,13,16,.11)";
+  const shadow = (i: number) =>
+    !reduced && step === i ? baseShadow + ring : baseShadow;
   const phoneBase = "0 26px 54px -30px rgba(12,13,16,.85)";
   const phoneShadow =
-    step === 2
+    !reduced && step === 2
       ? phoneBase + ", 0 0 0 4px rgba(29,78,216,.3)"
       : phoneBase;
 
@@ -101,7 +119,7 @@ export function LoopSection() {
                   stroke="rgba(29,78,216,.55)"
                   strokeWidth="1.5"
                   strokeDasharray="7 9"
-                  className="animate-gdashflow"
+                  className={reduced ? undefined : "animate-gdashflow"}
                 />
                 <circle cx="230" cy="165" r="3.5" fill="#1D4ED8" />
                 <circle cx="950" cy="165" r="3.5" fill="#1D4ED8" />
@@ -109,16 +127,18 @@ export function LoopSection() {
                 <circle cx="230" cy="455" r="3.5" fill="#1D4ED8" />
               </svg>
 
-              <div
-                className="absolute top-0 left-0 size-[11px] rounded-full bg-gryphon-blue shadow-[0_0_16px_4px_rgba(59,130,246,.5)]"
-                style={
-                  {
-                    margin: "-5.5px 0 0 -5.5px",
-                    offsetPath: "path('M 230 165 H 950 V 455 H 230 Z')",
-                    animation: "gorbit 8s linear infinite",
-                  } as React.CSSProperties
-                }
-              />
+              {!reduced && (
+                <div
+                  className="absolute top-0 left-0 size-[11px] rounded-full bg-gryphon-blue shadow-[0_0_16px_4px_rgba(59,130,246,.5)]"
+                  style={
+                    {
+                      margin: "-5.5px 0 0 -5.5px",
+                      offsetPath: "path('M 230 165 H 950 V 455 H 230 Z')",
+                      animation: "gorbit 8s linear infinite",
+                    } as React.CSSProperties
+                  }
+                />
+              )}
 
               {/* Edge labels */}
               <div className="absolute top-[165px] left-[590px] flex -translate-x-1/2 -translate-y-1/2 items-center gap-1.5 rounded-full border border-gryphon-ink/12 bg-white px-3 py-1.5 font-mono text-[11.5px] text-[#3A3D44]">
@@ -140,7 +160,9 @@ export function LoopSection() {
 
               {/* Center */}
               <div className="absolute top-[310px] left-[590px] flex size-44 -translate-x-1/2 -translate-y-1/2 items-center justify-center text-center">
-                <div className="absolute inset-0 animate-gspin rounded-full border border-dashed border-gryphon-blue/35" />
+                <div
+                  className={`absolute inset-0 rounded-full border border-dashed border-gryphon-blue/35 ${reduced ? "" : "animate-gspin"}`}
+                />
                 <div className="absolute inset-4 rounded-full border border-gryphon-ink/7" />
                 <div className="relative max-w-[124px] font-mono text-xs leading-[1.6] text-[#8A8D94]">
                   the login

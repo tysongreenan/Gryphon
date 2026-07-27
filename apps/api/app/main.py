@@ -16,7 +16,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app.config import get_settings
 from app.db.session import async_session_factory, init_db
-from app.routers import escalations, sessions
+from app.routers import escalations, sessions, waitlist
 from app.services.api_keys import seed_bootstrap_credentials
 
 logging.basicConfig(
@@ -79,13 +79,23 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    # Pydantic may put raw Exception instances in error ctx — make JSON-safe
+    errors = []
+    for err in exc.errors():
+        safe = dict(err)
+        ctx = safe.get("ctx")
+        if isinstance(ctx, dict):
+            safe["ctx"] = {
+                k: (str(v) if isinstance(v, BaseException) else v) for k, v in ctx.items()
+            }
+        errors.append(safe)
     return JSONResponse(
         status_code=422,
         content={
             "detail": {
                 "code": "validation_error",
                 "message": "Request validation failed",
-                "errors": exc.errors(),
+                "errors": errors,
             }
         },
     )
@@ -98,3 +108,4 @@ async def health():
 
 app.include_router(escalations.router, prefix="/v1/escalations", tags=["escalations"])
 app.include_router(sessions.router, prefix="/v1/sessions", tags=["sessions"])
+app.include_router(waitlist.router, prefix="/v1/waitlist", tags=["waitlist"])

@@ -44,9 +44,9 @@ A developer can run an agent that hits a login wall, calls Gryphon, receives a S
 
 - [x] Marketing Next app (`apps/dashboard`) with product copy
 - [x] Waitlist form (email + optional use-case) + `POST /api/waitlist`
-- [x] Storage: Supabase / webhook / local dev file
+- [x] Storage cascade: Gryphon API (`POST /v1/waitlist/`) / Supabase / webhook / local file
 - [x] Honest use-case section (no fake testimonials)
-- [ ] Vercel deploy + production storage env
+- [x] Vercel deploy + production storage env (`GRYPHON_API_URL` → Railway API)
 - [ ] Light outreach with research language
 
 ## Phase 3 — Reliability & DX

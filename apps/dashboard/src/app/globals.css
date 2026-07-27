@@ -267,3 +267,32 @@
 .animate-gorbit {
   animation: gorbit 8s linear infinite;
 }
+
+@keyframes hub-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 8px 16px rgba(29, 78, 216, 0.15));
+  }
+  50% {
+    filter: drop-shadow(0 8px 22px rgba(245, 158, 11, 0.4));
+  }
+}
+
+.animate-hub-pulse {
+  animation: hub-pulse 1.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hub-pulse,
+  .animate-gshimmer,
+  .animate-gstar,
+  .animate-gblink,
+  .animate-gpulse,
+  .animate-gfade,
+  .animate-gwave,
+  .animate-gdashflow,
+  .animate-gspin,
+  .animate-gorbit {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,61 @@
+# Panel shared run-state — copy to panel-report/run-state.yaml at Phase 0
+# Every specialist reads this; Orchestrator updates it each phase.
+# Handoffs should reference fields/artifacts here — do not re-narrate the whole run.
+
+preflight: GO # GO | NO-GO | lite
+protocol: short # short = PANEL.md only · full = + PANEL.full.md + COLLABORATION + AGENTS
+run_class: standard # lite | standard | full | implement
+
+intent: ""
+preserve:
+  - "npx @tysongreenan/panel init"
+  # brand, libraries, sample report path, …
+
+personas_seated:
+  - Avery
+  - Jordan
+  - Sam
+
+priority: Avery # persona name this run
+secondary:
+  - persona: Jordan
+    non_negotiables:
+      - Real init / OSS credibility
+  - persona: Sam
+    non_negotiables:
+      - Sample looks serious, not a toy
+deferred: []
+
+design_brief:
+  # Required before library search / redesign when run_class is full (or UI-heavy standard)
+  Orchestrator: ""
+  PM-Avery: ""
+  PM-Jordan: ""
+  PM-Sam: ""
+
+scores:
+  clarity: null
+  density: null
+  hierarchy: null
+  craft: null
+  motion: null
+  fluidity: null
+  professionalism: null
+  conversion: null
+
+# Approves: role → { status: yes|no|abstain, evidence: "one line from that role's section" }
+approves: {}
+
+# Decision gates
+consensus:
+  decision: null # PROCEED | REVISE | BLOCK | null
+  log_path: null # e.g. panel-report/council.md#consensus-…
+  revise_round: 0 # max 2 before BLOCK or ask user
+
+artifacts:
+  # Paths relative to project root — prefer refs over pasted walls of text
+  # - panel-report/journeys.md
+  # - panel-report/craft.md
+  # - panel-report/report.md
+
+notes: ""
