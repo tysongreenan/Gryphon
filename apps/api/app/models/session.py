@@ -17,6 +17,11 @@ class GetSessionRequest(BaseModel):
         True,
         description="If true, create a fresh Browserbase Session from the stored context",
     )
+    # Used when needs_auth provisions Live View — open this URL for the human
+    start_url: Optional[str] = Field(
+        None,
+        description="Login/start URL for human Live View (e.g. https://site.com/login)",
+    )
 
 
 class SessionStatus(str, Enum):
@@ -40,9 +45,11 @@ class SessionNeedsAuth(BaseModel):
     status: Literal["needs_auth"] = "needs_auth"
     site: str
     escalation_id: str
+    # Short-lived signed link for the human to open Live View and log in
+    resolve_url: Optional[str] = None
     message: str = (
         "No authenticated context for this site. "
-        "A human has been notified. Poll get_escalation_status / get_session until ready."
+        "Open resolve_url to log in, then poll get_session until ready."
     )
 
 

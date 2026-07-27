@@ -43,3 +43,22 @@ class WaitlistResult(BaseModel):
         description="True if this email was newly stored; False if already on the list",
     )
     created_at: datetime
+
+
+class WaitlistEntry(BaseModel):
+    """One row from the waitlist (authenticated list view)."""
+
+    id: str
+    email: str
+    use_case: Optional[str] = None
+    source: Optional[str] = None
+    created_at: datetime
+
+
+class WaitlistListResponse(BaseModel):
+    ok: bool = True
+    total: int = Field(..., description="Total signups in the database")
+    count: int = Field(..., description="Rows returned in this page")
+    limit: int
+    offset: int
+    items: list[WaitlistEntry]

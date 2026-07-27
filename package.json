@@ -8,7 +8,9 @@
     "build:dashboard": "npm run build --prefix apps/dashboard",
     "lint:dashboard": "npm run lint --prefix apps/dashboard",
     "start:dashboard": "npm run start --prefix apps/dashboard",
-    "install:dashboard": "npm install --prefix apps/dashboard"
+    "install:dashboard": "npm install --prefix apps/dashboard",
+    "setup:mcp": "./scripts/setup_mcp.sh",
+    "smoke:mcp": "./scripts/smoke_mcp.sh"
   },
   "engines": {
     "node": ">=20"

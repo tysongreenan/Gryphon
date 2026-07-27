@@ -96,17 +96,19 @@ cd apps/api && source .venv/bin/activate
 pytest
 ```
 
-### 8. MCP tools (Python 3.10+)
+### 8. MCP tools (agent tool-calling)
 
 ```bash
-cd apps/mcp-server
-python3.12 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-export GRYPHON_API_URL=http://localhost:8000 GRYPHON_API_KEY=dev-api-key
-python server.py
+./scripts/setup_mcp.sh    # one-time: venv + deps + .env
+./scripts/smoke_mcp.sh    # API must be on :8000
 ```
 
-Tools: **`get_session`**, `request_human_auth`, `get_escalation_status`. See `apps/mcp-server/README.md`.
+- **Cursor:** project config at `.cursor/mcp.json` — restart Cursor / reload MCP
+- **Claude Desktop:** merge `apps/mcp-server/configs/claude_desktop.snippet.json`
+- **Agent prompt:** [`docs/AGENT_CONTRACT.md`](docs/AGENT_CONTRACT.md)
+- **Full guide:** [`docs/MCP_AGENT_SETUP.md`](docs/MCP_AGENT_SETUP.md)
+
+Tools: **`get_session`**, `request_human_auth`, `get_escalation_status`.
 
 ---
 

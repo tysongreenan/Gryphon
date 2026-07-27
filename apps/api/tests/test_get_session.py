@@ -144,6 +144,57 @@ async def test_get_session_requires_api_key(client: AsyncClient):
     assert resp.status_code == 401
 
 
+async def test_resolve_releases_human_session_before_agent_reuse(
+    client: AsyncClient, auth_headers: dict
+):
+    """
+    Browserbase only flushes cookies when the human persist:true session closes.
+    Resolve must release that session so agent get_session can reuse the context.
+    """
+    from app.services.browserbase import (
+        FakeBrowserbaseClient,
+        set_browserbase_client_override,
+    )
+    from app.services.resolve_tokens import create_resolve_token
+
+    fake = FakeBrowserbaseClient()
+    fake.require_release_before_reuse = True
+    set_browserbase_client_override(fake)
+
+    first = await client.post(
+        "/v1/sessions/get",
+        headers=auth_headers,
+        json={"site": "websitefeedback"},
+    )
+    assert first.status_code == 200
+    esc_id = first.json()["escalation_id"]
+
+    token = create_resolve_token(esc_id)
+    page = await client.get(
+        f"/v1/escalations/{esc_id}/human-resolve",
+        params={"token": token},
+    )
+    assert page.status_code == 200
+    assert fake.sessions, "human session should be provisioned"
+    human = next(s for s in fake.sessions if s["persist"] is True)
+
+    submit = await client.post(
+        f"/v1/escalations/{esc_id}/human-resolve",
+        data={"token": token},
+    )
+    assert submit.status_code == 200
+    assert human["id"] in fake.released_sessions
+
+    ready = await client.post(
+        "/v1/sessions/get",
+        headers=auth_headers,
+        json={"site": "websitefeedback"},
+    )
+    assert ready.status_code == 200, ready.text
+    assert ready.json()["status"] == "ready"
+    assert ready.json()["connect_url"]
+
+
 async def test_stale_context_falls_back_to_needs_auth(
     client: AsyncClient, auth_headers: dict
 ):

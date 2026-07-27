@@ -23,6 +23,9 @@ Ship a public marketing page with real waitlist capture.
   - Landing: https://gryphon-self.vercel.app
   - API: https://api-production-cc4e.up.railway.app (`POST /v1/waitlist/`)
   - Vercel env: `GRYPHON_API_URL` → Railway API
+- [x] Authenticated waitlist list + browser admin
+  - `GET /v1/waitlist/` (X-API-Key)
+  - Admin UI: https://api-production-cc4e.up.railway.app/v1/waitlist/admin
 - [ ] Domain (optional) + first outreach links live
 
 ### App
@@ -31,6 +34,7 @@ Ship a public marketing page with real waitlist capture.
 - **Homepage v6** (product demos + waitlist): `/`
 - **Sign-in** (mock OAuth / magic link): `/sign-in`
 - **Operator console** (escalations + sessions, mock data): `/dashboard`
+- **Install agents** (MCP + REST + agent contract): `/dashboard/install`
 - **Profile** (on-call + rescues, mock data): `/dashboard/profile`
 - Design source: `UI mockup component review/uploads/Gryphon homepage design brief/`
 - Form → `POST /api/waitlist` → storage cascade in `src/lib/waitlist.ts`

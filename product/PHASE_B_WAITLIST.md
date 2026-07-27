@@ -71,4 +71,20 @@ Without `GRYPHON_API_URL`, the form still works via local JSONL in development.
 | API health | https://api-production-cc4e.up.railway.app/health |
 | Waitlist | `POST https://api-production-cc4e.up.railway.app/v1/waitlist/` |
 
-**Inspect waitlist rows (Railway):** `railway run` / volume SQLite at `/data/gryphon.db`, or hit the API logs for `waitlist.created`.
+**Inspect waitlist rows**
+
+| Method | How |
+|--------|-----|
+| **Browser UI** | https://api-production-cc4e.up.railway.app/v1/waitlist/admin — paste `GRYPHON_API_KEY` |
+| **JSON API** | `GET /v1/waitlist/` with header `X-API-Key: $GRYPHON_API_KEY` |
+| **Railway logs** | `cd apps/api && railway logs` → `waitlist.created email=…` |
+| **SSH + SQLite** | volume file `/data/gryphon.db`, table `waitlist_signups` |
+
+```bash
+# List signups (JSON)
+curl -sH "X-API-Key: $GRYPHON_API_KEY" \
+  https://api-production-cc4e.up.railway.app/v1/waitlist/ | jq
+
+# Key is on Railway (api service env GRYPHON_API_KEY):
+cd apps/api && railway variables
+```

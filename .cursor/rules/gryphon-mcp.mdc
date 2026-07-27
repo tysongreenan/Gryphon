@@ -1,0 +1,17 @@
+---
+description: Gryphon MCP — authenticated sessions for agents
+globs:
+alwaysApply: true
+---
+
+# Gryphon auth sessions
+
+When work needs a logged-in browser (WordPress, LinkedIn, etc.):
+
+1. Call MCP tool **`get_session`** with a stable site key (WordPress → `wordpress`).
+2. If `ready` → use `connect_url` with browser automation; do not hardcode old URLs.
+3. If `needs_auth` → stop, tell the user, poll `get_session` / `get_escalation_status`.
+4. Mid-task login wall → `request_human_auth`.
+5. Never treat test cookies (e.g. `wordpress_test_cookie`) as proof of login.
+
+Full contract: `docs/AGENT_CONTRACT.md`. Setup: `docs/MCP_AGENT_SETUP.md`.

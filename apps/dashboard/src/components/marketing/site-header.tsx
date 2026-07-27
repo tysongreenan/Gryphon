@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { AuthControls } from "@/components/auth/auth-controls";
 import { GryphonWordmark } from "@/components/brand/gryphon-mark";
 
 export function SiteHeader() {
@@ -28,18 +29,7 @@ export function SiteHeader() {
           >
             Scope
           </a>
-          <Link
-            href="/sign-in"
-            className="hidden text-gryphon-muted transition-colors hover:text-gryphon-ink sm:inline"
-          >
-            Sign in
-          </Link>
-          <a
-            href="#waitlist"
-            className="whitespace-nowrap bg-gryphon-ink px-[18px] py-[11px] text-[14.5px] text-white transition-colors hover:bg-gryphon-blue"
-          >
-            Join waitlist →
-          </a>
+          <AuthControls />
         </nav>
       </div>
     </header>

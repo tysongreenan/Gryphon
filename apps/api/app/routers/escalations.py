@@ -171,59 +171,76 @@ async def human_resolve_page(
             status_code=status.HTTP_409_CONFLICT,
         )
 
+    from app.services.site_urls import resolve_start_url
+
     site = escape(escalation.site)
     reason = escape(escalation.reason)
     eid = escape(escalation_id)
     tok = escape(token)
+    start_url = resolve_start_url(
+        escalation.site,
+        agent_metadata=escalation.agent_metadata,
+    )
+    start_esc = escape(start_url) if start_url else ""
 
     live_section = ""
     if escalation.live_view_url:
         live = escape(escalation.live_view_url)
+        url_chip = (
+            f'<p class="url-chip">Opening → <code>{start_esc}</code></p>'
+            if start_url
+            else '<p class="muted">No login URL on file — go to the site login page in Live View.</p>'
+        )
         live_section = f"""
-        <ol>
-          <li>Open the <a href="{live}" target="_blank" rel="noopener">Browserbase Live View</a></li>
-          <li>Log in / complete 2FA / CAPTCHA for <strong>{site}</strong></li>
-          <li>Return here and click <strong>Mark resolved</strong></li>
+        {url_chip}
+        <a class="btn primary" href="{live}" target="_blank" rel="noopener">Open Live View →</a>
+        <ol class="steps">
+          <li>Live View should already be on the login page (if we know the URL).</li>
+          <li>Sign in fully — including 2FA if prompted.</li>
+          <li>Stay on the logged-in screen a few seconds.</li>
+          <li>Come back here → <strong>Mark resolved</strong> (closes Live View so the login is saved).</li>
         </ol>
-        <p><a class="btn-link" href="{live}" target="_blank" rel="noopener">Open Live View →</a></p>
+        <p class="muted small">
+          Gryphon saves the <em>browser session</em> (cookies), not your password.
+          Agents reuse that session — they never see your credentials.
+        </p>
         """
     else:
-        # Graceful degradation: BB missing, API error, or empty debug URLs
         has_ctx = bool(escalation.bb_context_id)
         provision_note = (
-            "A Browserbase context was created, but Live View could not be opened. "
+            "A browser context was created, but Live View could not open. "
             if has_ctx
-            else "Live View could not be provisioned (Browserbase not configured or API error). "
+            else "Live View could not be provisioned. "
         )
         live_section = f"""
         <p class="warn">
           {provision_note}
-          Complete auth in your own browser if needed, then paste a Browserbase
-          context id below (or leave blank to unblock the agent without a durable session).
+          You can still unblock the agent by pasting a Browserbase context id, or leave blank.
         </p>
         <label for="resolved_context_id">Browserbase context id (optional)</label>
         <input id="resolved_context_id" name="resolved_context_id"
-               type="text" placeholder="context id from Browserbase" form="resolve-form" />
+               type="text" placeholder="ctx_…" form="resolve-form" />
         """
 
-    ctx_hint = ""
-    if escalation.bb_context_id:
-        ctx_hint = (
-            f'<p class="muted">Context for this login: '
-            f"<code>{escape(escalation.bb_context_id)}</code></p>"
-        )
-
     body = f"""
-    <p>An agent needs auth help for <strong>{site}</strong>.</p>
+    <p class="kicker">Agent needs you</p>
+    <p class="lede">Sign in to <strong>{site}</strong> once. Your agents keep working after that.</p>
     <p class="muted">{reason}</p>
     {live_section}
-    {ctx_hint}
     <form id="resolve-form" method="post" action="/v1/escalations/{eid}/human-resolve">
       <input type="hidden" name="token" value="{tok}" />
-      <button type="submit">I've logged in — Mark resolved</button>
+      <button class="btn ink" type="submit">I've logged in — Mark resolved</button>
     </form>
     """
-    return HTMLResponse(_page(title="Resolve auth escalation", body=body, ok=True))
+    auto_open = escalation.live_view_url or ""
+    return HTMLResponse(
+        _page(
+            title=f"Connect {escalation.site}",
+            body=body,
+            ok=True,
+            auto_open_url=auto_open,
+        )
+    )
 
 
 @router.post("/{escalation_id}/human-resolve", response_class=HTMLResponse)
@@ -291,7 +308,9 @@ async def human_resolve_submit(
         context_line = (
             f"<p>Durable context stored for <strong>{site}</strong>: "
             f"<code>{escape(escalation.resolved_context_id)}</code></p>"
-            f"<p>The agent can now call <code>get_session(\"{site}\")</code>.</p>"
+            f"<p>Live View was closed so cookies could flush into storage. "
+            f"The agent can now call <code>get_session(\"{site}\")</code> "
+            f"(wait a few seconds if it still says needs_auth).</p>"
         )
     else:
         context_line = (
@@ -343,8 +362,36 @@ async def _do_resolve(
         )
 
 
-def _page(*, title: str, body: str, ok: bool) -> str:
-    accent = "#0f766e" if ok else "#b91c1c"
+def _page(
+    *,
+    title: str,
+    body: str,
+    ok: bool,
+    auto_open_url: str = "",
+) -> str:
+    # Gryphon brand tokens (match marketing dashboard)
+    ink = "#0c0d10"
+    paper = "#fbfbfa"
+    blue = "#1d4ed8" if ok else "#b91c1c"
+    muted = "#4a4d55"
+    faint = "#7a7d85"
+    auto_script = ""
+    if auto_open_url:
+        import json as _json
+
+        auto_script = f"""
+  <script>
+    (function () {{
+      try {{
+        var key = "gryphon_lv_" + location.pathname;
+        if (!sessionStorage.getItem(key)) {{
+          sessionStorage.setItem(key, "1");
+          window.open({_json.dumps(auto_open_url)}, "_blank", "noopener");
+        }}
+      }} catch (e) {{}}
+    }})();
+  </script>"""
+
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -352,62 +399,153 @@ def _page(*, title: str, body: str, ok: bool) -> str:
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{escape(title)} · Gryphon</title>
   <style>
-    :root {{ color-scheme: light dark; }}
+    * {{ box-sizing: border-box; }}
     body {{
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      max-width: 32rem;
-      margin: 3rem auto;
-      padding: 0 1.25rem;
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif;
+      background: {paper};
+      color: {ink};
       line-height: 1.5;
     }}
-    h1 {{ font-size: 1.35rem; color: {accent}; margin-bottom: 0.75rem; }}
+    .shell {{
+      max-width: 28rem;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 3rem;
+    }}
+    .brand {{
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.75rem;
+      color: {ink};
+    }}
+    .brand-mark {{
+      width: 1.35rem;
+      height: 1.35rem;
+      border-radius: 0.3rem;
+      background: {ink};
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 700;
+    }}
     .card {{
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 1.25rem 1.4rem;
+      background: #fff;
+      border: 1px solid rgba(12,13,16,0.09);
+      border-radius: 0.75rem;
+      padding: 1.35rem 1.4rem 1.5rem;
+      box-shadow: 0 18px 44px -32px rgba(12,13,16,0.35);
     }}
-    .muted {{ color: #6b7280; }}
+    h1 {{
+      font-size: 1.35rem;
+      letter-spacing: -0.03em;
+      margin: 0 0 0.75rem;
+      font-weight: 500;
+      color: {ink};
+    }}
+    .kicker {{
+      margin: 0 0 0.35rem;
+      font-family: ui-monospace, "JetBrains Mono", Menlo, monospace;
+      font-size: 0.6875rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: {faint};
+    }}
+    .lede {{ margin: 0 0 0.5rem; font-size: 1rem; letter-spacing: -0.015em; }}
+    .muted {{ color: {muted}; font-size: 0.875rem; }}
+    .small {{ font-size: 0.8125rem; margin-top: 1rem; }}
+    .url-chip {{
+      margin: 1rem 0 0.75rem;
+      padding: 0.55rem 0.7rem;
+      background: rgba(29,78,216,0.06);
+      border-radius: 0.4rem;
+      font-size: 0.8125rem;
+      color: {muted};
+      word-break: break-all;
+    }}
+    .url-chip code {{
+      font-family: ui-monospace, Menlo, monospace;
+      font-size: 0.75rem;
+      color: {ink};
+    }}
     .warn {{
-      color: #92400e;
-      background: #fffbeb;
-      border: 1px solid #fcd34d;
-      border-radius: 8px;
+      color: #7c3e06;
+      background: #fdf6ec;
+      border: 1px solid rgba(180,83,9,0.28);
+      border-radius: 0.5rem;
       padding: 0.75rem 0.9rem;
+      font-size: 0.875rem;
+      margin: 1rem 0;
     }}
-    label {{ display: block; font-size: 0.875rem; margin: 1rem 0 0.35rem; }}
+    .steps {{
+      margin: 1.1rem 0 0;
+      padding-left: 1.15rem;
+      color: {muted};
+      font-size: 0.875rem;
+    }}
+    .steps li {{ margin: 0.35rem 0; }}
+    label {{
+      display: block;
+      font-size: 0.75rem;
+      font-family: ui-monospace, Menlo, monospace;
+      color: {faint};
+      margin: 1rem 0 0.35rem;
+    }}
     input[type=text] {{
       width: 100%;
-      box-sizing: border-box;
-      padding: 0.55rem 0.65rem;
-      border-radius: 8px;
-      border: 1px solid #d1d5db;
+      padding: 0.6rem 0.7rem;
+      border-radius: 0.4rem;
+      border: 1px solid rgba(12,13,16,0.14);
       font: inherit;
+      background: {paper};
     }}
-    button, a.btn-link {{
-      display: inline-block;
-      margin-top: 1rem;
-      background: {accent};
-      color: white;
+    .btn {{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.85rem;
       border: 0;
-      border-radius: 8px;
-      padding: 0.65rem 1rem;
+      border-radius: 0.4rem;
+      padding: 0.7rem 1.1rem;
       font: inherit;
-      font-weight: 600;
+      font-size: 0.9rem;
+      font-weight: 500;
       cursor: pointer;
       text-decoration: none;
     }}
-    a.btn-link {{ margin-top: 0.5rem; }}
+    .btn.primary {{
+      background: {blue};
+      color: #fff;
+    }}
+    .btn.primary:hover {{ filter: brightness(1.05); }}
+    .btn.ink {{
+      background: {ink};
+      color: #fff;
+      width: 100%;
+      margin-top: 1.25rem;
+    }}
+    .btn.ink:hover {{ background: {blue}; }}
     code {{ font-size: 0.9em; }}
-    .brand {{ font-size: 0.8rem; color: #9ca3af; margin-bottom: 1rem; }}
-    ol {{ padding-left: 1.2rem; }}
   </style>
 </head>
 <body>
-  <p class="brand">Gryphon</p>
-  <div class="card">
-    <h1>{escape(title)}</h1>
-    {body}
+  <div class="shell">
+    <div class="brand">
+      <span class="brand-mark">G</span>
+      Gryphon
+    </div>
+    <div class="card">
+      <h1>{escape(title)}</h1>
+      {body}
+    </div>
   </div>
+  {auto_script}
 </body>
 </html>
 """

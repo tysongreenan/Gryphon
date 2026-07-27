@@ -43,4 +43,5 @@ async def get_session(
         user_id=user_id,
         site=payload.site,
         create_browser_session=payload.create_browser_session,
+        start_url=payload.start_url,
     )

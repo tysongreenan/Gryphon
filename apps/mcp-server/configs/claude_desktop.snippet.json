@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "gryphon": {
+      "command": "/Users/tyson/Gryphon/apps/mcp-server/.venv/bin/python",
+      "args": ["/Users/tyson/Gryphon/apps/mcp-server/server.py"],
+      "env": {
+        "GRYPHON_API_URL": "http://127.0.0.1:8000",
+        "GRYPHON_API_KEY": "dev-api-key"
+      }
+    }
+  }
+}

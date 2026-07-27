@@ -20,12 +20,14 @@ from app.services.browserbase import (
     get_browserbase_client,
 )
 from app.services.escalation_service import EscalationService
+from app.services.resolve_tokens import create_resolve_token
 from app.services.site_sessions import (
     get_active_site_session,
     mark_site_session_stale,
     normalize_site,
     touch_site_session,
 )
+from app.services.site_urls import resolve_start_url
 
 logger = logging.getLogger("gryphon.sessions")
 
@@ -43,6 +45,7 @@ class SessionService:
         site: str,
         *,
         create_browser_session: bool = True,
+        start_url: Optional[str] = None,
     ) -> GetSessionResult:
         site_key = normalize_site(site)
         stored = await get_active_site_session(self.session, user_id, site_key)
@@ -56,14 +59,21 @@ class SessionService:
                 create_browser_session=create_browser_session,
             )
 
+        # Always resolve a login URL so Live View never opens blank when we know it
+        resolved_start = resolve_start_url(site_key, explicit_url=start_url)
+        meta: dict = {"source": "get_session"}
+        if resolved_start:
+            meta["start_url"] = resolved_start
+
         return await self._needs_auth(
             user_id=user_id,
             site=site_key,
             reason=f"No authenticated Browserbase context for {site_key}",
-            agent_metadata={"source": "get_session"},
+            agent_metadata=meta,
+            start_url=resolved_start,
             pending_message=(
                 "Authentication still pending for this site. "
-                "Wait for the human to resolve the existing escalation."
+                "Open resolve_url so the human can log in, then poll get_session."
             ),
         )
 
@@ -117,6 +127,13 @@ class SessionService:
                 exc.status_code,
             )
             await mark_site_session_stale(self.session, site_session)
+            reauth_start = resolve_start_url(site)
+            stale_meta: dict = {
+                "source": "get_session",
+                "cause": "stale_context",
+            }
+            if reauth_start:
+                stale_meta["start_url"] = reauth_start
             return await self._needs_auth(
                 user_id=user_id,
                 site=site,
@@ -125,17 +142,15 @@ class SessionService:
                     "Human re-authentication required."
                 ),
                 current_context_id=context_id,
-                agent_metadata={
-                    "source": "get_session",
-                    "cause": "stale_context",
-                },
+                agent_metadata=stale_meta,
+                start_url=reauth_start,
                 pending_message=(
                     "Stored auth context is no longer valid. "
-                    "Wait for the human to re-authenticate via the existing escalation."
+                    "Open resolve_url to re-authenticate, then poll get_session."
                 ),
                 created_message=(
                     "Stored auth context is no longer valid. "
-                    "A human has been notified to re-authenticate."
+                    "Open resolve_url to re-authenticate, then poll get_session."
                 ),
             )
 
@@ -158,6 +173,13 @@ class SessionService:
             message="Authenticated session ready",
         )
 
+    def _resolve_url(self, escalation_id: str) -> str:
+        token = create_resolve_token(escalation_id)
+        return (
+            f"{self.settings.public_base_url.rstrip('/')}"
+            f"/v1/escalations/{escalation_id}/human-resolve?token={token}"
+        )
+
     async def _needs_auth(
         self,
         *,
@@ -166,6 +188,7 @@ class SessionService:
         reason: str,
         agent_metadata: Optional[dict] = None,
         current_context_id: Optional[str] = None,
+        start_url: Optional[str] = None,
         pending_message: Optional[str] = None,
         created_message: Optional[str] = None,
     ) -> SessionNeedsAuth:
@@ -181,10 +204,11 @@ class SessionService:
             return SessionNeedsAuth(
                 site=site,
                 escalation_id=pending.id,
+                resolve_url=self._resolve_url(pending.id),
                 message=pending_message
                 or (
                     "Authentication still pending for this site. "
-                    "Wait for the human to resolve the existing escalation."
+                    "Open resolve_url to log in (Live View), then poll get_session until ready."
                 ),
             )
 
@@ -195,6 +219,7 @@ class SessionService:
                 site=site,
                 reason=reason,
                 current_context_id=current_context_id,
+                start_url=start_url,
                 agent_metadata=agent_metadata or {"source": "get_session"},
             ),
         )
@@ -204,10 +229,16 @@ class SessionService:
             site,
             escalation.id,
         )
-        kwargs: dict = {"site": site, "escalation_id": escalation.id}
-        if created_message is not None:
-            kwargs["message"] = created_message
-        return SessionNeedsAuth(**kwargs)
+        return SessionNeedsAuth(
+            site=site,
+            escalation_id=escalation.id,
+            resolve_url=self._resolve_url(escalation.id),
+            message=created_message
+            or (
+                "No authenticated context for this site. "
+                "Open resolve_url to log in (Live View), then poll get_session until ready."
+            ),
+        )
 
     async def _find_pending_escalation(
         self, user_id: str, site: str

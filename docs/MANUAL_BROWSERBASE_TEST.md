@@ -78,8 +78,14 @@ If Live View fails (wrong project, network, BB outage), the page must still load
 
 1. Click **Open Live View**
 2. In the remote browser, complete login / 2FA for the target site
-3. Leave the tab until cookies/session are clearly established
+3. Confirm you land on a logged-in page (e.g. dashboard); wait a few seconds
 4. Return to the Gryphon resolve page → **Mark resolved**
+5. Gryphon **closes** the Live View session so cookies flush into the Context
+   (Browserbase only persists auth when a `persist: true` session ends)
+
+**Do not** leave Live View open after resolve, and do not call agent
+`get_session` while the human Live View is still running on the same context —
+simultaneous sessions can force logout / empty context.
 
 ### 5. Agent gets a ready session
 

@@ -9,11 +9,16 @@ import re
 import uuid
 from datetime import datetime, timezone
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.models import WaitlistSignup
-from app.models.waitlist import WaitlistCreate, WaitlistResult
+from app.models.waitlist import (
+    WaitlistCreate,
+    WaitlistEntry,
+    WaitlistListResponse,
+    WaitlistResult,
+)
 
 logger = logging.getLogger("gryphon.waitlist")
 
@@ -66,4 +71,42 @@ class WaitlistService:
             email=row.email,
             created=True,
             created_at=row.created_at,
+        )
+
+    async def list_signups(
+        self,
+        *,
+        limit: int = 100,
+        offset: int = 0,
+    ) -> WaitlistListResponse:
+        limit = max(1, min(limit, 500))
+        offset = max(0, offset)
+
+        total = await self.db.scalar(select(func.count()).select_from(WaitlistSignup))
+        total_n = int(total or 0)
+
+        result = await self.db.scalars(
+            select(WaitlistSignup)
+            .order_by(WaitlistSignup.created_at.desc())
+            .limit(limit)
+            .offset(offset)
+        )
+        rows = list(result.all())
+        items = [
+            WaitlistEntry(
+                id=row.id,
+                email=row.email,
+                use_case=row.use_case,
+                source=row.source,
+                created_at=row.created_at,
+            )
+            for row in rows
+        ]
+        return WaitlistListResponse(
+            ok=True,
+            total=total_n,
+            count=len(items),
+            limit=limit,
+            offset=offset,
+            items=items,
         )

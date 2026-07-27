@@ -11,12 +11,13 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app.config import get_settings
 from app.db.session import async_session_factory, init_db
-from app.routers import escalations, sessions, waitlist
+from app.routers import escalations, sessions, sites, waitlist
 from app.services.api_keys import seed_bootstrap_credentials
 
 logging.basicConfig(
@@ -57,6 +58,19 @@ app = FastAPI(
     description="Reliable authenticated sessions + human-in-the-loop recovery for AI agents",
     version=APP_VERSION,
     lifespan=lifespan,
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "https://gryphon-self.vercel.app",
+    ],
+    allow_origin_regex=r"https://.*\.vercel\.app",
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
@@ -108,4 +122,5 @@ async def health():
 
 app.include_router(escalations.router, prefix="/v1/escalations", tags=["escalations"])
 app.include_router(sessions.router, prefix="/v1/sessions", tags=["sessions"])
+app.include_router(sites.router, prefix="/v1/sites", tags=["sites"])
 app.include_router(waitlist.router, prefix="/v1/waitlist", tags=["waitlist"])

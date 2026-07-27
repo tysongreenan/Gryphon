@@ -40,6 +40,8 @@ def app_env(tmp_db_url: str, monkeypatch: pytest.MonkeyPatch) -> Generator[dict,
         "ENVIRONMENT": "test",
         "BROWSERBASE_USE_FAKE": "true",
         "BROWSERBASE_API_KEY": "",
+        # Resolve flushes context after human session release; skip sleep in unit tests
+        "BROWSERBASE_CONTEXT_SYNC_SECONDS": "0",
     }
     for key, value in env.items():
         monkeypatch.setenv(key, value)

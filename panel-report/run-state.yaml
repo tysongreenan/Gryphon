@@ -1,20 +1,21 @@
-# Panel run-state — FULL homepage review 2026-07-26 (revision)
+# Panel run-state — STANDARD operator dashboard (post-Clerk sign-in) 2026-07-27
 preflight: GO
-protocol: full # short materials + COLLABORATION + AGENTS; PANEL.full.md / docs/personas.md / web/DESIGN.md / FRONTEND.md absent — stubs noted
-run_class: full
+protocol: short
+run_class: standard
 
 intent: >
-  Full multi-agent buyer review of marketing homepage (/). Primary job: make clear
-  Gryphon is the auth layer for browser agents and convert to waitlist. Output is
-  suggestions only (no implement). User callout: System h2 mixes two fonts.
+  Buyer-level review of signed-in operator console after Clerk auth.
+  Surfaces: /dashboard, /dashboard/install, /dashboard/profile, sidebar.
+  User report: extreme confusion — "random things", "idk what I'm looking at."
+  Job for first-time signed-in user: know what Gryphon is for *me*, and what
+  to do next (key → install → connect site). Not run a fake on-call floor.
 
 preserve:
-  - Waitlist CTA path (#waitlist + WaitlistInline → /api/waitlist)
-  - Product promise: agents pause on auth, resume with warm session
-  - Scope boundary: not agent framework / not browser platform
-  - Real product demos (sessions, Slack escalation, handback) — not fake quotes
-  - Brand tokens: gryphon-ink / paper / blue; Helvetica Neue; JetBrains Mono
-  - MCP / get_session / needs_auth language truth for eng buyers
+  - Clerk sign-in / UserButton (real auth)
+  - Escalations + Sessions as long-term product concepts
+  - Install agents page (MCP/REST path) — truth for agents
+  - Product language: get_session, needs_auth, Live View, site sessions
+  - Brand tokens and craft density of mockups (as future states, not day-0 UI)
 
 personas_seated:
   - Avery
@@ -25,100 +26,51 @@ priority: Avery
 secondary:
   - persona: Jordan
     non_negotiables:
-      - Real eng language (get_session, connect_url, contexts, needs_auth)
-      - Demos must not look like toy mockups
+      - Install path must stay real (MCP config, API key, not marketing fluff)
+      - Do not delete eng contract; bury until day-0 is done
   - persona: Sam
     non_negotiables:
-      - One coherent type system on headlines
-      - Product demos read serious, not AI-template
+      - Empty/zero states must look intentional, not broken mock
+      - Fake data must be labeled or removed so craft stays honest
 
-deferred: []
-
-design_brief:
-  Orchestrator: "Editorial infrastructure product. Light paper, ink, blue accent. Clear over clever. Waitlist conversion first. Suggest-only this run."
-  PM-Avery: "Founder scanning on phone between meetings. Trust in under a minute. One obvious join path. Hate long scroll of the same story."
-  PM-Jordan: "Eng who has lost overnight runs to 2FA. Needs real API/MCP signal. Fake chrome OK only if it shows real product UI. Keep terminal/get_session."
-  PM-Sam: "Designer judging craft. Dual-font H2 is a fail. Serif only for wordmark or systematic editorial accents. No purple-gradient AI look (already avoided — protect that)."
+deferred:
+  - Multi-person on-call rotation (Profile) until multi-user teams exist
+  - Fake rescue leaderboard / night-owl stats
+  - Full API-key management UI until mint endpoints exist
 
 scores:
-  clarity: 8
-  density: 5
-  hierarchy: 7
-  craft: 6
+  clarity: 2
+  density: 3
+  hierarchy: 2
+  craft: 7
   motion: 6
   fluidity: null
-  professionalism: 7
-  conversion: 7
-  prose: 7
-  heuristics: 6
-  design_system: 5
+  professionalism: 4
+  conversion: 2
+  prose: 5
+  heuristics: 2
 
 approves:
   Orchestrator:
     status: yes
-    evidence: "Full report ships as suggestion catalog; no code this run."
-  Product:
-    status: yes
-    evidence: "product.md promised-vs-shipped complete; waitlist site field gap logged."
-  Empathy:
-    status: yes
-    evidence: "empathy-maps.md for Avery/Jordan/Sam; no stereotype veto."
+    evidence: "Standard panel on dashboard; report is reduce-first onboarding, not marketing redesign."
   Journey:
     status: yes
-    evidence: "journeys.md all three personas; primary waitlist path intact."
+    evidence: "First-sign-in path fails: mock ops floor before empty account has a job."
   Heuristic:
-    status: no
-    evidence: "Density + one-primary-job mid-page fail hard gates (heuristics.md)."
-  DesignSystem:
-    status: no
-    evidence: "No DESIGN.md; dual-font H2 + ad-hoc radii (design-system.md)."
-  Craft:
-    status: no
-    evidence: "Dual-font H2 + repeated WindowChrome (craft.md)."
-  Prose:
     status: yes
-    evidence: "prose.md — copy mostly sharp; listed renames/cuts only."
-  Motion:
-    status: no
-    evidence: "Loop/CSS animations ignore reduced-motion except hero + hub-pulse (motion.md)."
-  Frontend:
-    status: yes
-    evidence: "frontend-proposals.md suggestion-only; brief answered; no library invent."
-  PM-Avery:
-    status: yes
-    evidence: "Density cuts help founder scan; waitlist preserved."
-  PM-Jordan:
-    status: yes
-    evidence: "Keep eng demos/loop language; cut chrome not truth."
-  PM-Sam:
-    status: no
-    evidence: "Type system not shippable until H2 fixed."
-  Report:
-    status: yes
-    evidence: "report.md multi-persona + suggestion catalog."
+    evidence: "Hard gate fail: one primary job per screen; fake primary actions; broken API keys nav."
 
 consensus:
-  decision: REVISE # suggestions accepted as backlog; PROCEED only when user green-lights implement
-  log_path: panel-report/council.md#consensus
-  revise_round: 1
+  decision: PROCEED
+  log_path: panel-report/report.md#consensus
+  revise_round: 0
 
 artifacts:
-  - panel-report/run-state.yaml
-  - panel-report/product.md
-  - panel-report/empathy-maps.md
-  - panel-report/journeys.md
-  - panel-report/heuristics.md
-  - panel-report/design-system.md
-  - panel-report/craft.md
-  - panel-report/prose.md
-  - panel-report/motion.md
-  - panel-report/design-brief.md
-  - panel-report/frontend-proposals.md
-  - panel-report/council.md
   - panel-report/report.md
+  - panel-report/run-state.yaml
 
 notes: >
-  Full pack files missing from repo: PANEL.full.md, docs/personas.md, web/DESIGN.md, FRONTEND.md.
-  Personas seeded from AGENTS.md defaults.
-  Implemented P0 on user request: S1 dual-font H2, S2 reduced-motion, S3 waitlist site field.
-  Remaining backlog S4+ still REVISE / not done.
+  Root cause: dashboard is a high-fidelity *future* ops mock (Mara / Stripe 2FA /
+  6 sites) shown as if it is the user's live account. Clerk authenticates a real
+  human into a fake world. Fix: zero-state onboarding first; demos labeled or gated.

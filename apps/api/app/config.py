@@ -55,6 +55,9 @@ class Settings(BaseSettings):
     browserbase_human_session_timeout: int = 900
     # Agent session length
     browserbase_agent_session_timeout: int = 600
+    # After releasing a persist=true human session, wait before agents reuse
+    # the context (Browserbase flushes cookies on session close).
+    browserbase_context_sync_seconds: float = 4.0
 
     api_host: str = "0.0.0.0"
     api_port: int = 8000

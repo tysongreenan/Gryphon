@@ -1,328 +1,270 @@
-# Panel report — Gryphon homepage (FULL)
+# Panel report — Operator dashboard (post sign-in)
 
-**Surface:** `apps/dashboard` `/`  
-**Live:** https://gryphon-self.vercel.app  
-**Run class:** `full` · **Protocol:** `full` (personas/DESIGN.md/FRONTEND.md stubbed from AGENTS + shipped UI)  
-**Mode:** **Suggestions only** — what to change. No implement this run.  
-**Consensus:** **REVISE** → backlog ready · see `council.md#consensus`  
-**Priority persona:** Avery · **Secondary:** Jordan, Sam  
-
-### Role artifacts (all agents)
-
-| Agent | Artifact |
-|-------|----------|
-| Orchestrator | `run-state.yaml`, `council.md` |
-| Product Analyst | `product.md` |
-| Empathy Mapper + PMs | `empathy-maps.md` |
-| Journey Critic | `journeys.md` |
-| Heuristic Auditor | `heuristics.md` |
-| Design System Checker | `design-system.md` |
-| Craft Critic | `craft.md` |
-| Prose Critic | `prose.md` |
-| Motion Critic | `motion.md` |
-| Frontend Design | `design-brief.md`, `frontend-proposals.md` |
-| Report Writer | this file |
+**Date:** 2026-07-27  
+**Run class:** standard · **Protocol:** short (`PANEL.md` + `playbook.md`)  
+**Surfaces:** `/dashboard`, `/dashboard/install`, `/dashboard/profile`, sidebar  
+**Trigger:** Signed-in user: “extremely confused… random things… idk what I’m looking at.”
 
 ---
 
-## Executive summary (suggestion-oriented)
+## Executive Summary
 
 | | |
 |--|--|
-| **Primary job** | Make clear Gryphon is the auth layer for browser agents → **join waitlist** |
-| **Overall score** | **6.5 / 10** as-shipped for full-crew bar (clarity high; craft/density/motion gates fail) |
-| **Ship as-is?** | **No** — dual-font H2 + density + reduced-motion gaps |
-| **What to do** | Apply change catalog below in priority order; preserve waitlist path |
+| **Primary job (should be)** | First-time account: *get an API key → wire MCP/agent → connect first site* |
+| **Primary job (current UI pretends)** | On-call operator clearing fake auth escalations for Mara’s team |
+| **Overall score** | **2.5 / 10** for first-time signed-in user |
+| **Craft of the mock** | 7/10 (looks intentional as a *vision* UI) |
+| **Honesty / usability at day 0** | 2/10 |
 
-### Top 3 changes (do these first)
+### Top 3 problems
 
-1. **One font on System H2** — remove serif italic on “nothing else.”  
-2. **Cut System 03 (Handback) or collapse it to one line** — story already in Loop 04.  
-3. **Align waitlist subcopy with the form** (email-only today vs “tell us the site…”).  
+1. **Fake world, real login** — Clerk signs *you* in; the page still shows Mara’s escalations, Stripe 2FA, 6 connected sites, “27 runs saved,” and demo mode toggles. Nothing is yours.
+2. **Wrong first screen** — Day-0 job is setup. Day-0 UI is a mature ops floor. No “you have zero data — do this next.”
+3. **Broken / lying chrome** — Nav “API keys” jumps to `#api-keys` (doesn’t exist). “Open Live View,” “Mark resolved,” “+ connect a site,” Profile “Edit/Manage” look clickable but are props. Profile still hardcodes **Mara Kimura**.
+
+### Top 3 cuts / simplifications
+
+1. **Delete demo state switcher** (“One open / Queue / All clear”) from the product path — or hide behind an explicit “Preview demo” mode.
+2. **Replace default Escalations view with a zero-state** when there are no real escalations/sessions (your real account state today).
+3. **Collapse nav to three things that exist:** Home (setup or escalations), Install, Profile. Drop or stub-label Sessions/API keys until real.
 
 ---
 
-## Scores (crew)
+## Density Notes
 
-| Axis | Score | Owner |
-|------|------:|-------|
-| Clarity | 8 | Journey / Product |
-| Density | 5 | Heuristic |
-| Hierarchy | 7 | Journey / Heuristic |
-| Craft | 6 | Craft |
-| Motion | 6 | Motion |
-| Prose | 7 | Prose |
-| Design system | 5 | Design System |
-| Professionalism | 7 | Craft + DS |
-| Conversion | 7 | Product + Journey |
+### What feels overcrowded / competing
 
----
+| Block | Why it confuses |
+|-------|-----------------|
+| Stats row (median rescue / runs saved / human time) | Looks like *your* metrics; all invented |
+| “Needs you now” Stripe card | Urgency theater for an account with no agents |
+| Demo mode pills under the title | Reads as product control, not designer tool |
+| Sessions table (6 sites, `bb_ctx_*`) | Looks like you already connected Stripe, Gmail… |
+| Resolved list + queue | History for a life you never lived |
+| Profile rescues / on-call / Dev Patel | Multi-tenant ops product you didn’t buy yet |
+| Install page CONNECTION + 4 MCP sections | Real, but buried *after* you already drowned on Escalations |
 
-## Preserve (do not change away)
+### What can be removed or combined (day-0)
 
-- Waitlist CTAs (header, hero, `#waitlist`) and real `/api/waitlist` flow  
-- Hero promise: “Agents that never die on a login.”  
-- Eyebrow: “AUTH LAYER FOR BROWSER AGENTS”  
-- Scope boundary: not a framework / not a browser platform  
-- Real product concepts in demos: `get_session`, `needs_auth`, contexts, Live View  
-- Brand stack: ink / paper / blue · Helvetica · JetBrains Mono  
-- Serif **wordmark** in footer (if System H2 serif is removed)  
+- Remove: fake open escalation, resolved history, session table rows, rescue leaderboard, on-call rotation, night-owl stats  
+- Remove or relegate: demo mode switcher  
+- Merge: Sessions + Escalations into one “Activity” later; not needed until data exists  
+- Keep but demote: Install (make it step 1 of empty home, not nav item #3)  
+- Keep: Clerk UserButton (real)
+
+**Density check:** Page is “full” of *someone else’s* product. First job is **reduce to empty-account truth**, not decorate.
 
 ---
 
-# Change catalog
+## Buyer Path (first sign-in)
 
-Every item is a **suggestion for what to change**.  
-**Type:** Delete · Merge · Relabel · Restructure · Add (last resort)  
-**Priority:** P0 ship-block · P1 strong · P2 polish  
+Walk-through as skeptical buyer who just finished Clerk:
 
----
+| Step | What they see | Friction |
+|------|----------------|----------|
+| 1. Land `/dashboard` | Amber “Needs you now · Stripe · 2FA” | Panic / “did I break something?” / “whose Stripe?” |
+| 2. Scan stats | “27 runs saved” | Feels like a SaaS template or wrong account |
+| 3. Try “Open Live View” | Nothing real | Trust breaks |
+| 4. Try “Mark resolved” | Fake card vanishes (demo mode) | “Is this a toy?” |
+| 5. Sidebar Sessions 5/6 | Status without meaning | Jargon without glossary |
+| 6. API keys | Dead hash link | Broken product |
+| 7. Profile | **Mara Kimura** while sidebar shows *their* name | Split-brain identity |
+| 8. Install agents | Repo path `/absolute/path/to/Gryphon`, `dev-api-key` | First useful page, but dense and assumes local monorepo clone |
 
-## P0 — Ship blockers
+**Verdict:** The path never answers: *What is this for me, and what’s my next action?*  
+Playbook fail: **Don’t Make Me Think** + **one primary action**.
 
-### S1 · One typeface on System H2  
-| | |
-|--|--|
-| **Owners** | Craft, Design System, PM-Sam, Prose |
-| **Where** | `system-section.tsx` — first page `<h2>` |
-| **Problem** | “Three things, and *nothing else.*” = Helvetica + Instrument Serif italic (user-flagged) |
-| **Change** | **Delete** `font-serif` / special `<em>` sizing. Keep words in heading sans. Optional: “Three things. Nothing else.” |
-| **Removes** | Dual-font headline |
-| **Why** | Other H2s are pure sans; this reads as a bug. Sam non-negotiable. |
-| **IDs** | C1, DS1, R1, J3a |
+### Priority persona notes (lightweight)
 
-### S2 · Global `prefers-reduced-motion` for marketing motion  
-| | |
-|--|--|
-| **Owners** | Motion |
-| **Where** | `globals.css` (`.animate-g*`), `loop-section.tsx` interval |
-| **Problem** | Only hero journeys + `.animate-hub-pulse` respect reduced motion; Loop orbit/spin/dash/pulse keep moving |
-| **Change** | **Fix:** media query kills marketing animations; Loop skips `setInterval` when reduced |
-| **Removes** | Motion for users who opted out |
-| **Why** | MOTION hard rule; professionalism/a11y |
-| **IDs** | M1, M2, M3, M5 |
-
-### S3 · Waitlist copy ↔ form honesty  
-| | |
-|--|--|
-| **Owners** | Product, Prose, Journey |
-| **Where** | `waitlist-section-v6.tsx` + `waitlist-inline.tsx` |
-| **Problem** | Subcopy: “Tell us the site that keeps breaking…” — form collects **email only** |
-| **Change (pick one)** | **A:** Add optional “site” field · **B:** Rewrite subcopy so it doesn’t promise a site capture |
-| **Removes** | Broken expectation |
-| **Why** | Promised vs shipped gap kills trust at conversion |
-| **IDs** | P1, R7, J1d |
+- **Avery (founder):** Wants “am I set up?” in 30s. Sees fake fire drill → bounces.  
+- **Jordan (eng):** Would survive Install if they found it; Escalations first wastes trust with fake Live View.  
+- **Sam (designer):** Craft of mock is good; shipping mock as live data is craft *dishonesty*.
 
 ---
 
-## P1 — Density & hierarchy (Avery primary)
+## Scores (1–10)
 
-### S4 · Remove or collapse System 03 (Handback)  
-| | |
-|--|--|
-| **Owners** | Journey, Heuristic, Product, Frontend |
-| **Where** | `system-section.tsx` — third grid block |
-| **Change** | **Delete** full demo **or merge** to one line under 02: agent gets `connect_url`; credentials stay in Gryphon |
-| **Removes** | Third full window + paragraph that retells Loop 04 |
-| **Why** | Same job twice; page already full |
-| **Guard** | Keep eng words if merging; don’t delete Loop without Jordan |
-| **IDs** | H4, J1b, C3, B1, R4 |
-
-### S5 · One primary “how it works” center  
-| | |
-|--|--|
-| **Owners** | Journey, Heuristic, Frontend, PM-Jordan |
-| **Where** | System + Loop pairing |
-| **Change** | **Restructure:** System owns product proof; Loop stays as eng runtime trace **but** shorter — **or** opposite. Do **not** run two full retellings. |
-| **Recommended** | Keep Loop for Jordan; cut System 03 + trim System body (S4 + S6). Avoid deleting Loop. |
-| **IDs** | H5, J1c, B2 (B2 only with Jordan Approve) |
-
-### S6 · Shorten System 01 / 02 body copy  
-| | |
-|--|--|
-| **Owners** | Prose, Heuristic |
-| **Where** | System section paragraphs |
-| **Change** | **Merge/shorten** ~20–30%: 01 = persist context, no cookie plumbing · 02 = ping + Live View, you clear, run continues |
-| **Removes** | Restated pause/resume essays |
-| **IDs** | H2, R2, R3, B3 |
-
-### S7 · Delete waitlist decorative rays  
-| | |
-|--|--|
-| **Owners** | Craft, Motion, Frontend |
-| **Where** | `waitlist-section-v6.tsx` absolute ray stack |
-| **Change** | **Delete** ornament; leave type + form |
-| **Why** | No job; competes with conversion |
-| **IDs** | C4, M4, J3d |
-
-### S8 · Reduce repeated fake browser chrome  
-| | |
-|--|--|
-| **Owners** | Craft, ANTI-SLOP, PM-Sam |
-| **Where** | `WindowChrome` in System (+ Loop card chrome) |
-| **Change** | **Restructure:** full chrome on **one** flagship demo; simpler frames on others |
-| **Removes** | Traffic-light theater repetition |
-| **Guard** | Jordan: keep product UI *content* (rows, statuses), not necessarily Mac dots |
-| **IDs** | C2, J3b |
+| Axis | Score | Note |
+|------|------:|------|
+| Clarity | 2 | Self-evident only if you already know Gryphon’s vision deck |
+| Density | 3 | Too much *fake* content; not too much *useful* content |
+| Hierarchy | 2 | Primary action should be setup; UI prioritizes fake urgency |
+| Craft | 7 | Visual system strong; content honesty fails |
+| Professionalism | 4 | Fake controls + wrong identity = unprofessional for signed-in product |
+| Conversion / activation | 2 | No path from signed-in → first real `get_session` for *this* user |
 
 ---
 
-## P1 — Type system & UI consistency
+## What’s actually real vs prop
 
-### S9 · Document type roles (and write DESIGN.md)  
-| | |
-|--|--|
-| **Owners** | Design System, Frontend |
-| **Change** | **Add** `web/DESIGN.md` (or dashboard DESIGN): sans = UI/H*; mono = system; **serif = wordmark only** |
-| **Removes** | Ambiguity that created dual-font H2 |
-| **IDs** | DS1, DS2, A2 |
-
-### S10 · Unify primary CTA shape  
-| | |
-|--|--|
-| **Owners** | Design System, Craft, Avery |
-| **Where** | Header waitlist (rect) vs hero (pill) |
-| **Change** | **Restructure:** same geometry both places (pick one) |
-| **IDs** | DS5, A3 |
-
-### S11 · Paper / radius / gray token cleanup  
-| | |
-|--|--|
-| **Owners** | Design System |
-| **Change** | **Merge** hero `#F7F6F3` into a named paper step; map hard-coded grays to faint/ghost/muted; document radius rules (chrome 10px vs sharp scope cards) |
-| **Priority** | P2 if timeboxed after S1–S8 |
-| **IDs** | DS3, DS4, DS6 |
+| Element | Status |
+|---------|--------|
+| Clerk sign-in / protect `/dashboard` | **Real** |
+| Sidebar UserButton + display name | **Real** (Clerk) |
+| Escalations list / open card | **Mock** |
+| Sessions table | **Mock** |
+| Metrics (51s, 27 runs…) | **Mock** |
+| Demo mode switcher | **Dev prop** left in UI |
+| Open Live View / Mark resolved | **Non-functional / demo** |
+| Profile Mara / on-call / rescues | **Mock** (name not from Clerk) |
+| Install snippets | **Mostly real docs** |
+| API key field default `dev-api-key` | Shared bootstrap — **not** “your key” |
+| Nav “API keys” | **Broken** (no target) |
 
 ---
 
-## P1 — Product / conversion clarity
+## Recommendations (reduction-first)
 
-### S12 · Optional MCP credibility line (no new section)  
-| | |
-|--|--|
-| **Owners** | Product, Prose, Jordan |
-| **Where** | Hero sub **or** Scope mono line |
-| **Change** | **Add** (only if true): short “MCP tools + API” phrase into existing copy |
-| **Why** | Docs lead with MCP; homepage nearly silent |
-| **IDs** | P2, J2b, D2 |
+Order: delete → merge → relabel → restructure → add (last).
 
-### S13 · Revisit header “Sign in” for waitlist visitors  
-| | |
-|--|--|
-| **Owners** | Product, Journey, Avery |
-| **Change** | **Relabel/hide** until GA, or clarify invited console — reduce “do I already have an account?” |
-| **IDs** | P3, D3 |
+### 1. Default signed-in home = **zero state**, not ops floor
 
-### S14 · Nav link trim if Loop demoted  
-| | |
-|--|--|
-| **Owners** | Prose, Journey |
-| **Change** | If Loop is shortened/hidden: **remove** header “The loop” link |
-| **IDs** | R9 |
+**What changes:** If user has 0 site_sessions and 0 open escalations (true for every new Clerk user today), `/dashboard` shows one screen:
+
+- Title: **Get your agent online** (or **Set up Gryphon**)
+- Three steps only:  
+  1. Create API key  
+  2. Install MCP / paste config  
+  3. Connect a site (triggers real `needs_auth` / Live View)
+- One primary button for the next incomplete step
+
+**What is removed:** Fake Stripe urgency, fake stats, fake resolved list, fake sessions table from the default path.
+
+**Why:** Matches actual account state. Answers “what am I looking at?” with “your setup checklist.”
 
 ---
 
-## P2 — Motion polish (after P0 S2)
+### 2. Put the vision mock behind **“Preview product”** (optional)
 
-### S15 · Loop decorative motion only when teaching  
-| | |
-|--|--|
-| **Owners** | Motion, Craft |
-| **Change** | Keep step highlight; **tone down** orbit/spin if System already heavy; never add entrance bounce |
-| **IDs** | M2, C6 |
+**What changes:** A quiet link or secondary control: “Preview with sample data.” Only then show current Escalations/Sessions mock.
 
-### S16 · Hero diagram: readable without animation  
-| | |
-|--|--|
-| **Owners** | Journey, Motion |
-| **Change** | Confirm reduced-motion static still shows agents → Gryphon → sites (hero already has reduced path — verify labels) |
-| **IDs** | J1a |
+**What is removed:** Demo pills as default chrome; fake data as default truth.
+
+**Why:** Keeps the craft investment without lying to first-time users.
 
 ---
 
-## Explicit non-changes (do not do)
+### 3. Fix identity on Profile (relabel + reduce)
 
-| Don’t | Why |
-|-------|-----|
-| Add new marketing sections | Density already high |
-| Add fake testimonials / logos as social proof | Phase B honesty |
-| Delete waitlist CTAs | Conversion preserve |
-| Full visual rebrand / new font pairing | Out of scope; fix system first |
-| Delete Loop *and* System eng language | Hurts Jordan without Approve |
-| More decorative motion | MOTION / ANTI-SLOP |
-| Pricing / feature matrix | Product scope |
-| “Improve” by adding paragraphs | PANEL reduction bias |
+**What changes:**
+
+- Profile header = Clerk `fullName` / email (same as sidebar)
+- Sign out = real Clerk `SignOutButton` (not link to `/sign-in` that doesn’t clear properly)
+- **Delete** until real: on-call rotation, Dev Patel, rescue leaderboard, night-owl, “Signed in via GitHub” mock
+
+**Why:** One identity. No second fictional human after you just authenticated.
 
 ---
 
-## Suggested implementation order (when you approve code)
+### 4. Nav: only what exists
 
-| Step | Suggestion IDs | Approves needed |
-|------|----------------|-----------------|
-| 1 | **S1** type fix | Craft + PM-Sam + Orchestrator |
-| 2 | **S3** form/copy honesty | Product + Prose + Journey |
-| 3 | **S2** reduced-motion | Motion + Orchestrator |
-| 4 | **S4 + S6 + S7** density | Journey + Craft + PM-Avery (+ Jordan if Loop touched) |
-| 5 | **S8 + S10** chrome/CTA | Craft + Design System |
-| 6 | **S9 + S11–S14** system/docs/nav | Design System + Product as relevant |
+| Keep | Change |
+|------|--------|
+| Home / Setup or Escalations | One entry; badge only if real open count |
+| Install agents | Keep (Jordan non-negotiable) |
+| Profile | Keep, slimmed |
 
-One **Executor** after **PROCEED**; critics re-score only — no mid-edit redesign.
+**Remove or hide until shipped:** “API keys” dead link, “Sessions 5/6” fake meta, Escalations badge `1` when nothing is open.
 
----
-
-## Multi-persona impact (full backlog)
-
-| Persona | If we ship S1–S8 | Risk if we cut wrong |
-|---------|------------------|----------------------|
-| **Avery** | Help — faster scan, clear convert | Hurt if we add length |
-| **Jordan** | Help — truth kept; Loop kept | Hurt if Loop + eng labels gutted |
-| **Sam** | Help — type + less chrome | Hurt if only copy-tweaks and dual-font remains |
+**Why:** Dead nav is worse than short nav.
 
 ---
 
-## Buyer path → mapped fixes
+### 5. Install page: day-0 strip, not monorepo runbook first
 
-| Step | Friction | Fix with |
-|------|----------|----------|
-| First impression | Strong | — |
-| First H2 | Dual font | **S1** |
-| Proof | Too long / retold | **S4–S6** |
-| Loop | Motion a11y | **S2, S15** |
-| Scope | Good | Optional **S12** |
-| Waitlist | Copy/form mismatch; rays | **S3, S7** |
+**What changes (reduce/reorder, don’t expand essay):**
+
+1. **Your API key** (generate / copy once) — no free-text “dev-api-key” default as if personal  
+2. **One host** (Cursor default) + one copy block for MCP JSON with *their* key and **production** API URL default for non-devs  
+3. Collapse local monorepo path + setup scripts under “Running the monorepo locally”
+
+**What is removed from above the fold:** Absolute path requirement as step 0 for every user.
+
+**Why:** Most buyers after Clerk sign-up are not cloning Gryphon; they need cloud API + key + Cursor snippet.
+
+---
+
+### 6. Honest empty copy for Escalations / Sessions (when real and empty)
+
+When wired to API and empty:
+
+- Escalations: **“Nothing waiting on you.”** + one line: agents pause here when auth breaks. No fake history.  
+- Sessions: **“No sites connected.”** + single CTA **Connect a site** (real escalate/resolve flow).
+
+**Why:** Empty is clearer than full of strangers’ data.
+
+---
+
+### 7. Do **not** add (hard ban this run)
+
+- More explainer cards  
+- Tour overlays / coach marks on top of the fake floor  
+- Extra nav items  
+- Second marketing story inside dashboard  
+
+If the page gets longer, the panel failed.
+
+---
+
+## Proposed information architecture (minimal)
+
+```
+Signed in
+├── Home
+│   ├── if setup incomplete → Setup checklist (key → install → connect)
+│   └── if setup complete   → Escalations (real) + Sessions (real)
+├── Install   (MCP / REST — eng depth OK)
+└── Profile   (you + sign out + later Slack channel)
+```
+
+Optional later: API keys page, team on-call, metrics — only with real data.
+
+---
+
+## Preserve
+
+- Clerk authentication and route protection  
+- Product concepts: escalations, Live View, site sessions, MCP tools  
+- Install / agent contract content (move, don’t trash)  
+- Visual craft language of the mock (reuse for *demo mode* and future live states)  
+- Scope: auth reliability only — dashboard should not pretend to be a general agent platform
 
 ---
 
 ## Consensus
 
-**Decision: REVISE** — full suggestion backlog accepted; **not** PROCEED to code.
+**Decision: PROCEED** (suggestion catalog for implement; not auto-implementing UI this run unless asked)
 
-| Role | Ship UI as-is | Accept suggestions |
-|------|---------------|--------------------|
-| Orchestrator | no | **yes** |
-| Product | no (S3) | **yes** |
-| Empathy / PMs | — | **yes** (Sam: S1 required) |
-| Journey | no (density) | **yes** |
-| Heuristic | **no** | **yes** |
-| Design System | **no** | **yes** |
-| Craft | **no** | **yes** |
-| Prose | yes* | **yes** |
-| Motion | **no** | **yes** |
-| Frontend | n/a | **yes** (A–D) |
+| Role | Approve? | Evidence |
+|------|----------|----------|
+| Orchestrator | yes | Day-0 confusion is product honesty failure; reduce-first plan clear |
+| Journey | yes | First path fails before Install; zero-state is the fix |
+| Heuristic | yes | One primary job, no fake primary actions, no dead nav |
+| Craft | conditional | Mock craft stays if labeled demo; not as default live data |
 
-\*Prose alone would not block; combined craft/density does.
+**Implement order if you say go:**
+
+1. Zero-state home for empty accounts  
+2. Profile = Clerk user + real sign-out; strip Mara fiction  
+3. Nav prune + kill `#api-keys` lie  
+4. Demote mock ops to “Preview sample data”  
+5. Install: key-first, production default, local under fold  
 
 ---
 
-## Definition of success for the next implement
+## One-line diagnosis (for the human)
 
-Page becomes **lighter and more consistent**:
+You’re not looking at *your* Gryphon account. You’re looking at a polished **concept mock** of an ops console that was never swapped for an empty signed-in account after Clerk went live. The product that exists (API keys + MCP + get_session) is hidden behind fiction.
 
-- One type system on headlines  
-- One fewer full proof retelling  
-- Honest waitlist form  
-- Reduced-motion respected  
-- Waitlist path unchanged  
-- **Fewer** words and sections, not more  
+---
 
-If implement adds sections or length, the next panel fails PANEL.md.
+## Appendix — Screen jobs (target)
+
+| Screen | One job |
+|--------|---------|
+| Home (empty) | Complete setup |
+| Home (live) | Clear open escalations / see site health |
+| Install | Get agent talking to *your* key |
+| Profile | Confirm identity + notification prefs (later) |
+| Preview demo | Understand future ops UI without mistaking it for live data |

@@ -25,6 +25,11 @@ class EscalationCreate(BaseModel):
     reason: str = Field(..., description="Why the agent needs help")
     screenshot_url: Optional[str] = None
     current_context_id: Optional[str] = None
+    # Optional login URL so Live View opens on the right page
+    start_url: Optional[str] = Field(
+        None,
+        description="URL to open in Live View (login page). e.g. https://site.com/login",
+    )
     agent_metadata: Optional[dict[str, Any]] = None
 
 
